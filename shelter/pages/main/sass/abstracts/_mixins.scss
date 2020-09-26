@@ -5,3 +5,27 @@
   align-items: $align-items;
   flex-wrap: $wrap;
 }
+
+@mixin paragraph-l() {
+  font-family: Arial;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5rem;
+  line-height: 160%;
+}
+
+@mixin paragraph-s() {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 1.2rem;
+  line-height: 150%;
+}
+
+@mixin button-font() {
+  font-family: Georgia;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.7rem;
+  line-height: 130%;
+  letter-spacing: 0.06em;
+}

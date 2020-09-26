@@ -1,6 +1,7 @@
 @charset 'utf-8';
 @import "base/normalize";
 @import "abstracts/mixins";
+@import "abstracts/variables";
 
 :root {
   font-size: 10px;
@@ -14,11 +15,196 @@
   box-sizing: border-box;
 }
 
-p {
+a {
+  text-decoration: none;
+  color: $color-dark-s;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  margin: 0;
   font-size: 1.5rem;
 }
 
+// h1 {
+//   font-size: 2rem;
+// }
 
-h1{
+h1 {
+  margin: 0;
+  font-family: Georgia;
+  font-weight: normal;
+  font-size: 4.4rem;
+  line-height: 130%;
+  letter-spacing: 0%;
+  color: $color-light-xl;
+}
+
+h2 {
+  margin: 0;
+  font-family: Georgia;
+  font-weight: normal;
+  font-size: 3.5rem;
+  line-height: 130%;
+  letter-spacing: 0.06em;
+}
+
+h3 {
+  margin: 0;
+  font-family: Georgia;
+  font-weight: normal;
   font-size: 2rem;
+  line-height: 115%;
+  letter-spacing: 0.06em;
+}
+
+h4 {
+  margin: 0;
+  font-family: Georgia;
+  font-weight: normal;
+  font-size: 1.5rem;
+  line-height: 10%;
+  letter-spacing: 0.06em;
+}
+
+p {
+  font-family: Arial;
+  font-size: 1.5rem;
+}
+
+button {
+  border: none;
+  border-radius: 10rem;
+  outline: none;
+  font-size: 1.7rem;
+  padding: 1.5rem 4.5rem;
+}
+
+.button___primary {
+  background-color: $color-primary;
+  @include button-font();
+
+  &:hover {
+    background-color: $color-primary-light;
+  }
+}
+
+
+.paragraph-l {
+  @include paragraph-l();
+}
+
+
+.paragraph-s {
+  @include paragraph-s();
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 120rem;
+  position: relative;
+}
+
+nav {
+  @include flex();
+  position: absolute;
+  top: 6rem;
+  width: 100%;
+  z-index: 1;
+}
+
+// flex($direction: row, $justify-content: center, $align-items: center, $wrap: wrap) 
+.navbar {
+
+  @include flex($justify-content: space-between);
+
+  &__logo {
+    &__title {
+      margin-bottom: 1rem;
+      font-family: Georgia;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 3.2rem;
+      line-height: 110%;
+      letter-spacing: 0.06em;
+      color: $color-primary;
+    }
+
+    &__subtitle {
+      padding-left: .4rem;
+      font-family: Arial;
+      font-weight: normal;
+      font-size: 1.3rem;
+      line-height: 1.5rem;
+      letter-spacing: 0.1em;
+      color: $color-light-xl;
+    }
+  }
+
+  &__menu-items {
+    @include flex();
+  }
+
+  &__menu-item {
+    @include paragraph-l();
+    margin-left: 3.5rem;
+    line-height: 160%
+  }
+}
+
+.menu-item {
+  &__link {
+    &__active {
+      color: $color-light-s;
+      padding-bottom: 0.2rem;
+      border-bottom: 3px solid $color-primary;
+      pointer-events: none;
+    }
+
+    &:hover {
+      color: $color-light-s;
+    }
+  }
+}
+
+
+.first {
+  background: $start-screen-gradient-background;
+
+  &__inner {
+    height: 90.8rem;
+    @include flex($justify-content: space-between);
+  }
+
+  & .usp-content {
+    width: 46rem;
+
+    &__h {
+      margin-bottom: 4.2rem;
+      width: 31rem;
+    }
+
+    &__p {
+      @include paragraph-l();
+      color: $color-dark-s;
+      margin-bottom: 4.1rem;
+    }
+  }
+
+  & .img {
+    margin-top: 18rem;
+
+    &__main {
+      max-width: 69.8rem;
+
+    }
+  }
+
+
+
 }
