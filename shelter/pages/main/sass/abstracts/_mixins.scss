@@ -6,6 +6,11 @@
   flex-wrap: $wrap;
 }
 
+@mixin sectpaddings() {
+  padding-top: 8rem;
+  padding-bottom: 10rem;
+}
+
 @mixin paragraph-l() {
   font-family: Arial;
   font-style: normal;

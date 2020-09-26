@@ -13,6 +13,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  transition: $mt25;
 }
 
 a {
@@ -31,10 +32,6 @@ li {
   font-size: 1.5rem;
 }
 
-// h1 {
-//   font-size: 2rem;
-// }
-
 h1 {
   margin: 0;
   font-family: Georgia;
@@ -52,6 +49,7 @@ h2 {
   font-size: 3.5rem;
   line-height: 130%;
   letter-spacing: 0.06em;
+  color: $color-dark-l;
 }
 
 h3 {
@@ -75,6 +73,8 @@ h4 {
 p {
   font-family: Arial;
   font-size: 1.5rem;
+  line-height: 160%;
+  color: $color-dark-xl;
 }
 
 button {
@@ -90,6 +90,18 @@ button {
   @include button-font();
 
   &:hover {
+    background-color: $color-primary-light;
+  }
+}
+
+.button__secondary {
+  padding: 1.27rem 4.5rem;
+  border: 0.2rem solid $color-primary;
+  background-color: transparent;
+  @include button-font();
+
+  &:hover {
+    border: 0.2rem solid transparent;
     background-color: $color-primary-light;
   }
 }
@@ -152,16 +164,19 @@ nav {
 
   &__menu-item {
     @include paragraph-l();
-    margin-left: 3.5rem;
+    margin-left: 3.45rem;
     line-height: 160%
   }
 }
-
+ul {
+  padding-bottom: .4rem;
+  padding-right: 0.25rem;
+}
 .menu-item {
   &__link {
     &__active {
       color: $color-light-s;
-      padding-bottom: 0.2rem;
+      padding-bottom: 0.3rem;
       border-bottom: 3px solid $color-primary;
       pointer-events: none;
     }
@@ -173,6 +188,8 @@ nav {
 }
 
 
+// first section
+
 .first {
   background: $start-screen-gradient-background;
 
@@ -182,6 +199,7 @@ nav {
   }
 
   & .usp-content {
+    margin-top: 10rem;
     width: 46rem;
 
     &__h {
@@ -192,7 +210,10 @@ nav {
     &__p {
       @include paragraph-l();
       color: $color-dark-s;
-      margin-bottom: 4.1rem;
+      margin-bottom: 4.3rem;
+    }
+    & .button___primary {
+      margin-bottom: 0.2rem;
     }
   }
 
@@ -201,10 +222,132 @@ nav {
 
     &__main {
       max-width: 69.8rem;
+    }
+  }
+}
 
+
+//section about
+
+.about {
+  @include sectpaddings();
+  max-height: 58.8rem;
+
+  &__inner {
+    @include flex($justify-content: space-evenly);
+
+    &__text-content {
+      max-width: 43rem;
+    }
+
+    & .img {
+      margin-right: -5.5rem;
+      padding-bottom: 1rem;
+    }
+
+  }
+
+  &__h {
+    padding-top: 1.5rem;
+    margin-bottom: 2.5rem;
+    width: 37rem;
+  }
+
+  &__p {
+    margin-bottom: 2.5rem;
+  }
+
+}
+
+
+//section pets
+.pets {
+  @include sectpaddings();
+  text-align: center;
+  background-color: $color-light-l;
+
+  .slider {
+    @include flex($justify-content: space-around);
+    position: relative;
+
+    &__cards {
+      @include flex($justify-content: space-between);
+      width: 99rem;
+      margin: 0 auto;
+      position: relative;
+
+      &__card {
+        padding: 3rem 3.5rem;
+        width: 27rem;
+        border-radius: .9rem;
+        margin-bottom: 6rem;
+        background-color: $color-light-s;
+        // cursor: pointer;
+        &__name {
+          margin-bottom: 3rem;
+        }
+        & img {
+          margin-bottom: 3rem;
+          width: 20rem;
+          height: 24rem;
+        }
+        &:hover {
+          background-color: $color-light-xl;
+          box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+        }
+      }
+    }
+
+    &__slides-nav {
+      position: absolute;
+      top: 19rem;
+      width: 100%;
+
+      & button {
+        padding: 0;
+        width: 5.2rem;
+        height: 5.2rem;
+        border: 2px solid $color-primary;
+        background-color: transparent;
+        border-radius: 10rem;
+        padding-bottom: 0.4rem;
+
+        &:hover {
+          background-color: $color-primary;
+        }
+      }
+
+      & .slides-nav__inactive {
+        border: 2px solid $color-dark-s;
+        background-color: transparent;
+        pointer-events: none;
+
+        & img {
+          opacity: 23%;
+        }
+
+      }
+
+      &__left {
+        position: absolute;
+        left: 0;
+      }
+
+      &__right {
+        position: absolute;
+        right: 0;
+      }
     }
   }
 
+  &__inner {
+    &__h {
+      margin: 0 auto;
+      max-width: 40rem;
+      text-align: center;
+      margin-bottom: 6rem;
+    }
+  }
 
 
 }
