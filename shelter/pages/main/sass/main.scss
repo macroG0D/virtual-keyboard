@@ -33,6 +33,13 @@ li {
 }
 
 h1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.main-header {
   margin: 0;
   font-family: Georgia;
   font-weight: normal;
@@ -41,6 +48,7 @@ h1 {
   letter-spacing: 0%;
   color: $color-light-xl;
 }
+
 
 h2 {
   margin: 0;
@@ -95,7 +103,7 @@ button {
 }
 
 .button__secondary {
-  padding: 1.27rem 4.5rem;
+  padding: 1.27rem 4.2rem;
   border: 0.2rem solid $color-primary;
   background-color: transparent;
   @include button-font();
@@ -168,10 +176,12 @@ nav {
     line-height: 160%
   }
 }
+
 ul {
   padding-bottom: .4rem;
   padding-right: 0.25rem;
 }
+
 .menu-item {
   &__link {
     &__active {
@@ -203,17 +213,14 @@ ul {
     width: 46rem;
 
     &__h {
-      margin-bottom: 4.2rem;
+      margin-bottom: 4.1rem;
       width: 31rem;
     }
 
     &__p {
       @include paragraph-l();
       color: $color-dark-s;
-      margin-bottom: 4.3rem;
-    }
-    & .button___primary {
-      margin-bottom: 0.2rem;
+      margin-bottom: 4.1rem;
     }
   }
 
@@ -244,7 +251,6 @@ ul {
       margin-right: -5.5rem;
       padding-bottom: 1rem;
     }
-
   }
 
   &__h {
@@ -262,6 +268,7 @@ ul {
 
 //section pets
 .pets {
+  max-height: 87.7rem;
   @include sectpaddings();
   text-align: center;
   background-color: $color-light-l;
@@ -277,20 +284,22 @@ ul {
       position: relative;
 
       &__card {
-        padding: 3rem 3.5rem;
+        padding: 3rem 3.2rem;
         width: 27rem;
         border-radius: .9rem;
         margin-bottom: 6rem;
         background-color: $color-light-s;
-        // cursor: pointer;
+
         &__name {
-          margin-bottom: 3rem;
+          margin-bottom: 2.9rem;
         }
+
         & img {
-          margin-bottom: 3rem;
+          margin-bottom: 2.9rem;
           width: 20rem;
           height: 24rem;
         }
+
         &:hover {
           background-color: $color-light-xl;
           box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
@@ -300,7 +309,7 @@ ul {
 
     &__slides-nav {
       position: absolute;
-      top: 19rem;
+      top: 19.2rem;
       width: 100%;
 
       & button {
@@ -348,6 +357,147 @@ ul {
       margin-bottom: 6rem;
     }
   }
+}
 
+
+//section help
+.help {
+  max-height: 61.1rem;
+  @include sectpaddings($top: 8.2rem);
+  text-align: center;
+  background-color: $color-light-xl;
+  margin: 0 auto;
+
+  &__inner {
+    @include flex($direction: column);
+  }
+
+  &__header {
+    width: 38rem;
+    // margin-bottom: 1rem;
+  }
+
+  &__icons {
+  
+  }
+
+  &__icons-row-top {
+    margin-top: 6rem;
+    width: 102.6rem;
+    @include flex($direction: row, $justify-content: space-between);
+  }
+
+  &__icons-row-bot {
+    margin: 5.5rem auto 0;
+    width: 85.8rem;
+    @include flex($direction: row, $justify-content: space-between);
+  }
+
+  &__icon {
+      margin-bottom: 2.8rem;
+  }
+}
+
+
+// section donation
+
+.donation {
+  max-height: 46.4rem;
+  @include sectpaddings();
+  background-color: $color-light-l;
+  padding: 8.3rem 0 10.1rem 0; // becouse the layout in figma has 1 additional pixel on top and bottom paddings
+
+  &__inner {
+    @include flex();
+  }
+
+  &__image-wrapper {
+    margin-right: 3rem;
+    margin-top: 0.1rem;
+  }
+
+  &__text-wrapper {
+    width: 38rem;
+  }
+
+  &__header {
+    width: 30rem;
+    color: $color-dark-l;
+  }
+
+  &__subtitle {
+    margin-top: 2rem;
+    @include paragraph-l($line-height: 110%);
+    color: $color-dark-l;
+    font-family: Georgia;
+  }
+
+  &__card-number-wrapper {
+    @include flex($justify-content: space-between);
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    width: 34.9rem;
+    border-radius: 0.9rem;
+    background-color: $color-primary;
+  }
+
+  &__card-number {
+    color: $color-dark-l;
+
+    &:hover {
+      color: $color-dark-3xl;
+    }
+  }
+
+  &__description {
+    margin-top: 2rem;
+    @include paragraph-s();
+    color: $color-dark-m;
+  }
+}
+
+
+
+// footer
+// background: $start-screen-gradient-background;
+
+.footer {
+  padding-top: 4rem;
+  max-height: 35.2rem;
+  overflow-y: hidden;
+  background: $start-screen-gradient-background;
+
+
+  &__info-wrapper {
+    @include flex($justify-content: space-between, $align-items: flex-start);
+
+  }
+
+  &__col {
+    padding-top: 2.3rem;
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 25.8rem;
+
+    &:nth-child(2) {
+      margin-left: -2.3rem;
+    }
+  }
+
+  &__header {
+    color: $color-light-xl;
+  }
+
+  &__info-item {
+    padding-bottom: 0.2rem;
+    @include flex($justify-content:flex-start, $wrap: nowrap);
+  }
+
+  &__text-info {
+    margin-left: 2rem;
+    color: $color-primary;
+  }
 
 }

@@ -6,17 +6,17 @@
   flex-wrap: $wrap;
 }
 
-@mixin sectpaddings() {
-  padding-top: 8rem;
+@mixin sectpaddings($top:8rem) {
+  padding-top: $top;
   padding-bottom: 10rem;
 }
 
-@mixin paragraph-l() {
+@mixin paragraph-l($line-height: 160%) {
   font-family: Arial;
   font-style: normal;
   font-weight: normal;
   font-size: 1.5rem;
-  line-height: 160%;
+  line-height: $line-height;
 }
 
 @mixin paragraph-s() {
