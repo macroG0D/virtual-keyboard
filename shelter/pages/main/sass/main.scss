@@ -19,6 +19,13 @@
 a {
   text-decoration: none;
   color: $color-dark-s;
+
+  &:focus {
+    outline: none;
+    border: none;
+    outline-style: none;
+    -moz-outline-style: none;
+  }
 }
 
 ul {
@@ -166,27 +173,31 @@ nav {
     }
   }
 
+  &__menu {
+    width: 44.2rem;
+  }
+
   &__menu-items {
-    @include flex();
+    @include flex($justify-content: space-between);
   }
 
   &__menu-item {
     @include paragraph-l();
-    margin-left: 3.45rem;
+    // margin-left: 3.45rem;
     line-height: 160%
   }
 }
 
 ul {
   padding-bottom: .4rem;
-  padding-right: 0.25rem;
+  // padding-right: 0.25rem;
 }
 
 .menu-item {
   &__link {
     &__active {
       color: $color-light-s;
-      padding-bottom: 0.3rem;
+      padding-bottom: 0.4rem;
       border-bottom: 3px solid $color-primary;
       pointer-events: none;
     }
@@ -399,7 +410,7 @@ ul {
 // section donation
 
 .donation {
-  max-height: 46.4rem;
+  max-height: 46.5rem;
   @include sectpaddings();
   background-color: $color-light-l;
   padding: 8.3rem 0 10.1rem 0; // becouse the layout in figma has 1 additional pixel on top and bottom paddings
@@ -487,7 +498,7 @@ ul {
     color: $color-light-xl;
   }
 
-  &__info-item {
+  &__link {
     padding-bottom: 0.2rem;
     @include flex($justify-content:flex-start, $wrap: nowrap);
   }
