@@ -1,0 +1,43 @@
+// footer
+// background: $start-screen-gradient-background;
+
+.footer {
+  padding-top: 4rem;
+  max-height: 35.1rem;
+  overflow-y: hidden;
+  background: $start-screen-gradient-background;
+
+
+  &__info-wrapper {
+    @include flex($justify-content: space-between, $align-items: flex-start);
+
+  }
+
+  &__col {
+    padding-top: 2.3rem;
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 25.8rem;
+
+    &:nth-child(2) {
+      margin-left: -2.3rem;
+    }
+  }
+
+  &__header {
+    color: $color-light-xl;
+  }
+
+  &__link {
+    padding-bottom: 0.2rem;
+    @include flex($justify-content:flex-start, $wrap: nowrap);
+  }
+
+  &__text-info {
+    margin-left: 2rem;
+    color: $color-primary;
+  }
+
+}
