@@ -141,233 +141,73 @@ button {
 
 //section pets
 .pets {
-  max-height: 87.7rem;
   @include sectpaddings();
   text-align: center;
   background-color: $color-light-l;
-
-  .slider {
-    @include flex($justify-content: space-around);
-    position: relative;
-
-    &__cards {
-      @include flex($justify-content: space-between);
-      width: 99rem;
-      margin: 0 auto;
-      position: relative;
-
-      &__card {
-        padding: 3rem 3.2rem;
-        width: 27rem;
-        border-radius: .9rem;
-        margin-bottom: 6rem;
-        background-color: $color-light-s;
-
-        &__name {
-          margin-bottom: 2.9rem;
-        }
-
-        & img {
-          margin-bottom: 2.9rem;
-          width: 20rem;
-          height: 24rem;
-        }
-
-        &:hover {
-          background-color: $color-light-xl;
-          box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
-        }
-      }
-    }
-
-    &__slides-nav {
-      position: absolute;
-      top: 19.2rem;
-      width: 100%;
-
-      & button {
-        padding: 0;
-        width: 5.2rem;
-        height: 5.2rem;
-        border: 2px solid $color-primary;
-        background-color: transparent;
-        border-radius: 10rem;
-        padding-bottom: 0.4rem;
-
-        &:hover {
-          background-color: $color-primary;
-        }
-      }
-
-      & .slides-nav__inactive {
-        border: 2px solid $color-dark-s;
-        background-color: transparent;
-        pointer-events: none;
-
-        & img {
-          opacity: 23%;
-        }
-
-      }
-
-      &__left {
-        position: absolute;
-        left: 0;
-      }
-
-      &__right {
-        position: absolute;
-        right: 0;
-      }
-    }
-  }
-
-  &__inner {
-    &__h {
-      margin: 0 auto;
-      max-width: 40rem;
-      text-align: center;
-      margin-bottom: 6rem;
-    }
-  }
-}
-
-
-//section help
-.help {
-  max-height: 61.1rem;
-  @include sectpaddings($top: 8.2rem);
-  text-align: center;
-  background-color: $color-light-xl;
-  margin: 0 auto;
-
-  &__inner {
-    @include flex($direction: column);
-  }
-
   &__header {
-    width: 38rem;
-    // margin-bottom: 1rem;
+    margin: 0 auto 5.8rem;
+    width: 40rem;
   }
 
-
-  &__icons-row-top {
-    margin-top: 6rem;
-    width: 102.6rem;
-    @include flex($direction: row, $justify-content: space-between);
-  }
-
-  &__icons-row-bot {
-    margin: 5.5rem auto 0;
-    width: 85.8rem;
-    @include flex($direction: row, $justify-content: space-between);
-  }
-
-  &__icon {
-    margin-bottom: 2.8rem;
-  }
-}
-
-
-// section donation
-
-.donation {
-  max-height: 46.5rem;
-  @include sectpaddings();
-  background-color: $color-light-l;
-  padding: 8.3rem 0 10.1rem 0; // becouse the layout in figma has 1 additional pixel on top and bottom paddings
-
-  &__inner {
-    @include flex();
-  }
-
-  &__image-wrapper {
-    margin-right: 3rem;
-    margin-top: 0.1rem;
-  }
-
-  &__text-wrapper {
-    width: 38rem;
-  }
-
-  &__header {
-    width: 30rem;
-    color: $color-dark-l;
-  }
-
-  &__subtitle {
-    margin-top: 2rem;
-    @include paragraph-l($line-height: 110%);
-    color: $color-dark-l;
-    font-family: Georgia;
-  }
-
-  &__card-number-wrapper {
+  &__cards-wrapper {
     @include flex($justify-content: space-between);
-    margin-top: 2rem;
-    padding: 1rem 1.5rem;
-    width: 34.9rem;
-    border-radius: 0.9rem;
-    background-color: $color-primary;
+    position: relative;
   }
 
-  &__card-number {
-    color: $color-dark-l;
-
+  &__card {
+    @include flex($justify-content: space-around);
+    margin-bottom: 3rem;
+    overflow: hidden;
+    padding: 0rem 3.2rem 3rem ;
+    width: 27rem;
+    border-radius: .9rem;
+    background-color: $color-light-s;
+    & img {
+      margin-bottom: 3rem;
+    }
     &:hover {
-      color: $color-dark-3xl;
+      background-color: $color-light-xl;
+      box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+    }
+  }
+  &__cardName {
+    margin-bottom: 3rem;
+  }
+
+}
+
+.pagination {
+  margin: 3rem auto 0;
+  min-width: 34rem;
+  @include flex($justify-content: space-between);
+  &__item {
+    padding: 0;
+    width: 5.2rem;
+    height: 5.2rem;
+    border-radius: 100px;
+    border: 2px solid $color-primary;
+    background-color: transparent;
+    &:hover {
+      background-color: $color-primary-light;
+    }
+  }
+  .pag-item-inactive {
+    border: 2px solid $color-dark-s;
+    pointer-events: none;
+    img {
+      opacity: .25;
     }
   }
 
-  &__description {
-    margin-top: 2rem;
-    @include paragraph-s();
-    color: $color-dark-m;
+  .pag-item-current {
+    font-family: georgia, serif;
+    font-size: 2rem;
+    line-height: 115%;
+    background-color: $color-primary;
+    pointer-events: none;
   }
 }
 
-
-
-// footer
-// background: $start-screen-gradient-background;
-
-// .footer {
-//   padding-top: 4rem;
-//   max-height: 35.1rem;
-//   overflow-y: hidden;
-//   background: $start-screen-gradient-background;
-
-
-//   &__info-wrapper {
-//     @include flex($justify-content: space-between, $align-items: flex-start);
-
-//   }
-
-//   &__col {
-//     padding-top: 2.3rem;
-//     width: 30rem;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: space-between;
-//     height: 25.8rem;
-
-//     &:nth-child(2) {
-//       margin-left: -2.3rem;
-//     }
-//   }
-
-//   &__header {
-//     color: $color-light-xl;
-//   }
-
-//   &__link {
-//     padding-bottom: 0.2rem;
-//     @include flex($justify-content:flex-start, $wrap: nowrap);
-//   }
-
-//   &__text-info {
-//     margin-left: 2rem;
-//     color: $color-primary;
-//   }
-
-// }
+.footer {
+  padding-top: 3.6rem;
+}
