@@ -5,9 +5,7 @@
 @import "../../sass/layout/header";
 @import "../../sass/layout/footer";
 
-:root {
-  font-size: 10px;
-}
+:root { font-size: 10px; }
 
 * {
   margin: 0;
@@ -58,7 +56,6 @@ h1 {
   color: $color-light-xl;
 }
 
-
 h2 {
   margin: 0;
   font-family: Georgia;
@@ -102,7 +99,7 @@ button {
   padding: 1.5rem 4.5rem;
 }
 
-.button___primary {
+.button__primary {
   background-color: $color-primary;
   @include button-font();
 
@@ -139,9 +136,7 @@ button {
   position: relative;
 }
 
-
 // first section
-
 .first {
   background: $start-screen-gradient-background;
 
@@ -168,11 +163,9 @@ button {
 
   & .img {
     margin-top: 18rem;
-
-    &__main {
-      max-width: 69.8rem;
-    }
+    &__main { max-width: 69.8rem; }
   }
+
 }
 
 
@@ -185,15 +178,13 @@ button {
   &__inner {
     @include flex($justify-content: space-evenly);
 
-    &__text-content {
-      max-width: 43rem;
-    }
-
     & .img {
       margin-right: -5.5rem;
       padding-bottom: 1rem;
     }
   }
+
+  &__text-content { max-width: 43rem; }
 
   &__h {
     padding-top: 1.5rem;
@@ -201,12 +192,9 @@ button {
     width: 37rem;
   }
 
-  &__p {
-    margin-bottom: 2.5rem;
-  }
+  &__p { margin-bottom: 2.5rem; }
 
 }
-
 
 //section pets
 .pets {
@@ -215,39 +203,36 @@ button {
   text-align: center;
   background-color: $color-light-l;
 
+  &__cards-wrapper {
+    @include flex($justify-content: space-between);
+    width: 99rem;
+    margin: 0 auto;
+    position: relative;
+    position: relative;
+  }
+
+  &__card {
+    @include flex($justify-content: space-around);
+    margin-bottom: 3rem;
+    overflow: hidden;
+    padding: 0rem 3.2rem 3rem;
+    width: 27rem;
+    border-radius: .9rem;
+    background-color: $color-light-s;
+
+    & img { margin-bottom: 3rem; }
+
+    &:hover {
+      background-color: $color-light-xl;
+      box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+    }
+  }
+
+  &__cardName { margin-bottom: 3rem; }
+
   .slider {
     @include flex($justify-content: space-around);
     position: relative;
-
-    &__cards {
-      @include flex($justify-content: space-between);
-      width: 99rem;
-      margin: 0 auto;
-      position: relative;
-
-      &__card {
-        padding: 3rem 3.2rem;
-        width: 27rem;
-        border-radius: .9rem;
-        margin-bottom: 6rem;
-        background-color: $color-light-s;
-
-        &__name {
-          margin-bottom: 2.9rem;
-        }
-
-        & img {
-          margin-bottom: 2.9rem;
-          width: 20rem;
-          height: 24rem;
-        }
-
-        &:hover {
-          background-color: $color-light-xl;
-          box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
-        }
-      }
-    }
 
     &__slides-nav {
       position: absolute;
@@ -262,10 +247,7 @@ button {
         background-color: transparent;
         border-radius: 10rem;
         padding-bottom: 0.4rem;
-
-        &:hover {
-          background-color: $color-primary;
-        }
+        &:hover { background-color: $color-primary; }
       }
 
       & .slides-nav__inactive {
@@ -273,34 +255,34 @@ button {
         background-color: transparent;
         pointer-events: none;
 
-        & img {
-          opacity: 23%;
-        }
-
+        & img { opacity: 23%; }
       }
-
-      &__left {
-        position: absolute;
-        left: 0;
-      }
-
-      &__right {
-        position: absolute;
-        right: 0;
-      }
+      
     }
+
+    &__nav-left {
+      position: absolute;
+      left: 0;
+    }
+    &__nav-right {
+      position: absolute;
+      right: 0;
+    }
+
   }
 
-  &__inner {
-    &__h {
-      margin: 0 auto;
-      max-width: 40rem;
-      text-align: center;
-      margin-bottom: 6rem;
-    }
+  &__h {
+    margin: 0 auto;
+    max-width: 40rem;
+    text-align: center;
+    margin-bottom: 6rem;
   }
+
+  &__button {
+    margin-top: 3rem;
+  }
+
 }
-
 
 //section help
 .help {
@@ -313,12 +295,7 @@ button {
   &__inner {
     @include flex($direction: column);
   }
-
-  &__header {
-    width: 38rem;
-    // margin-bottom: 1rem;
-  }
-
+  &__header { width: 38rem; }
 
   &__icons-row-top {
     margin-top: 6rem;
@@ -332,14 +309,11 @@ button {
     @include flex($direction: row, $justify-content: space-between);
   }
 
-  &__icon {
-    margin-bottom: 2.8rem;
-  }
+  &__icon { margin-bottom: 2.8rem; }
+
 }
 
-
 // section donation
-
 .donation {
   max-height: 46.5rem;
   @include sectpaddings();
@@ -355,9 +329,7 @@ button {
     margin-top: 0.1rem;
   }
 
-  &__text-wrapper {
-    width: 38rem;
-  }
+  &__text-wrapper { width: 38rem; }
 
   &__header {
     width: 30rem;
@@ -382,10 +354,7 @@ button {
 
   &__card-number {
     color: $color-dark-l;
-
-    &:hover {
-      color: $color-dark-3xl;
-    }
+    &:hover { color: $color-dark-3xl; }
   }
 
   &__description {
@@ -394,49 +363,3 @@ button {
     color: $color-dark-m;
   }
 }
-
-
-
-// footer
-// background: $start-screen-gradient-background;
-
-// .footer {
-//   padding-top: 4rem;
-//   max-height: 35.1rem;
-//   overflow-y: hidden;
-//   background: $start-screen-gradient-background;
-
-
-//   &__info-wrapper {
-//     @include flex($justify-content: space-between, $align-items: flex-start);
-
-//   }
-
-//   &__col {
-//     padding-top: 2.3rem;
-//     width: 30rem;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: space-between;
-//     height: 25.8rem;
-
-//     &:nth-child(2) {
-//       margin-left: -2.3rem;
-//     }
-//   }
-
-//   &__header {
-//     color: $color-light-xl;
-//   }
-
-//   &__link {
-//     padding-bottom: 0.2rem;
-//     @include flex($justify-content:flex-start, $wrap: nowrap);
-//   }
-
-//   &__text-info {
-//     margin-left: 2rem;
-//     color: $color-primary;
-//   }
-
-// }
