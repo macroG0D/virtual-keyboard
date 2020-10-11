@@ -112,7 +112,7 @@ button {
 }
 
 .button__secondary {
-  padding: 1.27rem 4.2rem;
+  padding: 1.28rem 4.3rem;
   border: 0.2rem solid $color-primary;
   background-color: transparent;
   @include button-font();
@@ -145,7 +145,7 @@ button {
   text-align: center;
   background-color: $color-light-l;
   &__header {
-    margin: 0 auto 5.8rem;
+    margin: 0 auto 6rem;
     width: 40rem;
   }
 
@@ -177,7 +177,7 @@ button {
 }
 
 .pagination {
-  margin: 3rem auto 0;
+  margin: 3rem auto .1rem;
   min-width: 34rem;
   @include flex($justify-content: space-between);
   &__item {

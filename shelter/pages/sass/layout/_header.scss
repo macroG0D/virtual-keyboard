@@ -8,9 +8,7 @@
   & a {
     color: $color-dark-s;
 
-    &:hover {
-      color: $color-light-s;
-    }
+    &:hover { color: $color-light-s; }
 
     &.menu-item {
       position: relative;
@@ -30,7 +28,7 @@
 .nav-inner {
   position: sticky;
   @include flex();
-  padding: 3rem 0;
+  padding: 3rem 0 2.8rem;
   top: 0;  
   width: 100%;
   z-index: 1;
@@ -38,10 +36,7 @@
 
   & a {
     color: $color-dark-l;
-
-    &:hover {
-      color: $color-dark-3xl;
-    }
+    &:hover { color: $color-dark-3xl; }
 
     &.menu-item {
       &__link {

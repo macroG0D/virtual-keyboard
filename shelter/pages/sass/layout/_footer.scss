@@ -1,22 +1,26 @@
 // footer
 .footer {
   padding-top: 3.6rem;
-  // max-height: 35.1rem;
-  overflow-y: hidden;
+  max-height: 35rem;
+  overflow: hidden;
   background: $footer-gradient-background;
 
   &__info-wrapper {
     @include flex($justify-content: space-between, $align-items: flex-start);
+  }
 
+  &__image {
+    position: relative;
+    top: .2rem;
   }
 
   &__col {
-    padding-top: 2.3rem;
+    padding-top: 2.1rem;
     width: 30rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 25.8rem;
+    height: 25.7rem;
 
     &:nth-child(2) {
       margin-left: -2.3rem;
