@@ -13,6 +13,7 @@
     }
 
     &.menu-item {
+      position: relative;
       &__link {
         &__active {
           color: $color-light-s;
@@ -67,6 +68,8 @@
 
   &__menu {
     width: 44.2rem;
+    position: relative;
+    bottom: .2rem;
   }
 
   &__menu-items {

@@ -109,7 +109,7 @@ button {
 }
 
 .button__secondary {
-  padding: 1.27rem 4.2rem;
+  padding: 1.28rem 4.3rem;
   border: 0.2rem solid $color-primary;
   background-color: transparent;
   @include button-font();
@@ -141,7 +141,7 @@ button {
   background: $start-screen-gradient-background;
 
   &__inner {
-    height: 90.8rem;
+    height: 90.9rem;
     @include flex($justify-content: space-between);
   }
 
@@ -279,7 +279,7 @@ button {
   }
 
   &__button {
-    margin-top: 3rem;
+    margin-top: 3.1rem;
   }
 
 }
@@ -298,7 +298,7 @@ button {
   &__header { width: 38rem; }
 
   &__icons-row-top {
-    margin-top: 6rem;
+    margin-top: 5.9rem;
     width: 102.6rem;
     @include flex($direction: row, $justify-content: space-between);
   }
@@ -318,7 +318,7 @@ button {
   max-height: 46.5rem;
   @include sectpaddings();
   background-color: $color-light-l;
-  padding: 8.3rem 0 10.1rem 0; // becouse the layout in figma has 1 additional pixel on top and bottom paddings
+  padding: 8rem 0 10.1rem 0; // becouse the layout in figma has 1 additional pixel on top and bottom paddings
 
   &__inner {
     @include flex();

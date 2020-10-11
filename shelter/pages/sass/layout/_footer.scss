@@ -1,12 +1,9 @@
 // footer
-// background: $start-screen-gradient-background;
-
 .footer {
-  padding-top: 4rem;
-  max-height: 35.1rem;
+  padding-top: 3.6rem;
+  // max-height: 35.1rem;
   overflow-y: hidden;
   background: $start-screen-gradient-background;
-
 
   &__info-wrapper {
     @include flex($justify-content: space-between, $align-items: flex-start);
