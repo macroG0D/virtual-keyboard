@@ -1,8 +1,6 @@
 // footer
 .footer {
   padding-top: 3.6rem;
-  max-height: 35rem;
-  overflow: hidden;
   background: $footer-gradient-background;
 
   &__info-wrapper {
@@ -11,7 +9,9 @@
 
   &__image {
     position: relative;
-    top: .2rem;
+    top: 0;
+    display: block;
+
   }
 
   &__col {
@@ -39,6 +39,37 @@
   &__text-info {
     margin-left: 2rem;
     color: $color-primary;
+  }
+
+
+  @media (max-width: $screen-xl-max) {
+    padding-top: 3rem;
+
+    &__info-wrapper {
+      @include flex($justify-content: space-evenly, $align-items: flex-start);
+    }
+
+    &__col {
+      padding-top: 0;
+      height: 23.4rem;
+
+      &:nth-child(2) {
+        margin-left: 0rem;
+      }
+    }
+
+    &__image-wrapper {
+      margin: 6.2rem auto 0;
+    }
+
+    &__image {
+      position: relative;
+      display: block;
+    }
+
+    &__link {
+      padding-bottom: 0rem;
+    }
   }
 
 }

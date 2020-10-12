@@ -6,9 +6,9 @@
   flex-wrap: $wrap;
 }
 
-@mixin sectpaddings($top:8rem) {
+@mixin sectpaddings($top: 8rem, $bot: 10rem) {
   padding-top: $top;
-  padding-bottom: 10rem;
+  padding-bottom: $bot;
 }
 
 @mixin paragraph-l($line-height: 160%) {
@@ -33,4 +33,20 @@
   font-size: 1.7rem;
   line-height: 130%;
   letter-spacing: 0.06em;
+}
+
+
+@mixin wrapper($max-width: 128rem, $padding: 0 4rem) {
+  margin: 0 auto;
+  max-width: $max-width;
+  position: relative;
+  padding: $padding;
+}
+
+
+@mixin nav-wrapper($max-width: 128rem, $padding: 0 4rem) {
+  margin: 0 auto;
+  max-width: $max-width;
+  position: relative;
+  padding: $padding;
 }

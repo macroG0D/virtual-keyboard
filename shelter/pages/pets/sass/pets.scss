@@ -134,9 +134,7 @@ button {
 }
 
 .wrapper {
-  margin: 0 auto;
-  width: 120rem;
-  position: relative;
+  @include wrapper();
 }
 
 //section pets

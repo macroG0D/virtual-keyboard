@@ -1,5 +1,8 @@
+.nav-wrapper {
+  @include nav-wrapper();
+}
+
 .nav-main {
-  @include flex();
   position: absolute;
   top: 6rem;
   width: 100%;
@@ -27,47 +30,19 @@
   }
 }
 
-// @media (max-width: 1280px) {
-//   .nav-main {
-//     @include flex();
-//     position: absolute;
-//     width: 100%;
-//     z-index: 1;
-  
-//     & a {
-//       color: $color-dark-s;
-  
-//       &:hover {
-//         color: $color-light-s;
-//       }
-  
-//       &.menu-item {
-//         position: relative;
-  
-//         &__link {
-//           &__active {
-//             color: $color-light-s;
-//             padding-bottom: 0.4rem;
-//             border-bottom: 3px solid $color-primary;
-//             pointer-events: none;
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-
-// @media (min-width: 320px) {
-
-// }
-
-
-
+@media (max-width: $screen-xl-max) {
+  .nav-wrapper {
+    @include nav-wrapper($max-width: 128rem, $padding: 0 3rem);
+  }
+  .nav-main {
+    top: 3rem;
+  }
+}
 
 
 .nav-inner {
   position: sticky;
-  @include flex();
+  // @include flex();
   padding: 3rem 0 2.8rem;
   top: 0;
   width: 100%;
@@ -102,7 +77,7 @@
 
 .navbar {
   @include flex($justify-content: space-between);
-  width: 120rem;
+  width: 100%;
 
   &__menu {
     width: 44.2rem;
@@ -120,6 +95,19 @@
   }
 }
 
+@media (max-width: $screen-sm-max) {
+  .navbar {
+    &__menu {
+      display: none;
+    }
+  }
+}
+
+
+
 ul {
   padding-bottom: .4rem;
 }
+
+
+
