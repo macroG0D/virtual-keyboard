@@ -8,10 +8,13 @@
   & a {
     color: $color-dark-s;
 
-    &:hover { color: $color-light-s; }
+    &:hover {
+      color: $color-light-s;
+    }
 
     &.menu-item {
       position: relative;
+
       &__link {
         &__active {
           color: $color-light-s;
@@ -24,19 +27,59 @@
   }
 }
 
+// @media (max-width: 1280px) {
+//   .nav-main {
+//     @include flex();
+//     position: absolute;
+//     width: 100%;
+//     z-index: 1;
+  
+//     & a {
+//       color: $color-dark-s;
+  
+//       &:hover {
+//         color: $color-light-s;
+//       }
+  
+//       &.menu-item {
+//         position: relative;
+  
+//         &__link {
+//           &__active {
+//             color: $color-light-s;
+//             padding-bottom: 0.4rem;
+//             border-bottom: 3px solid $color-primary;
+//             pointer-events: none;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+// @media (min-width: 320px) {
+
+// }
+
+
+
+
 
 .nav-inner {
   position: sticky;
   @include flex();
   padding: 3rem 0 2.8rem;
-  top: 0;  
+  top: 0;
   width: 100%;
   z-index: 1;
   background-color: $color-light-xl;
 
   & a {
     color: $color-dark-l;
-    &:hover { color: $color-dark-3xl; }
+
+    &:hover {
+      color: $color-dark-3xl;
+    }
 
     &.menu-item {
       &__link {
@@ -58,8 +101,8 @@
 
 
 .navbar {
-
   @include flex($justify-content: space-between);
+  width: 120rem;
 
   &__menu {
     width: 44.2rem;

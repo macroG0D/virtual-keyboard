@@ -19,3 +19,14 @@ $footer-gradient-background: url(../../../assets/images/noize-bg-main.png),
 radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%), #211F20;
 
 $mt25: all .25s ease;
+
+
+// media queries
+$screen-sm: 576px;
+$screen-md: 768px;
+$screen-lf: 992px;
+$screen-xl: 1200px;
+
+$screen-sm-max: 767px;
+$screen-sm-max: 991px;
+$screen-sm-max: 1199px;
