@@ -1,5 +1,6 @@
 @charset 'utf-8';
 @import "../../sass/base/normalize";
+@import "../../sass/abstracts/constants";
 @import "../../sass/abstracts/mixins";
 @import "../../sass/abstracts/variables";
 @import "../../sass/layout/header";
@@ -7,45 +8,6 @@
 
 :root {
   font-size: 10px;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  transition: $mt25;
-}
-
-a {
-  text-decoration: none;
-  color: $color-dark-s;
-
-  &:focus {
-    outline: none;
-    border: none;
-    outline-style: none;
-    -moz-outline-style: none;
-  }
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-li {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-h1 {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
 }
 
 .main-header {
@@ -56,56 +18,6 @@ h1 {
   line-height: 130%;
   letter-spacing: 0%;
   color: $color-light-xl;
-}
-
-h2 {
-  margin: 0;
-  font-family: Georgia;
-  font-weight: normal;
-  font-size: 3.5rem;
-  line-height: 130%;
-  letter-spacing: 0.06em;
-  color: $color-dark-l;
-
-  @media (max-width: $screen-sm) {
-    font-size: 2.5rem;
-    text-align: center;
-  }
-}
-
-
-h3 {
-  margin: 0;
-  font-family: Georgia;
-  font-weight: normal;
-  font-size: 2rem;
-  line-height: 115%;
-  letter-spacing: 0.06em;
-}
-
-h4 {
-  margin: 0;
-  font-family: Georgia;
-  font-weight: normal;
-  font-size: 1.5rem;
-  line-height: 10%;
-  letter-spacing: 0.06em;
-}
-
-
-p {
-  font-family: Arial;
-  font-size: 1.5rem;
-  line-height: 160%;
-  color: $color-dark-xl;
-}
-
-button {
-  border: none;
-  border-radius: 10rem;
-  outline: none;
-  font-size: 1.7rem;
-  padding: 1.5rem 4.5rem;
 }
 
 .button__primary {
@@ -128,7 +40,6 @@ button {
     background-color: $color-primary-light;
   }
 }
-
 
 .paragraph-l {
   @include paragraph-l();
@@ -153,8 +64,6 @@ button {
     }
   }
 }
-
-
 
 
 // first section

@@ -1,5 +1,6 @@
 @charset 'utf-8';
 @import "../../sass/base/normalize";
+@import "../../sass/abstracts/constants";
 @import "../../sass/abstracts/mixins";
 @import "../../sass/abstracts/variables";
 @import "../../sass/layout/header";
@@ -7,99 +8,6 @@
 
 :root {
   font-size: 10px;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  transition: $mt25;
-}
-
-a {
-  text-decoration: none;
-  color: $color-dark-s;
-
-  &:focus {
-    outline: none;
-    border: none;
-    outline-style: none;
-    -moz-outline-style: none;
-  }
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-li {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-h1 {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.main-header {
-  margin: 0;
-  font-family: Georgia;
-  font-weight: normal;
-  font-size: 4.4rem;
-  line-height: 130%;
-  letter-spacing: 0%;
-  color: $color-light-xl;
-}
-
-
-h2 {
-  margin: 0;
-  font-family: Georgia;
-  font-weight: normal;
-  font-size: 3.5rem;
-  line-height: 130%;
-  letter-spacing: 0.06em;
-  color: $color-dark-l;
-}
-
-h3 {
-  margin: 0;
-  font-family: Georgia;
-  font-weight: normal;
-  font-size: 2rem;
-  line-height: 115%;
-  letter-spacing: 0.06em;
-}
-
-h4 {
-  margin: 0;
-  font-family: Georgia;
-  font-weight: normal;
-  font-size: 1.5rem;
-  line-height: 10%;
-  letter-spacing: 0.06em;
-}
-
-p {
-  font-family: Arial;
-  font-size: 1.5rem;
-  line-height: 160%;
-  color: $color-dark-xl;
-}
-
-button {
-  border: none;
-  border-radius: 10rem;
-  outline: none;
-  font-size: 1.7rem;
-  padding: 1.5rem 4.5rem;
 }
 
 .button___primary {
@@ -137,6 +45,18 @@ button {
   @include wrapper();
 }
 
+@media (max-width: $screen-xl-max) {
+  .wrapper {
+    @include wrapper($max-width: 76.8rem, $padding: 0 3rem);
+  }
+}
+
+  @media (max-width: $screen-sm) {
+    .wrapper {
+      @include wrapper($max-width: 32rem, $padding: 0 1rem);
+    }
+  }
+
 //section pets
 .pets {
   @include sectpaddings();
@@ -173,6 +93,52 @@ button {
     margin-bottom: 3rem;
   }
 
+  @media (max-width: $screen-xl-max) {
+    @include sectpaddings($bot: 7.6rem);
+    &__inner {
+      width: 93%;
+      margin: auto;
+    }
+    &__header {
+      margin: 0 auto 3rem;
+    }
+    &__cards-wrapper {
+      width: 100%;
+      justify-content: space-evenly;
+    }
+    &__card:nth-child(6)~&__card {
+      // hide all cards after the 6th 
+      display: none;
+    }
+  }
+
+  @media (max-width: $screen-sm-max) {
+    @include sectpaddings($top: 4.2rem, $bot: 4.2rem);
+    h2 {
+      font-size: 2.5rem;
+      text-align: center;
+    }
+    &__header {
+      margin-bottom: 4.2rem;
+      width: 30rem;
+    }
+    &__inner {
+      width: 75%;
+    }
+    &__cards-wrapper {
+      justify-content: center;
+    }
+    &__card:nth-child(3)~&__card {
+      // hide all cards after the third 
+      display: none;
+    }
+  }
+  @media (max-width: $screen-sm) {
+    &__inner {
+      width: 100%;
+    }
+  }
+
 }
 
 .pagination {
@@ -204,5 +170,14 @@ button {
     line-height: 115%;
     background-color: $color-primary;
     pointer-events: none;
+  }
+
+  @media (max-width: $screen-xl-max) {
+    margin-top: 1rem;
+  }
+  @media (max-width: $screen-sm-max) {
+    margin-top: 1.2rem;
+    min-width: auto;
+    width: 30rem;
   }
 }
