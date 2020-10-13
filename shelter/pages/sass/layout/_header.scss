@@ -1,14 +1,25 @@
 .nav-wrapper {
   @include nav-wrapper();
 }
+
 .burger-wrapper {
   display: none;
 }
+
 .nav-main {
   position: absolute;
   top: 6rem;
   width: 100%;
   z-index: 1;
+
+  & .burger {
+    background-color: $color-primary;
+
+    &:after,
+    &:before {
+      background-color: $color-primary;
+    }
+  }
 
   & a {
     color: $color-dark-s;
@@ -41,6 +52,7 @@
     top: 3rem;
   }
 }
+
 @media (max-width: $screen-sm) {
   .nav-wrapper {
     @include nav-wrapper($max-width: 128rem, $padding: 0 1rem);
@@ -54,6 +66,17 @@
   width: 100%;
   z-index: 1;
   background-color: $color-light-xl;
+
+  & .burger {
+    background-color: #000;
+
+    &:after,
+    &:before {
+      background-color: #000;
+    }
+  }
+
+
 
   & a {
     color: $color-dark-l;
@@ -76,7 +99,6 @@
 
   .navbar__menu-items {
     margin-bottom: .5rem;
-
   }
 }
 
@@ -119,14 +141,12 @@
 
       .burger {
         background-color: transparent;
-        // transition: none 1ms;
         transform: translateX(1rem) translateY(1rem) rotate(90deg);
       }
 
       .burger:before {
         transform: rotate(-45deg);
         top: 1rem;
-
       }
 
       .burger:after {
@@ -139,7 +159,6 @@
       display: block;
       width: 3rem;
       height: .2rem;
-      background-color: $color-primary;
       position: relative;
 
       &:after,
@@ -147,7 +166,6 @@
         content: '';
         width: 3rem;
         height: .2rem;
-        background-color: $color-primary;
         position: absolute;
         top: 1rem;
       }

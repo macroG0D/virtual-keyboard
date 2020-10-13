@@ -51,17 +51,18 @@
   }
 }
 
-  @media (max-width: $screen-sm) {
-    .wrapper {
-      @include wrapper($max-width: 32rem, $padding: 0 1rem);
-    }
+@media (max-width: $screen-sm) {
+  .wrapper {
+    @include wrapper($max-width: 30rem, $padding: 0);
   }
+}
 
 //section pets
 .pets {
   @include sectpaddings();
   text-align: center;
   background-color: $color-light-l;
+
   &__header {
     margin: 0 auto 6rem;
     width: 40rem;
@@ -76,36 +77,43 @@
     @include flex($justify-content: space-around);
     margin-bottom: 3rem;
     overflow: hidden;
-    padding: 0rem 3.2rem 3rem ;
+    padding: 0rem 3.2rem 3rem;
     width: 27rem;
     border-radius: .9rem;
     background-color: $color-light-s;
+
     & img {
       margin-bottom: 3rem;
     }
+
     &:hover {
       background-color: $color-light-xl;
       box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
       cursor: pointer;
     }
   }
+
   &__cardName {
     margin-bottom: 3rem;
   }
 
   @media (max-width: $screen-xl-max) {
     @include sectpaddings($bot: 7.6rem);
+
     &__inner {
       width: 93%;
       margin: auto;
     }
+
     &__header {
       margin: 0 auto 3rem;
     }
+
     &__cards-wrapper {
       width: 100%;
       justify-content: space-evenly;
     }
+
     &__card:nth-child(6)~&__card {
       // hide all cards after the 6th 
       display: none;
@@ -114,26 +122,36 @@
 
   @media (max-width: $screen-sm-max) {
     @include sectpaddings($top: 4.2rem, $bot: 4.2rem);
+
     h2 {
       font-size: 2.5rem;
       text-align: center;
     }
+
     &__header {
       margin-bottom: 4.2rem;
       width: 30rem;
     }
+
     &__inner {
       width: 75%;
     }
+
     &__cards-wrapper {
       justify-content: center;
     }
+
     &__card:nth-child(3)~&__card {
       // hide all cards after the third 
       display: none;
     }
   }
+
   @media (max-width: $screen-sm) {
+    &__header {
+      width: 29rem;
+    }
+
     &__inner {
       width: 100%;
     }
@@ -145,6 +163,7 @@
   margin: 3rem auto .1rem;
   min-width: 34rem;
   @include flex($justify-content: space-between);
+
   &__item {
     padding: 0;
     width: 5.2rem;
@@ -152,13 +171,16 @@
     border-radius: 100px;
     border: 2px solid $color-primary;
     background-color: transparent;
+
     &:hover {
       background-color: $color-primary-light;
     }
   }
+
   .pag-item-inactive {
     border: 2px solid $color-dark-s;
     pointer-events: none;
+
     img {
       opacity: .25;
     }
@@ -175,6 +197,7 @@
   @media (max-width: $screen-xl-max) {
     margin-top: 1rem;
   }
+
   @media (max-width: $screen-sm-max) {
     margin-top: 1.2rem;
     min-width: auto;
