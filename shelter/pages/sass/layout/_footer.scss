@@ -72,4 +72,48 @@
     }
   }
 
+
+  @media (max-width: $screen-sm-max) {
+    h2 {
+      font-size: 2.5rem;
+      text-align: center;
+    }
+
+    &__header {
+      width: 25rem;
+    }
+
+    &__col {
+      padding-top: 0;
+      margin-bottom: 4rem;
+      height: 21em;
+      align-items: center;
+
+      &:nth-child(2) {
+        h2 {
+          margin: 0 auto;
+        }
+
+        align-items: left;
+        align-items: flex-start;
+        height: 22em;
+        margin-left: 0rem;
+      }
+    }
+
+    &__image-wrapper {
+      margin: 0rem auto;
+      width: 100%;
+    }
+
+    &__image {
+      position: relative;
+      display: block;
+      margin: auto;
+      max-width: 86%;
+    }
+
+
+  }
+
 }

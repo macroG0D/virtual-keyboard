@@ -1,7 +1,9 @@
 .nav-wrapper {
   @include nav-wrapper();
 }
-
+.burger-wrapper {
+  display: none;
+}
 .nav-main {
   position: absolute;
   top: 6rem;
@@ -34,15 +36,19 @@
   .nav-wrapper {
     @include nav-wrapper($max-width: 128rem, $padding: 0 3rem);
   }
+
   .nav-main {
     top: 3rem;
   }
 }
-
+@media (max-width: $screen-sm) {
+  .nav-wrapper {
+    @include nav-wrapper($max-width: 128rem, $padding: 0 1rem);
+  }
+}
 
 .nav-inner {
   position: sticky;
-  // @include flex();
   padding: 3rem 0 2.8rem;
   top: 0;
   width: 100%;
@@ -101,6 +107,59 @@
       display: none;
     }
   }
+
+  .burger-wrapper {
+    display: block;
+    margin-right: 4rem;
+    width: 3rem;
+    height: 2.2rem;
+
+    // background-color: red;
+    &:hover {
+      cursor: pointer;
+
+      .burger {
+        background-color: transparent;
+        transform: translateX(1rem) translateY(1rem) rotate(90deg);
+      }
+
+      .burger:before {
+        transform: rotate(-45deg);
+        top: 1rem;
+
+      }
+
+      .burger:after {
+        transform: rotate(45deg);
+        top: 1rem;
+      }
+    }
+
+    & .burger {
+      display: block;
+      width: 3rem;
+      height: .2rem;
+      background-color: $color-primary;
+      position: relative;
+
+      &:after,
+      &:before {
+        content: '';
+        width: 3rem;
+        height: .2rem;
+        background-color: $color-primary;
+        position: absolute;
+        top: 1rem;
+      }
+
+      &:before {
+        top: 2rem;
+      }
+    }
+  }
+
+
+
 }
 
 
@@ -108,6 +167,3 @@
 ul {
   padding-bottom: .4rem;
 }
-
-
-
