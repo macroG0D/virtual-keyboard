@@ -178,6 +178,13 @@ main {
   }
   &__space {
     @include key-double($width: 40.9rem, $color: $color);
+    &:after {
+      content: "";
+      position: absolute;
+      width: 8.4rem;
+      height: 0.2rem;
+      background: $color;
+    }
     &:hover {
       transform: rotateZ(.15deg)!important;
     }
