@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/main.min.css">
+  <title>Virtual Keyboard</title>
+</head>
+
+<body>
+  <main>
+    <div class="container">
+
+      <div class="screen-wrapper">
+        <textarea class="screen" name="text-input" maxlength="1090"></textarea>
+      </div>
+
+
+      <div class="desk-wrapper">
+        <div class="keyboard">
+          <div class="key-row">
+
+            <!-- row 1 -->
+            <div class="key">
+              <div class="key-special key__escape">ESC</div>
+            </div>
+            <div class="key">
+              <div class="key-double">1</div>
+            </div>
+            <div class="key">
+              <div class="key-double">2</div>
+            </div>
+            <div class="key">
+              <div class="key-double">3</div>
+            </div>
+            <div class="key">
+              <div class="key-double">4</div>
+            </div>
+            <div class="key">
+              <div class="key-double">5</div>
+            </div>
+            <div class="key">
+              <div class="key-double">6</div>
+            </div>
+            <div class="key">
+              <div class="key-double">7</div>
+            </div>
+            <div class="key">
+              <div class="key-double">8</div>
+            </div>
+            <div class="key">
+              <div class="key-double">9</div>
+            </div>
+            <div class="key">
+              <div class="key-double">0</div>
+            </div>
+            <div class="key">
+              <div class="key-double">-</div>
+            </div>
+            <div class="key">
+              <div class="key-double">=</div>
+            </div>
+            <div class="key">
+              <div class="key-special key__backspace">BACKSPACE</div>
+            </div>
+          </div>
+          <!-- row 2 -->
+          <div class="key-row">
+            <div class="key">
+              <div class="key-special key__tab">TAB</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">Q</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">W</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">E</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">R</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">T</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">Y</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">U</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">I</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">O</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">P</div>
+            </div>
+            <div class="key">
+              <div class="key-double">[</div>
+            </div>
+            <div class="key">
+              <div class="key-double">]</div>
+            </div>
+            <div class="key">
+              <div class="key-double key__backslash">\</div>
+            </div>
+          </div>
+          <!-- row 3 -->
+          <div class="key-row">
+            <div class="key">
+              <div class="key-special key__caps">CAPS LOCK</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">A</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">S</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">D</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">F</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">G</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">H</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">J</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">K</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">L</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">;</div>
+            </div>
+            <div class="key">
+              <div class="key-double">'</div>
+            </div>
+            <div class="key">
+              <div class="key-special key__enter">ENTER</div>
+            </div>
+          </div>
+
+          <!-- row 4 -->
+          <div class="key-row">
+            <div class="key">
+              <div class="key-special key__lshift">SHIFT</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">Z</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">X</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">C</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">V</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">B</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">N</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">M</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">,</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">.</div>
+            </div>
+            <div class="key">
+              <div class="key-letter">/</div>
+            </div>
+            <div class="key" id="arrow-top">
+              <div class="key-arrow key__arrtop"></div>
+            </div>
+            <div class="key">
+              <div class="key-special key__rshift">SHIFT</div>
+            </div>
+          </div>
+
+          <!-- row 5 -->
+          <div class="key-row">
+            <div class="key">
+              <div class="key-special key__lctrl">CTRL</div>
+            </div>
+            <div class="key">
+              <div class="key-double key__lang">En</div>
+            </div>
+            <div class="key">
+              <div class="key-special key__lalt">ALT</div>
+            </div>
+            <div class="key">
+              <div class="key-special key__space"></div>
+            </div>
+            <div class="key">
+              <div class="key-special key__ralt">ALT</div>
+            </div>
+            <div class="key" id="arrow-left">
+              <div class="key-arrow key__arrleft"></div>
+            </div>
+            <div class="key" id="arrow-bot">
+              <div class="key-arrow key__arrbot"></div>
+            </div>
+            <div class="key" id="arrow-right">
+              <div class="key-arrow key__arrright"></div>
+            </div>
+            <div class="key">
+              <div class="key-special key__rctrl">CTRL</div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </main>
+
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,220 @@
+@charset 'utf-8';
+@import "../sass/base/normalize";
+@import "../sass/abstracts/mixins";
+@import "../sass/abstracts/variables";
+
+:root {
+  font-size: 10px;
+  font-family: Roboto;
+}
+
+
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {}
+
+textarea {
+  resize: none;
+  outline: none;
+  border: none;
+}
+
+main {
+  background: $bgGrad;
+  min-height: 100vh;
+  position: relative;
+
+  .container {
+    max-width: 120rem;
+    padding: 0 1rem;
+    margin: auto;
+  }
+
+
+  .screen-wrapper {
+    min-width: 10rem;
+    max-width: 107.3rem;
+    padding: 6rem 1rem 0;
+    margin: auto;
+  }
+
+  .screen {
+    @include fontstyle();
+    padding: 2.4rem 4rem 4rem 2.8rem;
+    width: 100%;
+    min-width: 10rem;
+    max-width: 107.3rem;
+    height: 30rem;
+    max-height: 30rem;
+    background: rgba(255, 255, 255, .22);
+    box-shadow: 0px 4px 30px 2px rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+  }
+
+  .desk-wrapper {
+    padding: 0;
+    padding-bottom: 6rem;
+  }
+
+  .keyboard {
+    margin: 4rem auto;
+    padding-top: 1.4rem;
+    background: url('/assets/svg/keyboard_skeleton.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 37.8rem;
+    min-width: 10rem;
+    max-width: 107.3rem;
+  }
+
+  .key-row {
+    display: flex;
+    height: 6rem;
+    justify-content: space-between;
+    margin: 0 auto .8rem auto;
+    &:first-child {
+      width: 102.3rem;
+    }
+    &:nth-child(2) {
+      width: 103.1rem;
+    }
+    &:nth-child(3) {
+      width: 103.9rem;
+    }
+    &:nth-child(4) {
+      width: 104.7rem;
+    }
+    &:last-child {
+      width: 105.5rem;
+    }
+  }
+
+}
+
+.key-special {
+  @include key-special();
+}
+
+.key-double {
+  @include key-double();
+  background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #F2F2F2;
+}
+
+.key-letter {
+  @include key-letter();
+  background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #F2F2F2;
+}
+
+
+.key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .4rem .4rem .6rem;
+  background: $keyborder;
+  height: 6rem;
+  cursor: pointer;
+  filter: drop-shadow(0px .6rem .4rem rgba(0, 0, 0, 0.25));
+  border-radius: .6rem;
+
+  & .key-special {
+    background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #E2E2E2;
+  }
+
+  & .key-arrow {
+    @include key-arrow();
+    background: radial-gradient(50% 50% at 50% 50%, #9948FF 0%, rgba(153, 72, 255, 0) 100%), #7916F7;
+  }
+
+  &__escape {
+    background: radial-gradient(50% 50% at 50% 50%, #FF7563 0%, #F16552 100%), #F16552!important
+  }
+
+  &__backspace {
+    @include key-special($width: 14.5rem, $color: $color);
+  }
+  &__tab {
+    @include key-special($width: 8.9rem, $color: $color);
+  }
+  &__backslash {
+    @include key-double($width: 11.4rem, $color: $color);
+    background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #E2E2E2;
+  } 
+  &__caps {
+    @include key-special($width: 11.4rem, $color: $color);
+  }
+  &__enter {
+    @include key-special($width: 16.9rem, $color: $color);
+    background: radial-gradient(50% 50% at 50% 50%, #F4E282 40.62%, rgba(255, 214, 0, 0.6) 100%), #FFEF9C!important;
+  }
+  &__lshift {
+    @include key-special($width: 14.1rem, $color: $color);
+  }
+  &__rshift {
+    @include key-special($width: 11.8rem, $color: $color);
+  }
+  &__lctrl, &__rctrl, &__lalt, &__ralt {
+    @include key-special($width: 7.2rem, $color: $color);
+  }
+  &__lang {
+    @include key-double($width: 7.2rem, $color: $color);
+    background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #E2E2E2;
+  }
+  &__space {
+    @include key-double($width: 40.9rem, $color: $color);
+    &:hover {
+      transform: rotateZ(.15deg)!important;
+    }
+  }
+
+  &#arrow-top {
+    margin: 0 1.5rem;
+  }
+  
+  &__arrtop {
+    position: relative;
+    &:after {
+      content: url(/assets/svg/top.svg);
+      position: absolute;
+    }
+  }
+
+  &__arrleft {
+    position: relative;
+    &:after {
+      content: url(/assets/svg/left.svg);
+      position: absolute;
+      top: .8rem;
+    }
+  }
+  &__arrbot {
+    position: relative;
+    &:after {
+      content: url(/assets/svg/bot.svg);
+      position: absolute;
+      top: .9rem;
+    }
+  }
+  &__arrright {
+    position: relative;
+    &:after {
+      content: url(/assets/svg/right.svg);
+      position: absolute;
+      top: .8rem;
+    }
+  }
+
+
+
+  &:hover {
+    transition: all .2s ease;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.0));
+    background: $keyborder-dark;
+  }
+}
+
