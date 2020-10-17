@@ -8,7 +8,6 @@
   font-family: Roboto;
 }
 
-
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -38,12 +37,14 @@ main {
     max-width: 107.3rem;
     padding: 6rem 1rem 0;
     margin: auto;
+    display: flex;
+    justify-content: center;
   }
 
   .screen {
     @include fontstyle();
     padding: 2.4rem 4rem 4rem 2.8rem;
-    width: 100%;
+    width: 80%;
     min-width: 10rem;
     max-width: 107.3rem;
     height: 30rem;
@@ -68,6 +69,7 @@ main {
     height: 37.8rem;
     min-width: 10rem;
     max-width: 107.3rem;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 
   .key-row {
@@ -91,7 +93,6 @@ main {
       width: 105.5rem;
     }
   }
-
 }
 
 .key-special {
@@ -230,8 +231,6 @@ main {
       top: .8rem;
     }
   }
-
-
 
   &:hover {
     transition: all .2s ease;
