@@ -15,8 +15,6 @@
   box-sizing: border-box;
 }
 
-html {}
-
 textarea {
   resize: none;
   outline: none;
@@ -64,7 +62,7 @@ main {
   .keyboard {
     margin: 4rem auto;
     padding-top: 1.4rem;
-    background: url('/assets/svg/keyboard_skeleton.svg');
+    background: url('../assets/svg/keyboard_skeleton.svg');
     background-size: cover;
     background-repeat: no-repeat;
     height: 37.8rem;
@@ -179,7 +177,7 @@ main {
   &__arrtop {
     position: relative;
     &:after {
-      content: url(/assets/svg/top.svg);
+      content: url(../assets/svg/top.svg);
       position: absolute;
     }
   }
@@ -187,7 +185,7 @@ main {
   &__arrleft {
     position: relative;
     &:after {
-      content: url(/assets/svg/left.svg);
+      content: url(../assets/svg/left.svg);
       position: absolute;
       top: .8rem;
     }
@@ -195,7 +193,7 @@ main {
   &__arrbot {
     position: relative;
     &:after {
-      content: url(/assets/svg/bot.svg);
+      content: url(../assets/svg/bot.svg);
       position: absolute;
       top: .9rem;
     }
@@ -203,7 +201,7 @@ main {
   &__arrright {
     position: relative;
     &:after {
-      content: url(/assets/svg/right.svg);
+      content: url(../assets/svg/right.svg);
       position: absolute;
       top: .8rem;
     }
