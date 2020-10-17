@@ -135,6 +135,10 @@ main {
 
   &__backspace {
     @include key-special($width: 14.5rem, $color: $color);
+    &:after {
+      content: url(../assets/svg/backspace.svg);
+      position: absolute;
+    }
   }
   &__tab {
     @include key-special($width: 8.9rem, $color: $color);
