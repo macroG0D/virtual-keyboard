@@ -159,6 +159,19 @@ main {
   &__lctrl, &__rctrl, &__lalt, &__ralt {
     @include key-special($width: 7.2rem, $color: $color);
   }
+  &__lalt {
+    &:after {
+      content: url(../assets/svg/mute.svg);
+      position: absolute;
+    }
+  }
+  &__ralt {
+    &:after {
+      content: url(../assets/svg/speak.svg);
+      position: absolute;
+    }
+  }
+
   &__lang {
     @include key-double($width: 7.2rem, $color: $color);
     background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #E2E2E2;
