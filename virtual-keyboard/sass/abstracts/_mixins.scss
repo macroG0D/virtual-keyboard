@@ -5,6 +5,37 @@
   line-height: 140%;
 }
 
+
+@mixin active-key () {
+  background: linear-gradient(241deg, #39ffcc, #39d2ff, #ff39c3, #ff3939, #faff39, #25fb0f);
+  background-size: 1200% 1200%;
+  -webkit-animation: gradient-animation 22s ease infinite;
+  -moz-animation: gradient-animation 22s ease infinite;
+  -o-animation: gradient-animation 22s ease infinite;
+  animation: gradient-animation 22s ease infinite;
+  @-webkit-keyframes gradient-animation {
+      0%{background-position:0% 79%}
+      50%{background-position:100% 22%}
+      100%{background-position:0% 79%}
+  }
+  @-moz-keyframes gradient-animation {
+      0%{background-position:0% 79%}
+      50%{background-position:100% 22%}
+      100%{background-position:0% 79%}
+  }
+  @-o-keyframes gradient-animation {
+      0%{background-position:0% 79%}
+      50%{background-position:100% 22%}
+      100%{background-position:0% 79%}
+  }
+  @keyframes gradient-animation {
+      0%{background-position:0% 79%}
+      50%{background-position:100% 22%}
+      100%{background-position:0% 79%}
+  }
+}
+
+
 @mixin key-special ($width: 5rem, $bgcolor: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), $color: #fff) {
   display: flex;
   position: relative;
@@ -19,7 +50,6 @@
   font-size: 1.4rem;
   font-weight: 700;
   color: $color;
-
   &:hover {
     filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.0));
     transform: rotateZ(.5deg);
