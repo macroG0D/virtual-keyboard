@@ -39,6 +39,10 @@ main {
     margin: auto;
     display: flex;
     justify-content: center;
+
+    @media (max-height: 900px) {
+      padding: 2rem 0 0;
+    }
   }
 
   .screen {
@@ -51,13 +55,35 @@ main {
     max-height: 30rem;
     background: rgba(255, 255, 255, .22);
     box-shadow: 0px 4px 30px 2px rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    border-radius: 1rem;
     color: #fff;
+
+    @media (max-height: 900px) {
+      padding: 1rem;
+      max-height: 25rem;
+      width: 100%;
+    }
+
+    @media (max-height: 740px) {
+      padding: 1rem;
+      max-height: 20rem;
+      width: 100%;
+    }
+
+    @media (max-height: 687px) {
+      padding: 1rem;
+      max-height: 15rem;
+      width: 100%;
+    }
   }
 
   .desk-wrapper {
     padding: 0;
     padding-bottom: 6rem;
+
+    @media (max-height: 900px) {
+      padding-bottom: 1rem;
+    }
   }
 
   .keyboard {
@@ -70,6 +96,22 @@ main {
     min-width: 10rem;
     max-width: 107.3rem;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+    @media (max-width: 1140px) {
+      background: rgba(255, 255, 255, 0.589);
+      border-radius: 1.5rem
+    }
+
+    @media (max-height: 687px) {
+      margin-top: 1.5rem;
+    }
+
+    @media (max-height: 612px) {
+      &:nth-child(n) {
+        height: 100%;
+        padding-bottom: 1rem;
+      }
+    }
   }
 
   .key-row {
@@ -77,20 +119,51 @@ main {
     height: 6rem;
     justify-content: space-between;
     margin: 0 auto .8rem auto;
+
     &:first-child {
-      width: 102.3rem;
+      width: 95%;
     }
+
     &:nth-child(2) {
-      width: 103.1rem;
+      width: 96%;
     }
+
     &:nth-child(3) {
-      width: 103.9rem;
+      width: 97%;
     }
+
     &:nth-child(4) {
-      width: 104.7rem;
+      width: 97.5%;
     }
+
     &:last-child {
-      width: 105.5rem;
+      width: 98.2%;
+    }
+
+    @media (max-width: 1140px) {
+      &:nth-child(n) {
+        width: 99%;
+      }
+    }
+
+    @media (max-width: 906px) {
+      justify-content: space-between;
+
+      &:nth-child(n) {
+        width: 99%;
+      }
+    }
+
+    @media (max-height: 612px) {
+      &:nth-child(n) {
+        height: 5.5rem;
+      }
+    }
+
+    @media (max-height: 540px) {
+      &:nth-child(n) {
+        height: 5rem;
+      }
     }
   }
 }
@@ -108,7 +181,6 @@ main {
   @include key-letter();
   background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #F2F2F2;
 }
-
 
 .key {
   display: flex;
@@ -131,46 +203,73 @@ main {
   }
 
   &__escape {
-    background: radial-gradient(50% 50% at 50% 50%, #FF7563 0%, #F16552 100%), #F16552!important
+    background: radial-gradient(50% 50% at 50% 50%, #FF7563 0%, #F16552 100%), #F16552 !important;
+
+    @media (max-width: 1140px) {
+      width: 5rem;
+    }
   }
 
   &__backspace {
     @include key-special($width: 14.5rem, $color: $color);
+
     &:after {
       content: url(../assets/svg/backspace.svg);
       position: absolute;
     }
+
+    @media (max-width: 1140px) {
+      width: 10rem;
+
+      &:after {
+        content: url(../assets/svg/backspace-small.svg);
+        position: absolute;
+      }
+    }
   }
+
   &__tab {
     @include key-special($width: 8.9rem, $color: $color);
   }
+
   &__backslash {
     @include key-double($width: 11.4rem, $color: $color);
     background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #E2E2E2;
-  } 
+  }
+
   &__caps {
     @include key-special($width: 11.4rem, $color: $color);
   }
+
   &__enter {
     @include key-special($width: 16.9rem, $color: $color);
-    background: radial-gradient(50% 50% at 50% 50%, #F4E282 40.62%, rgba(255, 214, 0, 0.6) 100%), #FFEF9C!important;
+    // background: radial-gradient(50% 50% at 50% 50%, #F4E282 40.62%, rgba(255, 214, 0, 0.6) 100%), #FFEF9C !important; // yellow-key
+    background: radial-gradient(50% 50% at 50% 50%, #82f49b 40.62%, rgba(0, 255, 85, 0.541) 100%), #79e490 !important; //green-key
   }
+
   &__lshift {
     @include key-special($width: 14.1rem, $color: $color);
   }
+
   &__rshift {
     @include key-special($width: 11.8rem, $color: $color);
   }
-  &__lctrl, &__rctrl, &__lalt, &__ralt {
+
+  &__lctrl,
+  &__rctrl,
+  &__mute,
+  &__speak {
     @include key-special($width: 7.2rem, $color: $color);
   }
-  &__lalt {
+
+  &__mute {
     &:after {
       content: url(../assets/svg/mute.svg);
       position: absolute;
     }
   }
-  &__ralt {
+
+  &__speak {
     &:after {
       content: url(../assets/svg/speak.svg);
       position: absolute;
@@ -181,8 +280,10 @@ main {
     @include key-double($width: 7.2rem, $color: $color);
     background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #E2E2E2;
   }
+
   &__space {
-    @include key-double($width: 40.9rem, $color: $color);
+    @include key-special($width: 40.9rem, $color: $color);
+
     &:after {
       content: "";
       position: absolute;
@@ -190,45 +291,93 @@ main {
       height: 0.2rem;
       background: $color;
     }
+
     &:hover {
-      transform: rotateZ(.15deg)!important;
+      transform: rotateZ(.15deg) !important;
+    }
+
+    @media (max-width: 1140px) {
+      width: 25rem;
     }
   }
 
-  &#arrow-top {
-    margin: 0 1.5rem;
-  }
-  
   &__arrtop {
     position: relative;
+
     &:after {
-      content: url(../assets/svg/top.svg);
+      content: "";
+      background-image: url('../assets/svg/top.svg');
+      background-size: 100% 100%;
+      width: 100%;
+      height: 100%;
       position: absolute;
+      top: .2rem;
+
+      @media (max-width: 650px) {
+        width: 80%;
+        height: 80%;
+        top: .7rem;
+      }
     }
   }
 
   &__arrleft {
     position: relative;
+
     &:after {
-      content: url(../assets/svg/left.svg);
+      content: "";
+      background-image: url('../assets/svg/left.svg');
+      background-size: 100% 100%;
+      width: 100%;
+      height: 100%;
       position: absolute;
-      top: .8rem;
+      top: .2rem;
+
+      @media (max-width: 650px) {
+        width: 80%;
+        height: 80%;
+        top: .7rem;
+      }
     }
   }
+
   &__arrbot {
     position: relative;
+
     &:after {
-      content: url(../assets/svg/bot.svg);
+      content: "";
+      background-image: url('../assets/svg/bot.svg');
+      background-size: 100% 100%;
+      width: 100%;
+      height: 100%;
       position: absolute;
-      top: .9rem;
+      top: .2rem;
+
+      @media (max-width: 650px) {
+        width: 80%;
+        height: 80%;
+        top: .7rem;
+      }
     }
   }
+
   &__arrright {
     position: relative;
+
     &:after {
-      content: url(../assets/svg/right.svg);
+      content: "";
+      background-image: url('../assets/svg/right.svg');
+      background-size: 100% 100%;
+      width: 100%;
+      height: 100%;
       position: absolute;
-      top: .8rem;
+      top: .2rem;
+
+      @media (max-width: 650px) {
+        width: 80%;
+        height: 80%;
+        top: .7rem;
+      }
     }
   }
 
@@ -239,3 +388,107 @@ main {
   }
 }
 
+// desk background — bottom dark gradient
+.desk {
+  background: linear-gradient(180deg, rgba(0, 26, 255, 0) 0%, #2E1C60 100%);
+  opacity: 0.8;
+  position: absolute;
+  width: 100%;
+  min-height: 50%;
+  left: 0;
+  bottom: 0;
+}
+
+// to change top arrow order on adaptation 
+#beforeArr {
+  @media (max-width: 1140px) {
+    order: 1;
+  }
+
+  @media (max-width: 906px) {
+    width: 7rem;
+  }
+
+  @media (max-width: 740px) {
+    width: 8%;
+  }
+}
+
+// micro-adaptive settings
+.rshift-wrapper {
+  @media (max-width: 1140px) {
+    order: 1;
+  }
+
+  @media (max-width: 989px) {
+    display: none;
+  }
+}
+
+.rctrl-wrapper {
+  @media (max-width: 989px) {
+    display: none;
+  }
+}
+
+.letter-wrapper,
+.num-wrapper {
+  @media (max-width: 906px) {
+    width: 7%;
+  }
+
+  @media (max-width: 650px) {
+    width: 6%;
+  }
+}
+
+.space-wrapper {
+  @media (max-width: 906px) {
+    width: 22%;
+  }
+}
+
+.tab-wrapper,
+.caps-wrapper,
+.lshift-wrapper,
+.lctrl-wrapper,
+.backspace-wrapper {
+  @media (max-width: 906px) {
+    max-width: 6rem;
+  }
+
+}
+
+.arrow-wrapper {
+  @media (max-width: 620px) {
+    width: 8%;
+  }
+}
+
+#arrow-top {
+  margin: 0 1.5rem;
+
+  @media (max-width: 1140px) {
+    margin: 0;
+  }
+
+  @media (max-width: 1079px) {
+    margin: 0 -.3% 0 0;
+  }
+
+  @media (max-width: 906px) {
+    margin: 0 1.4% 0 0;
+  }
+
+  @media (max-width: 860px) {
+    margin: 0 .2% 0 0;
+  }
+
+  @media (max-width: 740px) {
+    margin: 0 2.1% 0 0;
+  }
+
+  @media (max-width: 620px) {
+    margin: 0;
+  }
+}
