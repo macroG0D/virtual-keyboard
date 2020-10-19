@@ -201,16 +201,22 @@ keyboard.inputKeys.forEach(key => {
 
 // backspace delete button method
 let mousedownID = 1; // set default mousedownID for repeatable delete method
+let timeout = 1; // set default timeout
 keyboard.backspace.addEventListener('mousedown', function () {
   keyboard.keydownSound(keyboard.backspace);
   keyboard.delete(); // delete first char
-  if (mousedownID === 1) { // if backspace is pressed repeat delete method while mouseup 
-    mousedownID = setInterval(() => keyboard.delete(), 100);
-  }
+  timeout = setTimeout(function(){ // add .5s before starting repeatable removing
+    if (mousedownID === 1) { // if backspace is pressed repeat delete method while mouseup 
+      mousedownID = setInterval(() => keyboard.delete(), 80);
+    }
+  }, 500);
+
 });
 keyboard.backspace.addEventListener('mouseup', function () {
+  clearTimeout(timeout);
   clearInterval(mousedownID); // stop repeat delete method when mouseup
   mousedownID = 1; // set mousedownID to default
+  timeout = 1;
   keyboard.keyupSound(keyboard.backspace);
 });
 
