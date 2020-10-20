@@ -4,11 +4,27 @@ class virtualKeyboard {
     this.shiftOn = false;
     this.mute = false;
     this.speak = false;
-    this.lang = 'en';
+    this.lang = 'En';
+
+    this.langKeysEn = {
+      'numbers': [['!', '1'], ['@', '2'], ['#', '3'], ['$', '4'], ['%', '5'], ['^', '6'], ['&', '7'], ['*', '8'], ['(', '9'], [')', '0'], ['_', '-'], ['+', '='],],
+      0: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', ['{', '['], ['}', ']'], ['|', '\\']],
+      1: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', [':', ';'], ['"', '\'']],
+      2: ['z', 'x', 'c', 'v', 'b', 'n', 'm', ['<', ','], ['>', '.'], ['?', '/']],
+    };
+
+    this.langKeysRu = {
+      'numbers': [['!', '1'], ['"', '2'], ['№', '3'], [';', '4'], ['%', '5'], [':', '6'], ['?', '7'], ['*', '8'], ['(', '9'], [')', '0'], ['_', '-'], ['+', '='],],
+      0: ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', ['/', '\\']],
+      1: ['ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э'],
+      2: ['я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ['/', '\\'], [',', '.']],
+    };
 
     this.screen = document.querySelector('.screen');
     this.keyboard = document.querySelector('.keyboard');
+    this.keyRows = document.querySelectorAll('.key-row');
     this.esc = document.querySelector('.key__escape');
+    this.langKey = document.querySelector('.key__lang');
     this.inputKeys = document.querySelectorAll('.key-input');
     this.letters = document.querySelectorAll('.key-letter');
     this.numbers = document.querySelectorAll('.key-number');
@@ -17,7 +33,76 @@ class virtualKeyboard {
     this.mutekey = document.querySelector('.key__mute');
     this.shiftkey = document.querySelectorAll('.key-special[data="shift"]');
     this.capsKey = document.querySelector('.key__caps');
+    this.arrows = document.querySelectorAll('.key-arrow');
+    this.init(this.lang);
+  }
 
+  init(lang) {
+
+    let langObj;
+    if (lang === 'En') {
+      langObj = this.langKeysEn;
+    } else if (lang === 'Ru') {
+      langObj = this.langKeysRu;
+    }
+
+    if (this.shiftOn || this.capsOn) {
+      let i = 0;
+      while (i < 3) {
+        langObj[i].forEach((item, index) => {
+          if (item.length === 1) {
+            langObj[i][index] = item.toLocaleUpperCase();
+          }
+        });
+        i++;
+      }
+    } else {
+      let i = 0;
+      while (i < 3) {
+        langObj[i].forEach((item, index) => {
+          if (item.length === 1) {
+            langObj[i][index] = item.toLowerCase();
+          }
+        });
+        i++;
+      }
+    }
+
+    let count = 0;
+    // change digits-symbols
+    this.numbers.forEach(elem => {
+      if (this.shiftOn) { // if on lang change shift is on, switch the new numbers  
+        elem.querySelector('.first').innerText = langObj.numbers[count][1];
+        elem.querySelector('.second').innerText = langObj.numbers[count][0];
+        elem.setAttribute('data', elem.querySelector('.first').innerText);
+      } else {
+        elem.querySelector('.first').innerText = langObj.numbers[count][0];
+        elem.querySelector('.second').innerText = langObj.numbers[count][1];
+        elem.setAttribute('data', elem.querySelector('.second').innerText); // change num symbols 
+      }
+      count++;
+    });
+
+    let row = 0;
+    for (let i = 1; i < 4; i++) {
+
+      count = 1;
+      for (let key of this.keyRows[i].children) {
+        if (key.children[0].classList.contains('key-switchable')) {
+          if (langObj[row][count - 1].length === 1) {
+            key.children[0].innerHTML = `<div class="key-input key-letter key-switchable" data="${langObj[row][count - 1]}">${langObj[row][count - 1]}</div>`;
+            key.children[0].setAttribute('data', key.children[0].innerText);
+          }
+          else { // if dobule
+            key.children[0].innerHTML = `<span class="symbols"><span class="first">${langObj[row][count - 1][0]}</span><span class="second">${langObj[row][count - 1][1]}</span></span>`;
+            key.children[0].setAttribute('data', key.children[0].querySelector('.second').innerText);
+          }
+          count++;
+        }
+      }
+      row++;
+    }
+    this.letters = document.querySelectorAll('.key-letter');
   }
 
   escape() { // hide keyboard
@@ -34,9 +119,23 @@ class virtualKeyboard {
   }
 
   input(char) {
-    this.screen.value += char;
-    addEventListener('mouseup', function () {
-    });
+    if (this.shiftOn || this.capsOn) {
+      char = char.toUpperCase();
+    }
+    let currentPosition = this.screen.selectionStart;
+    console.log(currentPosition);
+    if (currentPosition !== this.screen.value.length) {
+      let valBefore = this.screen.value.substring(0, currentPosition)
+      let valAfter = this.screen.value.substring(currentPosition)
+      valBefore += char;
+      let result = valBefore+valAfter;
+      this.screen.value = result;
+      keyboard.screen.setSelectionRange(valBefore.length, valBefore.length);
+    } else {
+      this.screen.value += char;
+      addEventListener('mouseup', function () {
+      });
+    }
   }
 
   keydownSound(key) {
@@ -53,7 +152,7 @@ class virtualKeyboard {
     } else {
       audio = new Audio('../assets/sound/tap-set-normal-down.wav');
     }
-    audio.volume = 0.2;
+    audio.volume = 0.5;
     audio.play();
   }
 
@@ -72,13 +171,23 @@ class virtualKeyboard {
     } else {
       audio = new Audio('../assets/sound/tap-set-normal-up.wav');
     }
-    audio.volume = 0.2;
+    audio.volume = 0.5;
     audio.play();
   }
 
   delete() {
+    let currentPosition = this.screen.selectionStart;
+    if (currentPosition !== this.screen.value.length) {
+      let valBefore = this.screen.value.substring(0, currentPosition);
+      let valAfter = this.screen.value.substring(currentPosition);
+      valBefore = valBefore.slice(0, valBefore.length-1);
+      let result = valBefore+valAfter;
+      this.screen.value = result;
+      keyboard.screen.setSelectionRange(valBefore.length, valBefore.length);
+      console.log(currentPosition);
+    } else {
     this.screen.value = this.screen.value.slice(0, this.screen.value.length - 1);
-
+    }
   }
 
   shift() {
@@ -89,10 +198,14 @@ class virtualKeyboard {
       elem.setAttribute('data', elem.querySelector('.second').innerText); // change num symbols
     });
     this.extras.forEach(extra => {
-      let temp = extra.querySelector('.first').innerText;
-      extra.querySelector('.first').innerText = extra.querySelector('.second').innerText;
-      extra.querySelector('.second').innerText = temp;
-      extra.setAttribute('data', extra.querySelector('.second').innerText); // change num symbols
+
+      try {
+        let temp = extra.querySelector('.first').innerText;
+        extra.querySelector('.first').innerText = extra.querySelector('.second').innerText;
+        extra.querySelector('.second').innerText = temp;
+        extra.setAttribute('data', extra.querySelector('.second').innerText); // change num symbols
+
+      } catch (e) { }
     });
     if (!this.shiftOn) {
       this.keydownSound();
@@ -100,7 +213,7 @@ class virtualKeyboard {
       this.shiftkey.forEach(function (shift) {
         shift.classList.add('key__pressed');
         shift.parentElement.classList.add('key__active-grad');
-      });      
+      });
       this.letters.forEach(elem => {
         elem.innerText = elem.innerText.toUpperCase();
         elem.setAttribute('data', elem.innerText.toUpperCase());
@@ -139,11 +252,11 @@ class virtualKeyboard {
       this.capsKey.classList.remove('key__pressed');
       this.capsKey.parentElement.classList.remove('key__active-grad');
       if (!this.shiftOn) {
-      this.letters.forEach(elem => {
-        elem.innerText = elem.innerText.toLowerCase();
-        elem.setAttribute('data', elem.innerText.toLowerCase());
-      });
-    }
+        this.letters.forEach(elem => {
+          elem.innerText = elem.innerText.toLowerCase();
+          elem.setAttribute('data', elem.innerText.toLowerCase());
+        });
+      }
     }
   }
 
@@ -161,13 +274,67 @@ class virtualKeyboard {
 
   }
 
-  lang() {
+  langSwitch() {
+    this.keydownSound();
+    if (this.lang === 'En') {
+      this.lang = 'Ru';
+    } else {
+      this.lang = 'En';
+    }
+    // switch text on key
+    let temp = this.langKey.children[0].children[0].innerText;
+    this.langKey.children[0].children[0].innerText = this.langKey.children[0].children[1].innerText.toLowerCase();
+    this.langKey.children[0].children[1].innerText = temp.toUpperCase();
+    // init keyboard with new lang
+    this.init(this.lang);
+  }
+
+  arrowsAction(dir) {
+    let currentPosition = this.screen.selectionStart;
+    console.log(this.screen.clientWidth)
+    let screenWidth = this.screen.clientWidth -20;
+    let longestLine = screenWidth/7.97;
+    let screenVal = this.screen.value;
+
+    if (dir === 'right') {
+      currentPosition++;
+      keyboard.screen.setSelectionRange(currentPosition, currentPosition);
+    } else if (dir === 'left') {
+      if (currentPosition > 0) {
+        currentPosition--;
+        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
+      }
+    } else if (dir === 'bottom') {
+      if (screenVal.length < longestLine) {
+        currentPosition = screenVal.length;
+        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
+      } else {
+        currentPosition += longestLine;
+        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
+      }
+    }else if (dir === 'top') {
+      if (screenVal.length < longestLine) {
+        currentPosition = 0;
+        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
+      } else {
+        currentPosition -= longestLine;
+        keyboard.screen.setSelectionRange(currentPosition, currentPosition); 
+    }
+  }
+
+
+    this.screen.focus();
 
   }
 
-  arrows() {
+  // inputselection(dir) {
+  //   console.log(dir)
 
-  }
+
+  //   this.screen.setSelectionRange(currentPosition, 2);
+  //   this.screen.focus();
+
+  // }
 
   typein() {
     // type from real keyboard
@@ -178,6 +345,7 @@ class virtualKeyboard {
 
 // create keyboard object
 const keyboard = new virtualKeyboard();
+// keyboard.inputselection();
 
 // hide & show methods calls
 keyboard.esc.addEventListener('click', () => {
@@ -205,7 +373,7 @@ let timeout = 1; // set default timeout
 keyboard.backspace.addEventListener('mousedown', function () {
   keyboard.keydownSound(keyboard.backspace);
   keyboard.delete(); // delete first char
-  timeout = setTimeout(function(){ // add .5s before starting repeatable removing
+  timeout = setTimeout(function () { // add .5s delay before starting repeatable removing
     if (mousedownID === 1) { // if backspace is pressed repeat delete method while mouseup 
       mousedownID = setInterval(() => keyboard.delete(), 80);
     }
@@ -235,4 +403,26 @@ keyboard.shiftkey.forEach(shift => {
 //caps
 keyboard.capsKey.addEventListener('mousedown', function () {
   keyboard.caps();
+});
+
+//change lang
+keyboard.langKey.addEventListener('mousedown', () => {
+  keyboard.langSwitch();
+});
+
+keyboard.langKey.addEventListener('mouseup', () => {
+  keyboard.keyupSound();
+});
+
+
+
+keyboard.arrows.forEach(arrow => {
+  arrow.onmosedown = () => { keyboard.keyupSound() };
+  arrow.addEventListener('mousedown', () => {
+    keyboard.keydownSound();
+  });
+  arrow.addEventListener('click', () => {
+    keyboard.arrowsAction(arrow.getAttribute('data'));
+    keyboard.keyupSound();
+  });
 });
