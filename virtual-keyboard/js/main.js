@@ -163,13 +163,13 @@ class virtualKeyboard {
     }
     let audio = new Audio();
     if (key === undefined) {
-      audio = new Audio('../assets/sound/tap-set-normal-down.wav');
+      audio = new Audio('./assets/sound/tap-set-normal-down.wav');
     } else if (key.innerText === 'ENTER') {
-      audio = new Audio('../assets/sound/tap-set-enter-down.wav');
+      audio = new Audio('./assets/sound/tap-set-enter-down.wav');
     } else if (key.classList.contains('key__space')) {
-      audio = new Audio('../assets/sound/tap-set-space-down.wav');
+      audio = new Audio('./assets/sound/tap-set-space-down.wav');
     } else {
-      audio = new Audio('../assets/sound/tap-set-normal-down.wav');
+      audio = new Audio('./assets/sound/tap-set-normal-down.wav');
     }
     audio.volume = 0.5;
     audio.play();
@@ -182,13 +182,13 @@ class virtualKeyboard {
     }
     let audio = new Audio();
     if (key === undefined) {
-      audio = new Audio('../assets/sound/tap-set-normal-up.wav');
+      audio = new Audio('./assets/sound/tap-set-normal-up.wav');
     } else if (key.innerText === 'ENTER') {
-      audio = new Audio('../assets/sound/tap-set-enter-up.wav');
+      audio = new Audio('./assets/sound/tap-set-enter-up.wav');
     } else if (key.classList.contains('key__space')) {
-      audio = new Audio('../assets/sound/tap-set-space-up.wav');
+      audio = new Audio('./assets/sound/tap-set-space-up.wav');
     } else {
-      audio = new Audio('../assets/sound/tap-set-normal-up.wav');
+      audio = new Audio('./assets/sound/tap-set-normal-up.wav');
     }
     audio.volume = 0.5;
     audio.play();
