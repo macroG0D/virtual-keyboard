@@ -313,7 +313,7 @@ class virtualKeyboard {
 
   arrowsAction(dir) {
     let currentPosition = this.screen.selectionStart;
-    console.log(this.screen.clientWidth)
+    // console.log(this.screen.clientWidth)
     let screenWidth = this.screen.clientWidth - 20;
     let longestLine = screenWidth / 7.97;
     let screenVal = this.screen.value;
@@ -505,7 +505,7 @@ document.addEventListener('keydown', e => {
     return;
   }
 
-  console.log(e.code);
+  // console.log(e.code);
   // CAPS LOCK
   if (e.code === 'CapsLock') {
     keyboard.caps();
