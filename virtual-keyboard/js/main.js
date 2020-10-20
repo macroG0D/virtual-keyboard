@@ -5,6 +5,9 @@ class virtualKeyboard {
     this.mute = false;
     this.speak = false;
     this.lang = 'En';
+    this.allSelected = false;
+    this.selectionEnd = 0;
+    this.escaped = false;
 
     this.langKeysEn = {
       'numbers': [['!', '1'], ['@', '2'], ['#', '3'], ['$', '4'], ['%', '5'], ['^', '6'], ['&', '7'], ['*', '8'], ['(', '9'], [')', '0'], ['_', '-'], ['+', '='],],
@@ -17,7 +20,7 @@ class virtualKeyboard {
       'numbers': [['!', '1'], ['"', '2'], ['№', '3'], [';', '4'], ['%', '5'], [':', '6'], ['?', '7'], ['*', '8'], ['(', '9'], [')', '0'], ['_', '-'], ['+', '='],],
       0: ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', ['/', '\\']],
       1: ['ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э'],
-      2: ['я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ['/', '\\'], [',', '.']],
+      2: ['я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', [',', '.']],
     };
 
     this.screen = document.querySelector('.screen');
@@ -106,12 +109,14 @@ class virtualKeyboard {
   }
 
   escape() { // hide keyboard
+    this.escaped = true;
     this.keyboard.classList.add('keyboard__hidden');
     this.screen.style.maxHeight = '80vh';
     this.screen.style.height = '80vh';
     document.querySelector('body').style.overflow = 'hidden';
   }
   show() { // show keyboard
+    this.escaped = false;
     this.keyboard.classList.remove('keyboard__hidden');
     this.screen.style.maxHeight = '25rem';
     this.screen.style.height = '25rem';
@@ -122,20 +127,34 @@ class virtualKeyboard {
     if (this.shiftOn || this.capsOn) {
       char = char.toUpperCase();
     }
+
+    if (this.allSelected) {
+      this.allSelected = false;
+      this.screen.value = char;
+      return;
+    }
+
     let currentPosition = this.screen.selectionStart;
-    console.log(currentPosition);
     if (currentPosition !== this.screen.value.length) {
       let valBefore = this.screen.value.substring(0, currentPosition)
       let valAfter = this.screen.value.substring(currentPosition)
       valBefore += char;
-      let result = valBefore+valAfter;
+      let result = valBefore + valAfter;
       this.screen.value = result;
-      keyboard.screen.setSelectionRange(valBefore.length, valBefore.length);
+      this.screen.setSelectionRange(valBefore.length, valBefore.length);
     } else {
       this.screen.value += char;
       addEventListener('mouseup', function () {
       });
     }
+    this.screen.blur();
+    this.screen.focus();
+  }
+
+  selectAll() {
+    this.allSelected = true;
+    this.selectionEnd = this.screen.value.length;
+    this.screen.setSelectionRange(this.selectionStart, this.selectionEnd);
   }
 
   keydownSound(key) {
@@ -176,17 +195,20 @@ class virtualKeyboard {
   }
 
   delete() {
+    if (this.allSelected === true) {
+      this.screen.value = '';
+      this.allSelected = false;
+    }
     let currentPosition = this.screen.selectionStart;
     if (currentPosition !== this.screen.value.length) {
       let valBefore = this.screen.value.substring(0, currentPosition);
       let valAfter = this.screen.value.substring(currentPosition);
-      valBefore = valBefore.slice(0, valBefore.length-1);
-      let result = valBefore+valAfter;
+      valBefore = valBefore.slice(0, valBefore.length - 1);
+      let result = valBefore + valAfter;
       this.screen.value = result;
       keyboard.screen.setSelectionRange(valBefore.length, valBefore.length);
-      console.log(currentPosition);
     } else {
-    this.screen.value = this.screen.value.slice(0, this.screen.value.length - 1);
+      this.screen.value = this.screen.value.slice(0, this.screen.value.length - 1);
     }
   }
 
@@ -292,8 +314,8 @@ class virtualKeyboard {
   arrowsAction(dir) {
     let currentPosition = this.screen.selectionStart;
     console.log(this.screen.clientWidth)
-    let screenWidth = this.screen.clientWidth -20;
-    let longestLine = screenWidth/7.97;
+    let screenWidth = this.screen.clientWidth - 20;
+    let longestLine = screenWidth / 7.97;
     let screenVal = this.screen.value;
 
     if (dir === 'right') {
@@ -312,32 +334,19 @@ class virtualKeyboard {
         currentPosition += longestLine;
         keyboard.screen.setSelectionRange(currentPosition, currentPosition);
       }
-    }else if (dir === 'top') {
+    } else if (dir === 'top') {
       if (screenVal.length < longestLine) {
+        currentPosition = 0;
+        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
+      } else if (currentPosition < longestLine) {
         currentPosition = 0;
         keyboard.screen.setSelectionRange(currentPosition, currentPosition);
       } else {
         currentPosition -= longestLine;
-        keyboard.screen.setSelectionRange(currentPosition, currentPosition); 
+        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
+      }
     }
-  }
-
-
     this.screen.focus();
-
-  }
-
-  // inputselection(dir) {
-  //   console.log(dir)
-
-
-  //   this.screen.setSelectionRange(currentPosition, 2);
-  //   this.screen.focus();
-
-  // }
-
-  typein() {
-    // type from real keyboard
   }
 
 }
@@ -426,3 +435,142 @@ keyboard.arrows.forEach(arrow => {
     keyboard.keyupSound();
   });
 });
+
+
+// prevent direct phisical keyboard input in textarea
+keyboard.screen.addEventListener('keydown', e => {
+  e.preventDefault();
+});
+
+function pressKey(selector) {
+  document.querySelector(`.${selector}`).classList.add('physicalPress');
+}
+
+function freeKey(selector) {
+  document.querySelector(`.${selector}`).classList.remove('physicalPress');
+}
+
+let keyActive;
+document.addEventListener('keydown', e => {
+
+  // SWITCH LANG COMBO
+  if (e.shiftKey && e.altKey) {
+    keyboard.langSwitch();
+    return;
+  }
+
+  // ESCAPE
+  if (e.code === 'Escape') {
+    if (!keyboard.escaped) {
+      keyboard.escape();
+      keyboard.keyupSound(keyActive);
+    } else {
+      keyboard.keyupSound(keyActive);
+      keyboard.show();
+    }
+  }
+
+  // ARROWS
+  if (e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+    keyboard.keydownSound(keyActive);
+    if (e.code === 'ArrowLeft') {
+      keyboard.arrowsAction('left');
+    }
+    if (e.code === 'ArrowRight') {
+      keyboard.arrowsAction('right');
+    }
+    if (e.code === 'ArrowUp') {
+      keyboard.arrowsAction('top');
+    }
+    if (e.code === 'ArrowDown') {
+      keyboard.arrowsAction('bottom');
+    }
+    return;
+  }
+
+  // BACKSPACE
+  if (e.code === 'Backspace') {
+    document.querySelector('.backspace-wrapper').classList.add('hoverEffect');
+  }
+
+  if (e.ctrlKey || e.code === 'ControlLeft' || e.code === 'ControlRight') {
+    pressKey('key__rctrl');
+    pressKey('key__lctrl');
+    keyboard.keydownSound(keyActive);
+  }
+
+  // SELECT ALL
+  if (e.ctrlKey && e.code === 'KeyA') {
+    keyboard.selectAll();
+    return;
+  }
+
+  console.log(e.code);
+  // CAPS LOCK
+  if (e.code === 'CapsLock') {
+    keyboard.caps();
+  }
+
+  if (e.code === 'Backspace') {
+    keyboard.keydownSound(keyActive);
+    keyboard.delete();
+    return;
+  }
+  if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+    keyboard.shift();
+  }
+  // console.log(e.code);
+
+
+  keyboard.inputKeys.forEach(key => {
+    if (e.code === key.getAttribute('key')) {
+      keyActive = key;
+      keyboard.keydownSound(keyActive);
+      keyboard.input(key.getAttribute('data'), key);
+      key.parentElement.classList.add('hoverEffect');
+      if (key.children.length > 0) {
+        key.firstChild.classList.add('physicalPress');
+      } else {
+        key.classList.add('physicalPress');
+      }
+    }
+  });
+});
+
+document.addEventListener('keyup', e => {
+
+
+  if (e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+    keyboard.keyupSound(keyActive);
+    return;
+  }
+
+  if (e.ctrlKey || e.code === 'ControlLeft' || e.code === 'ControlRight') {
+    freeKey('key__lctrl');
+    freeKey('key__rctrl');
+    keyboard.keyupSound(keyActive);
+  }
+
+  // BACKSPACE KEYUP
+  if (e.code === 'Backspace') {
+    document.querySelector('.backspace-wrapper').classList.remove('hoverEffect');
+    keyboard.keyupSound(keyActive);
+    return;
+  }
+
+
+
+  keyboard.inputKeys.forEach(key => {
+    if (e.code === key.getAttribute('key')) {
+      key.parentElement.classList.remove('hoverEffect');
+      keyboard.keyupSound(keyActive);
+      if (key.children.length > 0) {
+        key.firstChild.classList.remove('physicalPress');
+      } else {
+        key.classList.remove('physicalPress');
+      }
+    }
+  });
+});
+
+
