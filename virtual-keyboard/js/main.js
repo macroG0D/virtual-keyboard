@@ -459,13 +459,16 @@ keyboard.backspace.addEventListener('mousedown', function () {
     }
   }, 500);
 });
-keyboard.backspace.addEventListener('mouseup', function () {
+
+function leaveDelete () {
   clearTimeout(timeout);
   clearInterval(mousedownID); // stop repeat delete method when mouseup
   mousedownID = 1; // set mousedownID to default
   timeout = 1;
   keyboard.keyupSound(keyboard.backspace);
-});
+}
+keyboard.backspace.addEventListener('mouseup', leaveDelete);
+keyboard.backspace.addEventListener('mouseleave', leaveDelete);
 
 // mute and unmute keyboard sounds
 keyboard.mutekey.addEventListener('click', function () {
