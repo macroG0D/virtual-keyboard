@@ -52,13 +52,30 @@ main {
     width: 80%;
     min-width: 10rem;
     max-width: 107.3rem;
-    height: 25rem;
-    max-height: 25rem;
+    height: 30rem;
+    max-height: 30rem;
     background: rgba(255, 255, 255, .22);
     box-shadow: 0px 4px 30px 2px rgba(255, 255, 255, 0.2);
     border-radius: 1rem;
     color: #fff;
     transition: all .4s;
+    &::placeholder {
+      color: hsla(0, 0%, 100%, 0.767);
+      font-size: 1.6rem;
+    }
+    &::-webkit-scrollbar {
+      width: 1.4rem;
+    }
+    
+    &::-webkit-scrollbar-track {
+        // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: rgba(255, 255, 255, 0.212);
+      }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(51, 255, 153, 0.89);
+      border-radius: 5rem;
+    }
 
     @media (max-height: 900px) {
       padding: 1rem;
@@ -67,15 +84,11 @@ main {
     }
 
     @media (max-height: 740px) {
-      padding: 1rem;
       max-height: 20rem;
-      width: 100%;
     }
 
     @media (max-height: 687px) {
-      padding: 1rem;
-      max-height: 15rem;
-      width: 100%;
+      max-height: 15rem;  
     }
   }
 
@@ -544,6 +557,6 @@ main {
   background: $keyborder-dark;
 }
 
-.physicalPress {
+.highlighted {
   color: #00ff77cc;
 }

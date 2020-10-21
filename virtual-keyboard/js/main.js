@@ -3,10 +3,8 @@ class virtualKeyboard {
     this.capsOn = false;
     this.shiftOn = false;
     this.mute = false;
-    this.speak = false;
+    this.speakActive = false;
     this.lang = 'En';
-    this.allSelected = false;
-    this.selectionEnd = 0;
     this.escaped = false;
 
     this.langKeysEn = {
@@ -34,7 +32,9 @@ class virtualKeyboard {
     this.extras = document.querySelectorAll('.key-extra');
     this.backspace = document.querySelector('.key__backspace');
     this.mutekey = document.querySelector('.key__mute');
+    this.speakKey = document.querySelector('.key__speak');
     this.shiftkey = document.querySelectorAll('.key-special[data="shift"]');
+    this.ctrlKeys = document.querySelectorAll('.ctrlKeys');
     this.capsKey = document.querySelector('.key__caps');
     this.arrows = document.querySelectorAll('.key-arrow');
     this.init(this.lang);
@@ -117,9 +117,21 @@ class virtualKeyboard {
   }
   show() { // show keyboard
     this.escaped = false;
+
+    let screenHeight;
+    if (window.innerHeight > 901) {
+      screenHeight = '30rem';
+    } else if (window.innerHeight >= 900) {
+      screenHeight = '25rem';
+    } else if (window.innerHeight >= 740) {
+      screenHeight = '25rem';
+    } else if (window.innerHeight <= 687) {
+      screenHeight = '15rem';
+    }
+
     this.keyboard.classList.remove('keyboard__hidden');
-    this.screen.style.maxHeight = '25rem';
-    this.screen.style.height = '25rem';
+    this.screen.style.maxHeight = screenHeight;
+    this.screen.style.height = screenHeight;
     document.querySelector('body').style.overflow = 'visible';
   }
 
@@ -128,16 +140,12 @@ class virtualKeyboard {
       char = char.toUpperCase();
     }
 
-    if (this.allSelected) {
-      this.allSelected = false;
-      this.screen.value = char;
-      return;
-    }
+    let currentPositionStart = this.screen.selectionStart;
+    let currentPositionEnd = this.screen.selectionEnd;
 
-    let currentPosition = this.screen.selectionStart;
-    if (currentPosition !== this.screen.value.length) {
-      let valBefore = this.screen.value.substring(0, currentPosition)
-      let valAfter = this.screen.value.substring(currentPosition)
+    if (currentPositionStart !== this.screen.value.length) {
+      let valBefore = this.screen.value.substring(0, currentPositionStart);
+      let valAfter = this.screen.value.substring(currentPositionEnd);
       valBefore += char;
       let result = valBefore + valAfter;
       this.screen.value = result;
@@ -152,7 +160,6 @@ class virtualKeyboard {
   }
 
   selectAll() {
-    this.allSelected = true;
     this.selectionEnd = this.screen.value.length;
     this.screen.setSelectionRange(this.selectionStart, this.selectionEnd);
   }
@@ -195,18 +202,21 @@ class virtualKeyboard {
   }
 
   delete() {
-    if (this.allSelected === true) {
-      this.screen.value = '';
-      this.allSelected = false;
-    }
-    let currentPosition = this.screen.selectionStart;
-    if (currentPosition !== this.screen.value.length) {
-      let valBefore = this.screen.value.substring(0, currentPosition);
-      let valAfter = this.screen.value.substring(currentPosition);
-      valBefore = valBefore.slice(0, valBefore.length - 1);
-      let result = valBefore + valAfter;
-      this.screen.value = result;
-      keyboard.screen.setSelectionRange(valBefore.length, valBefore.length);
+    let currentPositionStart = this.screen.selectionStart;
+    let currentPositionEnd = this.screen.selectionEnd;
+    let valBefore;
+
+    if (currentPositionStart !== this.screen.value.length) {
+      if (currentPositionStart !== currentPositionEnd) {
+        valBefore = this.screen.value.substring(0, currentPositionStart+1);
+      } else {
+        valBefore = this.screen.value.substring(0, currentPositionStart);
+      }
+      let valAfter = this.screen.value.substring(currentPositionEnd);
+        valBefore = valBefore.slice(0, valBefore.length - 1);
+        let result = valBefore + valAfter;
+        this.screen.value = result;
+        keyboard.screen.setSelectionRange(valBefore.length, valBefore.length);
     } else {
       this.screen.value = this.screen.value.slice(0, this.screen.value.length - 1);
     }
@@ -294,6 +304,41 @@ class virtualKeyboard {
   }
   speak() {
 
+    keyboard.speakActive = true;
+
+    let speakstart = new Audio('./assets/sound/speakstart.mp3');
+    speakstart.volume = 0.5;
+    speakstart.play();
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = new SpeechRecognition();
+    if (keyboard.lang === 'En') {
+      recognition.lang = 'en-US';
+    } else {
+      recognition.lang = 'ru-Ru';
+    }
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.start();
+    this.parentElement.classList.add('hoverEffect');
+    this.parentElement.classList.add('key__active-grad');
+    this.classList.add('key__pressed');
+
+    recognition.onresult = function (event) {
+      let input = event.results[0][0].transcript;
+      keyboard.screen.value += ` ${input}.`;
+      keyboard.screen.focus();
+
+      keyboard.speakKey.classList.remove('key__pressed');
+      keyboard.speakKey.parentElement.classList.remove('hoverEffect');
+      keyboard.speakKey.parentElement.classList.remove('key__active-grad');
+
+      let speakstop = new Audio('./assets/sound/speakstop.mp3');
+      speakstop.volume = 0.5;
+      speakstop.play();
+
+      keyboard.speakActive = false;
+    };
   }
 
   langSwitch() {
@@ -312,40 +357,76 @@ class virtualKeyboard {
   }
 
   arrowsAction(dir) {
-    let currentPosition = this.screen.selectionStart;
-    // console.log(this.screen.clientWidth)
+    let currentPositionStart = this.screen.selectionStart;
+    let currentPositionEnd = this.screen.selectionEnd;
     let screenWidth = this.screen.clientWidth - 20;
     let longestLine = screenWidth / 7.97;
     let screenVal = this.screen.value;
+    
+    if (this.shiftOn) { // shift on arrows movement creates selection
+      if (dir === 'right') {
+        currentPositionStart = this.screen.selectionStart;
+        currentPositionEnd++;
+        keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
+      } else if (dir === 'left') {
+        if (currentPositionStart > 0) {
+          currentPositionStart--;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
+        }
+      } else if (dir === 'bottom') {
+        if (screenVal.length < longestLine) {
+          currentPositionEnd = screenVal.length;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
+        } else {
+          currentPositionStart += longestLine;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
+        }
+      } else if (dir === 'top') {
+        if (screenVal.length < longestLine) {
+          currentPositionStart = 0;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
+        } else if (currentPositionStart < longestLine) {
+          currentPositionStart = 0;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
+        } else {
+          currentPositionStart -= longestLine;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
+        }
+      }
+    } else { // if no shift on when using arrows
 
-    if (dir === 'right') {
-      currentPosition++;
-      keyboard.screen.setSelectionRange(currentPosition, currentPosition);
-    } else if (dir === 'left') {
-      if (currentPosition > 0) {
-        currentPosition--;
-        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
+      if (dir === 'right') {
+        currentPositionStart++;
+        keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
+      } else if (dir === 'left') {
+        if (currentPositionStart > 0) {
+          currentPositionStart--;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
+        }
+      } else if (dir === 'bottom') {
+        if (screenVal.length < longestLine) {
+          currentPositionStart = screenVal.length;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
+        } else {
+          currentPosition += longestLine;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
+        }
+      } else if (dir === 'top') {
+        if (screenVal.length < longestLine) {
+          currentPositionStart = 0;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
+        } else if (currentPositionStart < longestLine) {
+          currentPositionStart = 0;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
+        } else {
+          currentPositionStart -= longestLine;
+          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
+        }
       }
-    } else if (dir === 'bottom') {
-      if (screenVal.length < longestLine) {
-        currentPosition = screenVal.length;
-        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
-      } else {
-        currentPosition += longestLine;
-        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
-      }
-    } else if (dir === 'top') {
-      if (screenVal.length < longestLine) {
-        currentPosition = 0;
-        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
-      } else if (currentPosition < longestLine) {
-        currentPosition = 0;
-        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
-      } else {
-        currentPosition -= longestLine;
-        keyboard.screen.setSelectionRange(currentPosition, currentPosition);
-      }
+
     }
+
+
     this.screen.focus();
   }
 
@@ -370,9 +451,21 @@ keyboard.inputKeys.forEach(key => {
   key.addEventListener('mousedown', function () {
     keyboard.keydownSound(key);
     keyboard.input(key.getAttribute('data'), key);
+
+    if (key.children.length > 0) {
+      key.firstChild.classList.add('highlighted');
+    } else {
+      key.classList.add('highlighted');
+    }
+
   });
   key.addEventListener('mouseup', function () {
     keyboard.keyupSound(key);
+    if (key.children.length > 0) {
+      key.firstChild.classList.remove('highlighted');
+    } else {
+      key.classList.remove('highlighted');
+    }
   });
 });
 
@@ -400,6 +493,26 @@ keyboard.backspace.addEventListener('mouseup', function () {
 // mute and unmute keyboard sounds
 keyboard.mutekey.addEventListener('click', function () {
   keyboard.mutesound();
+});
+
+//ctrl click
+keyboard.ctrlKeys.forEach(ctrl => {
+  ctrl.addEventListener('mousedown', () => {
+    keyboard.keydownSound(ctrl);
+    keyboard.ctrlKeys.forEach(ctrl => {
+      ctrl.children[0].classList.add('highlighted');
+      ctrl.classList.add('hoverEffect');
+    });
+  });
+});
+keyboard.ctrlKeys.forEach(ctrl => {
+  ctrl.addEventListener('mouseup', () => {
+    keyboard.keyupSound(ctrl);
+    keyboard.ctrlKeys.forEach(ctrl => {
+      ctrl.children[0].classList.remove('highlighted');
+      ctrl.classList.remove('hoverEffect');
+    });
+  });
 });
 
 //shift 
@@ -443,15 +556,23 @@ keyboard.screen.addEventListener('keydown', e => {
 });
 
 function pressKey(selector) {
-  document.querySelector(`.${selector}`).classList.add('physicalPress');
+  document.querySelector(`.${selector}`).classList.add('highlighted');
 }
 
 function freeKey(selector) {
-  document.querySelector(`.${selector}`).classList.remove('physicalPress');
+  document.querySelector(`.${selector}`).classList.remove('highlighted');
 }
 
+
+keyboard.speakKey.onclick = keyboard.speak;
+
+
+
+
+// Real keyboard keydown listener
 let keyActive;
 document.addEventListener('keydown', e => {
+
 
   // SWITCH LANG COMBO
   if (e.shiftKey && e.altKey) {
@@ -472,7 +593,7 @@ document.addEventListener('keydown', e => {
 
   // ARROWS
   if (e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
-    keyboard.keydownSound(keyActive);
+    keyboard.keydownSound();
     if (e.code === 'ArrowLeft') {
       keyboard.arrowsAction('left');
     }
@@ -493,10 +614,14 @@ document.addEventListener('keydown', e => {
     document.querySelector('.backspace-wrapper').classList.add('hoverEffect');
   }
 
+  // CTRL
   if (e.ctrlKey || e.code === 'ControlLeft' || e.code === 'ControlRight') {
     pressKey('key__rctrl');
     pressKey('key__lctrl');
-    keyboard.keydownSound(keyActive);
+    keyboard.keydownSound();
+    keyboard.ctrlKeys.forEach(ctrl => {
+      ctrl.classList.add('hoverEffect');
+    });
   }
 
   // SELECT ALL
@@ -505,22 +630,20 @@ document.addEventListener('keydown', e => {
     return;
   }
 
-  // console.log(e.code);
+
   // CAPS LOCK
   if (e.code === 'CapsLock') {
     keyboard.caps();
   }
 
   if (e.code === 'Backspace') {
-    keyboard.keydownSound(keyActive);
+    keyboard.keydownSound();
     keyboard.delete();
     return;
   }
   if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
     keyboard.shift();
   }
-  // console.log(e.code);
-
 
   keyboard.inputKeys.forEach(key => {
     if (e.code === key.getAttribute('key')) {
@@ -529,45 +652,47 @@ document.addEventListener('keydown', e => {
       keyboard.input(key.getAttribute('data'), key);
       key.parentElement.classList.add('hoverEffect');
       if (key.children.length > 0) {
-        key.firstChild.classList.add('physicalPress');
+        key.firstChild.classList.add('highlighted');
       } else {
-        key.classList.add('physicalPress');
+        key.classList.add('highlighted');
       }
     }
   });
 });
 
+
+// Real keyboard keyup listener
 document.addEventListener('keyup', e => {
 
-
   if (e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
-    keyboard.keyupSound(keyActive);
+    keyboard.keyupSound();
     return;
   }
 
   if (e.ctrlKey || e.code === 'ControlLeft' || e.code === 'ControlRight') {
     freeKey('key__lctrl');
     freeKey('key__rctrl');
-    keyboard.keyupSound(keyActive);
+    keyboard.keyupSound();
+    keyboard.ctrlKeys.forEach(ctrl => {
+      ctrl.classList.remove('hoverEffect');
+    });
   }
 
   // BACKSPACE KEYUP
   if (e.code === 'Backspace') {
     document.querySelector('.backspace-wrapper').classList.remove('hoverEffect');
-    keyboard.keyupSound(keyActive);
+    keyboard.keyupSound();
     return;
   }
-
-
 
   keyboard.inputKeys.forEach(key => {
     if (e.code === key.getAttribute('key')) {
       key.parentElement.classList.remove('hoverEffect');
       keyboard.keyupSound(keyActive);
       if (key.children.length > 0) {
-        key.firstChild.classList.remove('physicalPress');
+        key.firstChild.classList.remove('highlighted');
       } else {
-        key.classList.remove('physicalPress');
+        key.classList.remove('highlighted');
       }
     }
   });

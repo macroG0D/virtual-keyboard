@@ -15,7 +15,14 @@
     <div class="container">
 
       <div class="screen-wrapper">
-        <textarea class="screen" name="text-input">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo assumenda, officiis aut amet earum, incidunt dignissimos autem vitae mollitia eius quos ratione vero, quaerat dolorem at eligendi ullam odit officia.</textarea>
+        <textarea class="screen" name="text-input" placeholder="---ИНСТРУКЦИЯ---
+1. Голосовой ввод: Для работы голосового ввода необходимо нажать на клавишу с микрофоном и в окне браузера ОБЯЗАТЕЛЬНО дать разрешение на доступ к микрофону. Голосовой ввод пока что поддерживается не всеми браузерами но в свежих chrome все работает 
+2. Ввод возможен как мышкой, так и через обычную клавиатуру — при этом язык и регистр букв и символов будет соответствовать именно виртуальной клавиатуре
+3. Звук клавиш отключается и включается соответствующей клавишей (с иконкой микрофона)
+4. Shift — переводит все буквы в верхний регистр и переключает символы на двойных клавишах
+5. Caps Lock — только переводит буквы в верхний регистр
+6. Esc — скрывает клавиатуру. Чтобы вызвать клавиатуру можно либо нажать на поле ввода, либо на клавишу Esc на реальной клавиатуре
+        "></textarea>
       </div>
 
       <div class="desk">
@@ -117,16 +124,16 @@
               <div class="key-input key-letter key-switchable" data="p" key="KeyP">p</div>
             </div>
             <div class="key letter-wrapper">
-              <div class="key-input key-double key-extra key-switchable" data="[" key="BracketLeft"><span class="symbols"><span
-                    class="first">{</span><span class="second">[</span></span></div>
+              <div class="key-input key-double key-extra key-switchable" data="[" key="BracketLeft"><span
+                  class="symbols"><span class="first">{</span><span class="second">[</span></span></div>
             </div>
             <div class="key letter-wrapper">
-              <div class="key-input key-double key-extra key-switchable" data="]" key="BracketRight"><span class="symbols"><span
-                    class="first">}</span><span class="second">]</span></span></div>
+              <div class="key-input key-double key-extra key-switchable" data="]" key="BracketRight"><span
+                  class="symbols"><span class="first">}</span><span class="second">]</span></span></div>
             </div>
             <div class="key">
-              <div class="key-input key-double key__backslash key-extra key-switchable" data="\" key="Backslash"><span class="symbols"><span
-                    class="first">|</span><span class="second">\</span></span></div>
+              <div class="key-input key-double key__backslash key-extra key-switchable" data="\" key="Backslash"><span
+                  class="symbols"><span class="first">|</span><span class="second">\</span></span></div>
             </div>
           </div>
           <!-- row 3 -->
@@ -164,12 +171,12 @@
               <div class="key-input key-letter key-switchable" data="l" key="KeyL">l</div>
             </div>
             <div class="key letter-wrapper">
-              <div class="key-input key-double key-extra key-switchable" data=";" key="Semicolon"><span class="symbols"><span
-                    class="first">:</span><span class="second">;</span></span></div>
+              <div class="key-input key-double key-extra key-switchable" data=";" key="Semicolon"><span
+                  class="symbols"><span class="first">:</span><span class="second">;</span></span></div>
             </div>
             <div class="key letter-wrapper">
-              <div class="key-input key-double key-extra key-switchable" data="'" key="Quote"><span class="symbols"><span
-                    class="first">"</span><span class="second">'</span></span></div>
+              <div class="key-input key-double key-extra key-switchable" data="'" key="Quote"><span
+                  class="symbols"><span class="first">"</span><span class="second">'</span></span></div>
             </div>
             <div class="key">
               <div class="key-input key-special key__enter" data="&#13" key="Enter">ENTER</div>
@@ -203,16 +210,18 @@
               <div class="key-input key-letter key-switchable" data="m" key="KeyM">m</div>
             </div>
             <div class="key letter-wrapper">
-              <div class="key-input key-double key-extra key-switchable" data="," key="Comma"><span class="symbols"><span class="first">
-                    <</span> <span class="second">,</span></span></div>
+              <div class="key-input key-double key-extra key-switchable" data="," key="Comma"><span
+                  class="symbols"><span class="first">
+                    <</span> <span class="second">,
+                  </span></span></div>
             </div>
             <div class="key letter-wrapper">
-              <div class="key-input key-double key-extra key-switchable" data="." key="Period"><span class="symbols"><span class="first">></span><span
-                    class="second">.</span></span></div>
+              <div class="key-input key-double key-extra key-switchable" data="." key="Period"><span
+                  class="symbols"><span class="first">></span><span class="second">.</span></span></div>
             </div>
             <div class="key letter-wrapper" id="beforeArr">
-              <div class="key-input key-double key-extra key-switchable" data="/" key="Slash"><span class="symbols"><span class="first">?</span><span
-                    class="second">/</span></span></div>
+              <div class="key-input key-double key-extra key-switchable" data="/" key="Slash"><span
+                  class="symbols"><span class="first">?</span><span class="second">/</span></span></div>
             </div>
             <div class="key arrow-wrapper" id="arrow-top">
               <div class="key-arrow key__arrtop" data="top"></div>
@@ -224,7 +233,7 @@
 
           <!-- row 5 -->
           <div class="key-row">
-            <div class="key lctrl-wrapper">
+            <div class="key lctrl-wrapper ctrlKeys">
               <div class="key-special key__lctrl">CTRL</div>
             </div>
             <div class="key">
@@ -249,7 +258,7 @@
             <div class="key arrow-wrapper" id="arrow-right">
               <div class="key-arrow key__arrright" data="right"></div>
             </div>
-            <div class="key rctrl-wrapper">
+            <div class="key rctrl-wrapper ctrlKeys">
               <div class="key-special key__rctrl">CTRL</div>
 
             </div>
