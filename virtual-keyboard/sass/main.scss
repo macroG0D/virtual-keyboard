@@ -29,6 +29,15 @@ main {
     max-width: 120rem;
     padding: 0 1rem;
     margin: auto;
+    &:after {
+      content: "Designed & Developed by Tony Yemelyanov in 2020";
+      color: hsla(0, 0%, 100%, 0.5);
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
   }
 
 
@@ -66,12 +75,9 @@ main {
     &::-webkit-scrollbar {
       width: 1.4rem;
     }
-    
     &::-webkit-scrollbar-track {
-        // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         background-color: rgba(255, 255, 255, 0.212);
       }
-    
     &::-webkit-scrollbar-thumb {
       background-color: rgba(51, 255, 153, 0.89);
       border-radius: 5rem;
@@ -116,6 +122,7 @@ main {
     user-select: none;
     bottom: 0;
     transition: bottom 0.4s;
+    z-index: 10;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
     @media (max-width: 1140px) {
@@ -454,7 +461,7 @@ main {
   min-height: 50%;
   left: 0;
   bottom: 0;
-  z-index: 0;
+  z-index: 1;
 }
 
 // to change top arrow order on adaptation 

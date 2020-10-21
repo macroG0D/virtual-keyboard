@@ -2,6 +2,7 @@ class virtualKeyboard {
   constructor() {
     this.capsOn = false;
     this.shiftOn = false;
+    this.ctrlPressed = false;
     this.mute = false;
     this.speakActive = false;
     this.lang = 'En';
@@ -117,16 +118,15 @@ class virtualKeyboard {
   }
   show() { // show keyboard
     this.escaped = false;
-
     let screenHeight;
     if (window.innerHeight > 901) {
       screenHeight = '30rem';
-    } else if (window.innerHeight >= 900) {
-      screenHeight = '25rem';
-    } else if (window.innerHeight >= 740) {
-      screenHeight = '25rem';
     } else if (window.innerHeight <= 687) {
       screenHeight = '15rem';
+    } else if (window.innerHeight <= 740) {
+      screenHeight = '20rem';
+    } else if (window.innerHeight <= 900) {
+      screenHeight = '25rem';
     }
 
     this.keyboard.classList.remove('keyboard__hidden');
@@ -136,6 +136,11 @@ class virtualKeyboard {
   }
 
   input(char) {
+   
+    if (this.ctrlPressed) {
+      return;
+    }
+
     if (this.shiftOn || this.capsOn) {
       char = char.toUpperCase();
     }
@@ -208,15 +213,15 @@ class virtualKeyboard {
 
     if (currentPositionStart !== this.screen.value.length) {
       if (currentPositionStart !== currentPositionEnd) {
-        valBefore = this.screen.value.substring(0, currentPositionStart+1);
+        valBefore = this.screen.value.substring(0, currentPositionStart + 1);
       } else {
         valBefore = this.screen.value.substring(0, currentPositionStart);
       }
       let valAfter = this.screen.value.substring(currentPositionEnd);
-        valBefore = valBefore.slice(0, valBefore.length - 1);
-        let result = valBefore + valAfter;
-        this.screen.value = result;
-        keyboard.screen.setSelectionRange(valBefore.length, valBefore.length);
+      valBefore = valBefore.slice(0, valBefore.length - 1);
+      let result = valBefore + valAfter;
+      this.screen.value = result;
+      keyboard.screen.setSelectionRange(valBefore.length, valBefore.length);
     } else {
       this.screen.value = this.screen.value.slice(0, this.screen.value.length - 1);
     }
@@ -359,10 +364,8 @@ class virtualKeyboard {
   arrowsAction(dir) {
     let currentPositionStart = this.screen.selectionStart;
     let currentPositionEnd = this.screen.selectionEnd;
-    let screenWidth = this.screen.clientWidth - 20;
-    let longestLine = screenWidth / 7.97;
     let screenVal = this.screen.value;
-    
+
     if (this.shiftOn) { // shift on arrows movement creates selection
       if (dir === 'right') {
         currentPositionStart = this.screen.selectionStart;
@@ -374,24 +377,9 @@ class virtualKeyboard {
           keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
         }
       } else if (dir === 'bottom') {
-        if (screenVal.length < longestLine) {
-          currentPositionEnd = screenVal.length;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
-        } else {
-          currentPositionStart += longestLine;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
-        }
+        keyboard.screen.setSelectionRange(currentPositionStart, screenVal.length);
       } else if (dir === 'top') {
-        if (screenVal.length < longestLine) {
-          currentPositionStart = 0;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
-        } else if (currentPositionStart < longestLine) {
-          currentPositionStart = 0;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
-        } else {
-          currentPositionStart -= longestLine;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
-        }
+        keyboard.screen.setSelectionRange(screenVal[0], currentPositionEnd);
       }
     } else { // if no shift on when using arrows
 
@@ -404,29 +392,11 @@ class virtualKeyboard {
           keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
         }
       } else if (dir === 'bottom') {
-        if (screenVal.length < longestLine) {
-          currentPositionStart = screenVal.length;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
-        } else {
-          currentPosition += longestLine;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
-        }
+        keyboard.screen.setSelectionRange(screenVal.length, screenVal.length);
       } else if (dir === 'top') {
-        if (screenVal.length < longestLine) {
-          currentPositionStart = 0;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
-        } else if (currentPositionStart < longestLine) {
-          currentPositionStart = 0;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
-        } else {
-          currentPositionStart -= longestLine;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
-        }
+        keyboard.screen.setSelectionRange(screenVal[0], screenVal[0]);
       }
-
     }
-
-
     this.screen.focus();
   }
 
@@ -435,7 +405,6 @@ class virtualKeyboard {
 
 // create keyboard object
 const keyboard = new virtualKeyboard();
-// keyboard.inputselection();
 
 // hide & show methods calls
 keyboard.esc.addEventListener('click', () => {
@@ -457,7 +426,6 @@ keyboard.inputKeys.forEach(key => {
     } else {
       key.classList.add('highlighted');
     }
-
   });
   key.addEventListener('mouseup', function () {
     keyboard.keyupSound(key);
@@ -480,7 +448,6 @@ keyboard.backspace.addEventListener('mousedown', function () {
       mousedownID = setInterval(() => keyboard.delete(), 80);
     }
   }, 500);
-
 });
 keyboard.backspace.addEventListener('mouseup', function () {
   clearTimeout(timeout);
@@ -531,15 +498,13 @@ keyboard.capsKey.addEventListener('mousedown', function () {
 keyboard.langKey.addEventListener('mousedown', () => {
   keyboard.langSwitch();
 });
-
 keyboard.langKey.addEventListener('mouseup', () => {
   keyboard.keyupSound();
 });
 
-
-
+//arrows mouse interation
 keyboard.arrows.forEach(arrow => {
-  arrow.onmosedown = () => { keyboard.keyupSound() };
+  arrow.onmosedown = () => { keyboard.keyupSound();};
   arrow.addEventListener('mousedown', () => {
     keyboard.keydownSound();
   });
@@ -549,10 +514,12 @@ keyboard.arrows.forEach(arrow => {
   });
 });
 
-
 // prevent direct phisical keyboard input in textarea
 keyboard.screen.addEventListener('keydown', e => {
-  e.preventDefault();
+  if ((e.ctrlKey) || e.code === 'F5') { // don't prevent ctrl+c or ctrl+v or ctrl+X or f5 (refresh)
+  } else {
+    e.preventDefault();
+  }
 });
 
 function pressKey(selector) {
@@ -596,15 +563,23 @@ document.addEventListener('keydown', e => {
     keyboard.keydownSound();
     if (e.code === 'ArrowLeft') {
       keyboard.arrowsAction('left');
+      document.querySelector('#arrow-left').classList.add('hoverEffect');
+      document.querySelector('#arrow-left').classList.add('key__active-grad');
     }
     if (e.code === 'ArrowRight') {
       keyboard.arrowsAction('right');
+      document.querySelector('#arrow-right').classList.add('hoverEffect');
+      document.querySelector('#arrow-right').classList.add('key__active-grad');
     }
     if (e.code === 'ArrowUp') {
       keyboard.arrowsAction('top');
+      document.querySelector('#arrow-top').classList.add('hoverEffect');
+      document.querySelector('#arrow-top').classList.add('key__active-grad');
     }
     if (e.code === 'ArrowDown') {
       keyboard.arrowsAction('bottom');
+      document.querySelector('#arrow-bot').classList.add('hoverEffect');
+      document.querySelector('#arrow-bot').classList.add('key__active-grad');
     }
     return;
   }
@@ -619,6 +594,7 @@ document.addEventListener('keydown', e => {
     pressKey('key__rctrl');
     pressKey('key__lctrl');
     keyboard.keydownSound();
+    keyboard.ctrlPressed = true;
     keyboard.ctrlKeys.forEach(ctrl => {
       ctrl.classList.add('hoverEffect');
     });
@@ -665,6 +641,11 @@ document.addEventListener('keydown', e => {
 document.addEventListener('keyup', e => {
 
   if (e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+
+    document.querySelectorAll('.arrow-wrapper').forEach(arrow => {
+      arrow.classList.remove('hoverEffect');
+      arrow.classList.remove('key__active-grad');
+    });
     keyboard.keyupSound();
     return;
   }
@@ -673,6 +654,7 @@ document.addEventListener('keyup', e => {
     freeKey('key__lctrl');
     freeKey('key__rctrl');
     keyboard.keyupSound();
+    keyboard.ctrlPressed = false;
     keyboard.ctrlKeys.forEach(ctrl => {
       ctrl.classList.remove('hoverEffect');
     });
