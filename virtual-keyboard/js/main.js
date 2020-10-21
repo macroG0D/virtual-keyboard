@@ -137,7 +137,7 @@ class virtualKeyboard {
   }
 
   input(char) {
-   
+
     if (this.ctrlPressed) {
       return;
     }
@@ -308,43 +308,86 @@ class virtualKeyboard {
       this.keyupSound(this.mutekey);
     }
   }
+
+  // speach recognition
   speak() {
-
-    keyboard.speakActive = true;
-
-    let speakstart = new Audio('./assets/sound/speakstart.mp3');
-    speakstart.volume = 0.5;
-    speakstart.play();
-
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let currentText = keyboard.screen.value;
+    this.parentElement.classList.add('hoverEffect');
+    this.parentElement.classList.add('key__active-grad');
+    this.classList.add('key__pressed');
+    function playsound(status) {
+      if (status === 'start') {
+        let speakstart = new Audio('./assets/sound/speakstart.mp3');
+        speakstart.volume = 0.5;
+        speakstart.play();
+      } else {
+        let speakstop = new Audio('./assets/sound/speakstop.mp3');
+        speakstop.volume = 0.5;
+        speakstop.play();
+      }
+    }
+    playsound('start');
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = new SpeechRecognition();
+
     if (keyboard.lang === 'En') {
       recognition.lang = 'en-US';
     } else {
       recognition.lang = 'ru-Ru';
     }
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    recognition.start();
-    this.parentElement.classList.add('hoverEffect');
-    this.parentElement.classList.add('key__active-grad');
-    this.classList.add('key__pressed');
 
-    recognition.onresult = function (event) {
-      let input = event.results[0][0].transcript;
-      keyboard.screen.value += ` ${input}.`;
-      keyboard.screen.focus();
-
-      keyboard.speakKey.classList.remove('key__pressed');
-      keyboard.speakKey.parentElement.classList.remove('hoverEffect');
-      keyboard.speakKey.parentElement.classList.remove('key__active-grad');
-
-      let speakstop = new Audio('./assets/sound/speakstop.mp3');
-      speakstop.volume = 0.5;
-      speakstop.play();
-
+    if (keyboard.speakActive === true) {
       keyboard.speakActive = false;
-    };
+      playsound('stop');
+    } else {
+      recognition.interimResults = true;
+      keyboard.speakActive = true;
+      recognition.start();
+
+      recognition.onerror = (e) => {
+        if (e.error === 'not-allowed') {
+          keyboard.screen.value += '\r\n' + 'Для работы данной функции необходимо предоставить странице разрешение на использование микрофона 🎤';
+        } else {
+          console.log(e);
+          recognition.abort();
+          recognition.stop();
+        }
+        keyboard.speakKey.classList.remove('key__pressed');
+        keyboard.speakKey.parentElement.classList.remove('hoverEffect');
+        keyboard.speakKey.parentElement.classList.remove('key__active-grad');
+        keyboard.speakActive = false;
+        playsound('stop');
+        return false;
+      };
+
+      recognition.addEventListener('result', (e) => {
+        let input = e.results[0][0].transcript;
+        keyboard.screen.value = `${currentText} ${input}`;
+
+        recognition.onend = (e) => {
+          if (keyboard.lang === 'En') {
+            recognition.lang = 'en-US';
+          } else {
+            recognition.lang = 'ru-Ru';
+          }
+
+          if (keyboard.speakActive) {
+            recognition.start();
+            currentText = keyboard.screen.value;
+          } else {
+            recognition.abort();
+            recognition.stop();
+            keyboard.screen.value = currentText;
+            keyboard.speakKey.classList.remove('key__pressed');
+            keyboard.speakKey.parentElement.classList.remove('hoverEffect');
+            keyboard.speakKey.parentElement.classList.remove('key__active-grad');
+          }
+          playsound('stop');
+          keyboard.screen.focus();
+        };
+      });
+    }
+
   }
 
   langSwitch() {
@@ -436,7 +479,6 @@ keyboard.inputKeys.forEach(key => {
     }
   });
   key.addEventListener('mouseleave', function () {
-    keyboard.keyupSound(key);
     if (key.children.length > 0) {
       key.firstChild.classList.remove('highlighted');
     } else {
@@ -460,15 +502,20 @@ keyboard.backspace.addEventListener('mousedown', function () {
   }, 500);
 });
 
-function leaveDelete () {
+function leaveDelete(e) {
   clearTimeout(timeout);
   clearInterval(mousedownID); // stop repeat delete method when mouseup
   mousedownID = 1; // set mousedownID to default
   timeout = 1;
-  keyboard.keyupSound(keyboard.backspace);
+  if (e.type !== 'mouseleave') {
+    keyboard.keyupSound(keyboard.backspace);
+  }
+  keyboard.screen.focus();
 }
 keyboard.backspace.addEventListener('mouseup', leaveDelete);
-keyboard.backspace.addEventListener('mouseleave', leaveDelete);
+keyboard.backspace.addEventListener('mouseleave', e => {
+  leaveDelete(e);
+});
 
 // mute and unmute keyboard sounds
 keyboard.mutekey.addEventListener('click', function () {
@@ -517,7 +564,7 @@ keyboard.langKey.addEventListener('mouseup', () => {
 
 //arrows mouse interation
 keyboard.arrows.forEach(arrow => {
-  arrow.onmosedown = () => { keyboard.keyupSound();};
+  arrow.onmosedown = () => { keyboard.keyupSound(); };
   arrow.addEventListener('mousedown', () => {
     keyboard.keydownSound();
   });
@@ -691,14 +738,3 @@ document.addEventListener('keyup', e => {
     }
   });
 });
-
-
-// keyboard.anyKey.forEach(key => {
-//   key.addEventListener('mouseleave',  () => {
-//     console.log(key.children[0])
-//     if (key.children[0].classList.contains('highlighted')){
-//       key.children[0].classList.remove('highlighted');
-//     }
-//   });
-// })
-
