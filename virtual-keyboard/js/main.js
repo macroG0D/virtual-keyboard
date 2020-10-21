@@ -25,6 +25,7 @@ class virtualKeyboard {
     this.screen = document.querySelector('.screen');
     this.keyboard = document.querySelector('.keyboard');
     this.keyRows = document.querySelectorAll('.key-row');
+    this.anyKey = document.querySelectorAll('.key');
     this.esc = document.querySelector('.key__escape');
     this.langKey = document.querySelector('.key__lang');
     this.inputKeys = document.querySelectorAll('.key-input');
@@ -414,7 +415,6 @@ keyboard.screen.addEventListener('click', () => {
   keyboard.show();
 });
 
-
 // all input keys event listener
 keyboard.inputKeys.forEach(key => {
   key.addEventListener('mousedown', function () {
@@ -435,7 +435,17 @@ keyboard.inputKeys.forEach(key => {
       key.classList.remove('highlighted');
     }
   });
+  key.addEventListener('mouseleave', function () {
+    keyboard.keyupSound(key);
+    if (key.children.length > 0) {
+      key.firstChild.classList.remove('highlighted');
+    } else {
+      key.classList.remove('highlighted');
+    }
+  });
 });
+
+
 
 // backspace delete button method
 let mousedownID = 1; // set default mousedownID for repeatable delete method
@@ -636,7 +646,6 @@ document.addEventListener('keydown', e => {
   });
 });
 
-
 // Real keyboard keyup listener
 document.addEventListener('keyup', e => {
 
@@ -680,4 +689,13 @@ document.addEventListener('keyup', e => {
   });
 });
 
+
+// keyboard.anyKey.forEach(key => {
+//   key.addEventListener('mouseleave',  () => {
+//     console.log(key.children[0])
+//     if (key.children[0].classList.contains('highlighted')){
+//       key.children[0].classList.remove('highlighted');
+//     }
+//   });
+// })
 
