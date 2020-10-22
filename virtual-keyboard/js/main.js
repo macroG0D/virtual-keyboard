@@ -540,6 +540,12 @@ keyboard.ctrlKeys.forEach(ctrl => {
       ctrl.classList.remove('hoverEffect');
     });
   });
+  ctrl.addEventListener('mouseleave', () => {
+    keyboard.ctrlKeys.forEach(ctrl => {
+      ctrl.children[0].classList.remove('highlighted');
+      ctrl.classList.remove('hoverEffect');
+    });
+  });
 });
 
 //shift 
@@ -738,9 +744,6 @@ document.addEventListener('keyup', e => {
     }
   });
 });
-
-
-
 
 // transform rotateX is working only on chrome 
 function setPerspectiveKeys() {
