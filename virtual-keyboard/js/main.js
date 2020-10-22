@@ -738,3 +738,30 @@ document.addEventListener('keyup', e => {
     }
   });
 });
+
+
+
+
+// transform rotateX is working only on chrome 
+function setPerspectiveKeys() {
+  if (window.innerWidth > 1140) {
+    if (navigator.appVersion.indexOf("Chrome/") != -1) {
+      document.querySelectorAll('.key-row').forEach(e => {
+        e.style.transform = "rotateX(5deg)";
+      });
+    } else {
+      document.querySelector('#arrow-top').style.margin = "0 1.5rem";
+    }
+  } else {
+    if (navigator.appVersion.indexOf("Chrome/") != -1) {
+      document.querySelectorAll('.key-row').forEach(e => {
+        e.style.transform = "none";
+      });
+    } else {
+      document.querySelector('#arrow-top').style.removeProperty('margin');
+    }
+  }
+}
+
+window.onload = setPerspectiveKeys;
+window.onresize = setPerspectiveKeys;
