@@ -142,9 +142,9 @@ class virtualKeyboard {
       return;
     }
 
-    if (this.shiftOn || this.capsOn) {
-      char = char.toUpperCase();
-    }
+    // if (this.shiftOn || this.capsOn) {
+    //   char = char.toUpperCase();
+    // }
 
     let currentPositionStart = this.screen.selectionStart;
     let currentPositionEnd = this.screen.selectionEnd;
