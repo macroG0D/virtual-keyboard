@@ -236,40 +236,54 @@ class virtualKeyboard {
       elem.setAttribute('data', elem.querySelector('.second').innerText); // change num symbols
     });
     this.extras.forEach(extra => {
-
       try {
         let temp = extra.querySelector('.first').innerText;
         extra.querySelector('.first').innerText = extra.querySelector('.second').innerText;
         extra.querySelector('.second').innerText = temp;
         extra.setAttribute('data', extra.querySelector('.second').innerText); // change num symbols
-
       } catch (e) { }
     });
+
     if (!this.shiftOn) {
       this.keydownSound();
       this.shiftOn = true;
+      if (this.capsOn) {
+        this.letters.forEach(elem => {
+          elem.innerText = elem.innerText.toLowerCase();
+          elem.setAttribute('data', elem.innerText.toLowerCase());
+        });
+      }else{
+        this.letters.forEach(elem => {
+          elem.innerText = elem.innerText.toUpperCase();
+          elem.setAttribute('data', elem.innerText.toUpperCase());
+        });
+      }
       this.shiftkey.forEach(function (shift) {
         shift.classList.add('key__pressed');
         shift.parentElement.classList.add('key__active-grad');
       });
-      this.letters.forEach(elem => {
-        elem.innerText = elem.innerText.toUpperCase();
-        elem.setAttribute('data', elem.innerText.toUpperCase());
-      });
+
     } else {
       this.keyupSound();
       this.shiftOn = false;
-      this.shiftkey.forEach(function (shift) {
-        shift.classList.remove('key__pressed');
-        shift.parentElement.classList.remove('key__active-grad');
-      });
 
-      if (!this.capsOn) {
+      if (this.capsOn) {
+        this.letters.forEach(elem => {
+          elem.innerText = elem.innerText.toUpperCase();
+          elem.setAttribute('data', elem.innerText.toUpperCase());
+        });
+      } else {
         this.letters.forEach(elem => {
           elem.innerText = elem.innerText.toLowerCase();
           elem.setAttribute('data', elem.innerText.toLowerCase());
         });
       }
+
+      this.shiftkey.forEach(function (shift) {
+        shift.classList.remove('key__pressed');
+        shift.parentElement.classList.remove('key__active-grad');
+      });
+
     }
   }
 
@@ -279,10 +293,19 @@ class virtualKeyboard {
       this.capsKey.classList.add('key__pressed');
       this.capsKey.parentElement.classList.add('key__active-grad');
       this.capsOn = true;
-      this.letters.forEach(elem => {
-        elem.innerText = elem.innerText.toUpperCase();
-        elem.setAttribute('data', elem.innerText.toUpperCase());
-      });
+
+      if (!this.shiftOn) {
+        this.letters.forEach(elem => {
+          elem.innerText = elem.innerText.toUpperCase();
+          elem.setAttribute('data', elem.innerText.toUpperCase());
+        });
+      } else {
+        console.log('test')
+        this.letters.forEach(elem => {
+          elem.innerText = elem.innerText.toLowerCase();
+          elem.setAttribute('data', elem.innerText.toLowerCase());
+        });
+      }
 
     } else {
       this.keyupSound();
@@ -294,8 +317,14 @@ class virtualKeyboard {
           elem.innerText = elem.innerText.toLowerCase();
           elem.setAttribute('data', elem.innerText.toLowerCase());
         });
+      } else {
+        this.letters.forEach(elem => {
+          elem.innerText = elem.innerText.toUpperCase();
+          elem.setAttribute('data', elem.innerText.toUpperCase());
+        });
       }
     }
+
   }
 
   mutesound() {
@@ -453,6 +482,7 @@ const keyboard = new virtualKeyboard();
 // hide & show methods calls
 keyboard.esc.addEventListener('click', () => {
   keyboard.escape();
+  keyboard.keyupSound();
 });
 keyboard.screen.addEventListener('click', () => {
   keyboard.show();
@@ -510,7 +540,7 @@ function leaveDelete(e) {
   if (e.type !== 'mouseleave') {
     keyboard.keyupSound(keyboard.backspace);
   }
-  keyboard.screen.focus();
+
 }
 keyboard.backspace.addEventListener('mouseup', leaveDelete);
 keyboard.backspace.addEventListener('mouseleave', e => {
@@ -555,9 +585,18 @@ keyboard.shiftkey.forEach(shift => {
   });
 });
 
+keyboard.shiftkey.forEach(shift => {
+  shift.addEventListener('mouseup', function () {
+    keyboard.screen.focus();
+  });
+});
+
 //caps
 keyboard.capsKey.addEventListener('mousedown', function () {
   keyboard.caps();
+});
+keyboard.capsKey.addEventListener('mouseup', function () {
+  keyboard.screen.focus();
 });
 
 //change lang
@@ -617,9 +656,9 @@ document.addEventListener('keydown', e => {
   if (e.code === 'Escape') {
     if (!keyboard.escaped) {
       keyboard.escape();
-      keyboard.keyupSound(keyActive);
+      keyboard.keyupSound();
     } else {
-      keyboard.keyupSound(keyActive);
+      keyboard.keyupSound();
       keyboard.show();
     }
   }
