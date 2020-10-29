@@ -51,12 +51,12 @@ class virtualKeyboard {
       langObj = this.langKeysRu;
     }
 
-    if (this.shiftOn || this.capsOn) {
+    if ((this.shiftOn || this.capsOn) && !(this.shiftOn && this.capsOn)) {
       let i = 0;
       while (i < 3) {
         langObj[i].forEach((item, index) => {
           if (item.length === 1) {
-            langObj[i][index] = item.toLocaleUpperCase();
+            langObj[i][index] = item.toUpperCase();
           }
         });
         i++;
@@ -75,11 +75,18 @@ class virtualKeyboard {
 
     let count = 0;
     // change digits-symbols
+
     this.numbers.forEach(elem => {
       if (this.shiftOn) { // if on lang change shift is on, switch the new numbers  
         elem.querySelector('.first').innerText = langObj.numbers[count][1];
         elem.querySelector('.second').innerText = langObj.numbers[count][0];
         elem.setAttribute('data', elem.querySelector('.first').innerText);
+        // let symbols = document.querySelectorAll('.symbols');
+        // symbols.forEach(symbol => {
+        //   symbol.querySelector('.first').innerText = langObj.numbers[count][0];
+        //   symbol.querySelector('.second').innerText = langObj.numbers[count][1];
+        //   symbol.setAttribute('data', symbol.querySelector('.first').innerText);
+        // });
       } else {
         elem.querySelector('.first').innerText = langObj.numbers[count][0];
         elem.querySelector('.second').innerText = langObj.numbers[count][1];
@@ -87,10 +94,20 @@ class virtualKeyboard {
       }
       count++;
     });
+    // let symbols = document.querySelectorAll('.symbols'); 
+
+
+    // if (this.shiftOn) {
+    //   symbols.forEach(symbol => {
+    //     let temp = symbol.querySelector('.first').innerText;
+    //     symbol.querySelector('.first').innerText =  symbol.querySelector('.second').innerText;
+    //     symbol.querySelector('.second').innerText =  temp;
+    //     symbol.setAttribute('data', symbol.querySelector('.first').innerText);
+    //   });
+    // }
 
     let row = 0;
     for (let i = 1; i < 4; i++) {
-
       count = 1;
       for (let key of this.keyRows[i].children) {
         if (key.children[0].classList.contains('key-switchable')) {
@@ -108,6 +125,9 @@ class virtualKeyboard {
       row++;
     }
     this.letters = document.querySelectorAll('.key-letter');
+
+
+
   }
 
   escape() { // hide keyboard
@@ -174,7 +194,7 @@ class virtualKeyboard {
     if (this.mute) {
       return;
     }
-    
+
     let audio = new Audio();
     if (key === undefined) {
       audio = new Audio('./assets/sound/tap-set-normal-down.wav');
