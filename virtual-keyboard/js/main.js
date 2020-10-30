@@ -415,9 +415,7 @@ class virtualKeyboard {
   // speach recognition
   speak() {
     let currentText = keyboard.screen.value;
-    this.parentElement.classList.add('hoverEffect');
-    this.parentElement.classList.add('key__active-grad');
-    this.classList.add('key__pressed');
+
     function playsound(status) {
       if (status === 'start') {
         let speakstart = new Audio('./assets/sound/speakstart.mp3');
@@ -429,69 +427,175 @@ class virtualKeyboard {
         speakstop.play();
       }
     }
-    playsound('start');
+
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = new SpeechRecognition();
-
+    recognition.interimResults = true;
     if (keyboard.lang === 'En') {
       recognition.lang = 'en-US';
     } else {
       recognition.lang = 'ru-Ru';
     }
 
-    if (keyboard.speakActive === true) {
-      keyboard.speakActive = false;
-      playsound('stop');
-    } else {
-      recognition.interimResults = true;
-      keyboard.speakActive = true;
-      recognition.start();
 
-      recognition.onerror = (e) => {
-        if (e.error === 'not-allowed') {
-          keyboard.screen.value += '\r\n' + 'Для работы данной функции необходимо предоставить странице разрешение на использование микрофона 🎤';
+    if (!keyboard.speakActive) {
+      keyboard.speakActive = true;
+      playsound('start');
+      this.parentElement.classList.add('hoverEffect');
+      this.parentElement.classList.add('key__active-grad');
+      this.classList.add('key__pressed');
+
+      recognition.start();
+      recognition.addEventListener('result', (e) => {
+        if (keyboard.speakActive === true) {
+          let input = e.results[0][0].transcript;
+          keyboard.screen.value = `${currentText} ${input}`;
         } else {
-          console.log(e);
           recognition.abort();
           recognition.stop();
         }
-        keyboard.speakKey.classList.remove('key__pressed');
-        keyboard.speakKey.parentElement.classList.remove('hoverEffect');
-        keyboard.speakKey.parentElement.classList.remove('key__active-grad');
-        keyboard.speakActive = false;
-        playsound('stop');
-        return false;
-      };
-
-      recognition.addEventListener('result', (e) => {
-        let input = e.results[0][0].transcript;
-        keyboard.screen.value = `${currentText} ${input}`;
-
-        recognition.onend = (e) => {
+      });
+      recognition.onend = (e) => {
+        if (keyboard.speakActive) {
+          currentText = keyboard.screen.value;
           if (keyboard.lang === 'En') {
             recognition.lang = 'en-US';
           } else {
             recognition.lang = 'ru-Ru';
           }
+          recognition.start();
+        }
+      };
+      recognition.onerror = (e) => {
+        if (e.error === 'not-allowed') {
+          keyboard.screen.value += '\r\n' + 'Для работы данной функции необходимо предоставить странице разрешение на использование микрофона 🎤';
+          keyboard.speakActive = false;
+          this.parentElement.classList.remove('hoverEffect');
+          this.parentElement.classList.remove('key__active-grad');
+          this.classList.remove('key__pressed');
+        } else {
+          recognition.abort();
+          recognition.stop();
+        }
+      };
+  
 
-          if (keyboard.speakActive) {
-            recognition.start();
-            currentText = keyboard.screen.value;
-          } else {
-            recognition.abort();
-            recognition.stop();
-            keyboard.screen.value = currentText;
-            keyboard.speakKey.classList.remove('key__pressed');
-            keyboard.speakKey.parentElement.classList.remove('hoverEffect');
-            keyboard.speakKey.parentElement.classList.remove('key__active-grad');
-          }
-          playsound('stop');
-          keyboard.screen.focus();
-        };
-      });
+    } else {
+      keyboard.speakActive = false;
+      playsound('stop');
+      this.parentElement.classList.remove('hoverEffect');
+      this.parentElement.classList.remove('key__active-grad');
+      this.classList.remove('key__pressed');
+      recognition.abort();
+      recognition.stop();
+      keyboard.screen.focus();
     }
 
   }
+
+
+
+
+
+  // speak() {
+  //   let currentText = keyboard.screen.value;
+  //   this.parentElement.classList.add('hoverEffect');
+  //   this.parentElement.classList.add('key__active-grad');
+  //   this.classList.add('key__pressed');
+
+  //   function playsound(status) {
+  //     if (status === 'start') {
+  //       let speakstart = new Audio('./assets/sound/speakstart.mp3');
+  //       speakstart.volume = 0.5;
+  //       speakstart.play();
+  //     } else {
+  //       let speakstop = new Audio('./assets/sound/speakstop.mp3');
+  //       speakstop.volume = 0.5;
+  //       speakstop.play();
+  //     }
+  //   }
+
+
+
+  //   // console.log(recognition)
+  //   if (keyboard.speakActive === true) {
+  //     keyboard.speakKey.classList.remove('key__pressed');
+  //     keyboard.speakKey.parentElement.classList.remove('hoverEffect');
+  //     keyboard.speakKey.parentElement.classList.remove('key__active-grad');
+  //     keyboard.speakActive = false;
+
+  //     try {
+  //       recognition.onerror = (e) => {
+  //         console.log('test')
+  //       }
+  //       recognition.abort();
+  //       recognition.stop();
+  //       recognition = '';
+  //     } catch(e){}
+
+  //     playsound('stop');
+  //     return false;
+  //   } else {
+  //     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  //     let recognition = new SpeechRecognition();
+
+  //     if (keyboard.lang === 'En') {
+  //       recognition.lang = 'en-US';
+  //     } else {
+  //       recognition.lang = 'ru-Ru';
+  //     }
+  //     playsound('start');
+  //     recognition.interimResults = true;
+  //     keyboard.speakActive = true;
+  //     recognition.start();
+  //     recognition.onerror = (e) => {
+  //       if (e.error === 'not-allowed') {
+  //         keyboard.screen.value += '\r\n' + 'Для работы данной функции необходимо предоставить странице разрешение на использование микрофона 🎤';
+  //       } else {
+  //         console.log(e);
+  //         recognition.abort();
+  //         recognition.stop();
+  //       }
+  //       keyboard.speakKey.classList.remove('key__pressed');
+  //       keyboard.speakKey.parentElement.classList.remove('hoverEffect');
+  //       keyboard.speakKey.parentElement.classList.remove('key__active-grad');
+  //       keyboard.speakActive = false;
+  //       playsound('stop');
+  //       return false;
+  //     };
+
+  //     recognition.addEventListener('result', (e) => {
+  //       let input = e.results[0][0].transcript;
+  //       keyboard.screen.value = `${currentText} ${input}`;
+
+  //       recognition.onend = (e) => {
+
+  //         if (keyboard.speakActive) {
+  //           recognition.start();
+  //           currentText = keyboard.screen.value;
+  //         } else {
+  //           recognition.abort();
+  //           recognition.stop();
+  //           keyboard.screen.value = currentText;
+  //           keyboard.speakKey.classList.remove('key__pressed');
+  //           keyboard.speakKey.parentElement.classList.remove('hoverEffect');
+  //           keyboard.speakKey.parentElement.classList.remove('key__active-grad');
+  //         }
+  //         playsound('stop');
+  //         keyboard.screen.focus();
+  //       };
+  //     });
+  //   }
+
+  // }
+
+
+
+
+
+
+
+
 
   langSwitch() {
     this.keydownSound();
