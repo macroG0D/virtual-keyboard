@@ -51,22 +51,39 @@ class virtualKeyboard {
       langObj = this.langKeysRu;
     }
 
-    if ((this.shiftOn || this.capsOn) && !(this.shiftOn && this.capsOn)) {
+    // if ((this.shiftOn || this.capsOn) && !(this.shiftOn && this.capsOn)) { // 
+    //   let i = 0;
+    //   while (i < 3) {
+    //     langObj[i].forEach((item, index) => {
+    //       if (item.length === 1) {
+    //         langObj[i][index] = item.toUpperCase();
+    //       }
+    //     });
+    //     i++;
+    //   }
+    // } else {
+    //   let i = 0;
+    //   while (i < 3) {
+    //     langObj[i].forEach((item, index) => {
+    //       if (item.length === 1) {
+    //         langObj[i][index] = item.toLowerCase();
+    //       }
+    //     });
+    //     i++;
+    //   }
+    // }
+
+
+    if (this.shiftOn) { // if shift is on when change lang — turn off shift to prevent unwanted symbols turn
+      this.shift();
+    }
+
+    if (this.capsOn) { // if caps is on turn letters to upper case
       let i = 0;
       while (i < 3) {
         langObj[i].forEach((item, index) => {
           if (item.length === 1) {
             langObj[i][index] = item.toUpperCase();
-          }
-        });
-        i++;
-      }
-    } else {
-      let i = 0;
-      while (i < 3) {
-        langObj[i].forEach((item, index) => {
-          if (item.length === 1) {
-            langObj[i][index] = item.toLowerCase();
           }
         });
         i++;
@@ -81,12 +98,7 @@ class virtualKeyboard {
         elem.querySelector('.first').innerText = langObj.numbers[count][1];
         elem.querySelector('.second').innerText = langObj.numbers[count][0];
         elem.setAttribute('data', elem.querySelector('.first').innerText);
-        // let symbols = document.querySelectorAll('.symbols');
-        // symbols.forEach(symbol => {
-        //   symbol.querySelector('.first').innerText = langObj.numbers[count][0];
-        //   symbol.querySelector('.second').innerText = langObj.numbers[count][1];
-        //   symbol.setAttribute('data', symbol.querySelector('.first').innerText);
-        // });
+
       } else {
         elem.querySelector('.first').innerText = langObj.numbers[count][0];
         elem.querySelector('.second').innerText = langObj.numbers[count][1];
@@ -94,17 +106,7 @@ class virtualKeyboard {
       }
       count++;
     });
-    // let symbols = document.querySelectorAll('.symbols'); 
 
-
-    // if (this.shiftOn) {
-    //   symbols.forEach(symbol => {
-    //     let temp = symbol.querySelector('.first').innerText;
-    //     symbol.querySelector('.first').innerText =  symbol.querySelector('.second').innerText;
-    //     symbol.querySelector('.second').innerText =  temp;
-    //     symbol.setAttribute('data', symbol.querySelector('.first').innerText);
-    //   });
-    // }
 
     let row = 0;
     for (let i = 1; i < 4; i++) {
@@ -194,23 +196,43 @@ class virtualKeyboard {
     if (this.mute) {
       return;
     }
-
     let audio = new Audio();
-    if (key === undefined) {
-      audio = new Audio('./assets/sound/tap-set-normal-down.wav');
-    } else if (key.innerText === 'ENTER') {
-      audio = new Audio('./assets/sound/tap-set-enter-down.wav');
-    } else if (key.classList.contains('key__space')) {
-      audio = new Audio('./assets/sound/tap-set-space-down.wav');
-    } else if (key.classList.contains('key__lshift')) {
-      audio = new Audio('./assets/sound/tap-set-shift.wav');
-    } else if (key.classList.contains('key__caps')) {
-      audio = new Audio('./assets/sound/tap-set-caps.wav');
-    } else if (key.classList.contains('key__backspace')) {
-      audio = new Audio('./assets/sound/tap-set-backspace.wav');
-    } else {
-      audio = new Audio('./assets/sound/tap-set-normal-down.wav');
+
+    if (this.lang === 'En') {
+      if (key === undefined) {
+        audio = new Audio('./assets/sound/tap-set-normal-down.wav');
+      } else if (key.innerText === 'ENTER') {
+        audio = new Audio('./assets/sound/tap-set-enter-down.wav');
+      } else if (key.classList.contains('key__space')) {
+        audio = new Audio('./assets/sound/tap-set-space-down.wav');
+      } else if (key.classList.contains('key__lshift')) {
+        audio = new Audio('./assets/sound/tap-set-shift.wav');
+      } else if (key.classList.contains('key__caps')) {
+        audio = new Audio('./assets/sound/tap-set-caps.wav');
+      } else if (key.classList.contains('key__backspace')) {
+        audio = new Audio('./assets/sound/tap-set-backspace.wav');
+      } else {
+        audio = new Audio('./assets/sound/tap-set-normal-down.wav');
+      }
+    } else { // if russian
+      if (key === undefined) {
+        audio = new Audio('./assets/sound/ru-key-down.wav');
+      } else if (key.innerText === 'ENTER') {
+        audio = new Audio('./assets/sound/ru-enter-down.wav');
+      } else if (key.classList.contains('key__space')) {
+        audio = new Audio('./assets/sound/ru-space-down.wav');
+      } else if (key.classList.contains('key__lshift')) {
+        audio = new Audio('./assets/sound/ru-shift-down.wav');
+      } else if (key.classList.contains('key__caps')) {
+        audio = new Audio('./assets/sound/ru-caps-down.wav');
+      } else if (key.classList.contains('key__backspace')) {
+        audio = new Audio('./assets/sound/ru-backspace-down.wav');
+      } else {
+        audio = new Audio('./assets/sound/ru-key-down.wav');
+      }
     }
+
+
     audio.volume = 0.5;
     audio.play();
   }
@@ -221,19 +243,40 @@ class virtualKeyboard {
       return;
     }
     let audio = new Audio();
-    if (key === undefined) {
-      audio = new Audio('./assets/sound/tap-set-normal-up.wav');
-    } else if (key.innerText === 'ENTER') {
-      audio = new Audio('./assets/sound/tap-set-enter-up.wav');
-    } else if (key.classList.contains('key__space')) {
-      audio = new Audio('./assets/sound/tap-set-space-up.wav');
-    } else if (key.classList.contains('key__lshift')) {
-      audio = new Audio('./assets/sound/tap-set-shift.wav');
-    } else if (key.classList.contains('key__caps')) {
-      audio = new Audio('./assets/sound/tap-set-caps.wav');
-    } else {
-      audio = new Audio('./assets/sound/tap-set-normal-up.wav');
+
+    if (this.lang === 'En') {
+      if (key === undefined) {
+        audio = new Audio('./assets/sound/tap-set-normal-up.wav');
+      } else if (key.innerText === 'ENTER') {
+        audio = new Audio('./assets/sound/tap-set-enter-up.wav');
+      } else if (key.classList.contains('key__space')) {
+        audio = new Audio('./assets/sound/tap-set-space-up.wav');
+      } else if (key.classList.contains('key__lshift')) {
+        audio = new Audio('./assets/sound/tap-set-shift.wav');
+      } else if (key.classList.contains('key__caps')) {
+        audio = new Audio('./assets/sound/tap-set-caps.wav');
+      } else {
+        audio = new Audio('./assets/sound/tap-set-normal-up.wav');
+      }
+    } else { // if russian
+      if (key === undefined) {
+        audio = new Audio('./assets/sound/ru-key-up.wav');
+      } else if (key.innerText === 'ENTER') {
+        audio = new Audio('./assets/sound/ru-enter-up.wav');
+      } else if (key.classList.contains('key__space')) {
+        audio = new Audio('./assets/sound/ru-space-up.wav');
+      } else if (key.classList.contains('key__lshift')) {
+        audio = new Audio('./assets/sound/ru-shift-up.wav');
+      } else if (key.classList.contains('key__caps')) {
+        audio = new Audio('./assets/sound/ru-caps-up.wav');
+      } else if (key.classList.contains('key__backspace')) {
+        audio = new Audio('./assets/sound/ru-backspace-up.wav');
+      } else {
+        audio = new Audio('./assets/sound/ru-key-up.wav');
+      }
     }
+
+
     audio.volume = 0.5;
     audio.play();
   }
