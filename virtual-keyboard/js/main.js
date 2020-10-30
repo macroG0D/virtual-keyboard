@@ -150,10 +150,6 @@ class virtualKeyboard {
       return;
     }
 
-    // if (this.shiftOn || this.capsOn) {
-    //   char = char.toUpperCase();
-    // }
-
     let currentPositionStart = this.screen.selectionStart;
     let currentPositionEnd = this.screen.selectionEnd;
 
@@ -449,6 +445,8 @@ class virtualKeyboard {
           } else {
             recognition.lang = 'ru-Ru';
           }
+          keyboard.screen.blur();
+          keyboard.screen.focus();
           recognition.start();
         }
       };
@@ -474,6 +472,7 @@ class virtualKeyboard {
       this.classList.remove('key__pressed');
       recognition.abort();
       recognition.stop();
+      keyboard.screen.blur();
       keyboard.screen.focus();
     }
 
