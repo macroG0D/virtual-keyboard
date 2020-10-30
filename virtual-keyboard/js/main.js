@@ -51,39 +51,25 @@ class virtualKeyboard {
       langObj = this.langKeysRu;
     }
 
-    // if ((this.shiftOn || this.capsOn) && !(this.shiftOn && this.capsOn)) { // 
-    //   let i = 0;
-    //   while (i < 3) {
-    //     langObj[i].forEach((item, index) => {
-    //       if (item.length === 1) {
-    //         langObj[i][index] = item.toUpperCase();
-    //       }
-    //     });
-    //     i++;
-    //   }
-    // } else {
-    //   let i = 0;
-    //   while (i < 3) {
-    //     langObj[i].forEach((item, index) => {
-    //       if (item.length === 1) {
-    //         langObj[i][index] = item.toLowerCase();
-    //       }
-    //     });
-    //     i++;
-    //   }
-    // }
-
-
     if (this.shiftOn) { // if shift is on when change lang — turn off shift to prevent unwanted symbols turn
       this.shift();
     }
-
+    let i = 0;
     if (this.capsOn) { // if caps is on turn letters to upper case
-      let i = 0;
+
       while (i < 3) {
         langObj[i].forEach((item, index) => {
           if (item.length === 1) {
             langObj[i][index] = item.toUpperCase();
+          }
+        });
+        i++;
+      }
+    } else {
+      while (i < 3) {
+        langObj[i].forEach((item, index) => {
+          if (item.length === 1) {
+            langObj[i][index] = item.toLowerCase();
           }
         });
         i++;
@@ -478,7 +464,7 @@ class virtualKeyboard {
           recognition.stop();
         }
       };
-  
+
 
     } else {
       keyboard.speakActive = false;
@@ -797,8 +783,7 @@ keyboard.arrows.forEach(arrow => {
   });
 });
 
-// prevent direct phisical keyboard input in textarea
-keyboard.screen.addEventListener('keydown', e => {
+document.addEventListener('keydown', e => {
   if ((e.ctrlKey) || e.code === 'F5') { // don't prevent ctrl+c or ctrl+v or ctrl+X or f5 (refresh)
   } else {
     e.preventDefault();
