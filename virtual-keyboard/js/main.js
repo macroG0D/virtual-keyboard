@@ -612,10 +612,11 @@ class virtualKeyboard {
           currentPositionStart--;
           keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
         }
-      } else if (dir === 'bottom') {
-        keyboard.screen.setSelectionRange(currentPositionStart, screenVal.length);
+      } 
+      else if (dir === 'bottom') {
+        // keyboard.screen.setSelectionRange(currentPositionStart, screenVal.length);
       } else if (dir === 'top') {
-        keyboard.screen.setSelectionRange(screenVal[0], currentPositionEnd);
+        // keyboard.screen.setSelectionRange(screenVal[0], currentPositionEnd);
       }
     } else { // if no shift on when using arrows
 
@@ -627,11 +628,12 @@ class virtualKeyboard {
           currentPositionStart--;
           keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
         }
-      } else if (dir === 'bottom') {
-        keyboard.screen.setSelectionRange(screenVal.length, screenVal.length);
-      } else if (dir === 'top') {
-        keyboard.screen.setSelectionRange(screenVal[0], screenVal[0]);
-      }
+      } 
+      // else if (dir === 'bottom') {
+      //   keyboard.screen.setSelectionRange(screenVal.length, screenVal.length);
+      // } else if (dir === 'top') {
+      //   keyboard.screen.setSelectionRange(screenVal[0], screenVal[0]);
+      // }
     }
     this.screen.focus();
   }
@@ -783,7 +785,7 @@ keyboard.arrows.forEach(arrow => {
 });
 
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey) || e.code === 'F5') { // don't prevent ctrl+c or ctrl+v or ctrl+X or f5 (refresh)
+  if ((e.ctrlKey) || e.code === 'F5' || e.code === 'ArrowUp' || e.code === 'ArrowDown') { // don't prevent ctrl+c or ctrl+v or ctrl+X or f5 (refresh)
   } else {
     e.preventDefault();
   }

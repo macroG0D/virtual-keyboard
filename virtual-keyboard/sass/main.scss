@@ -327,6 +327,7 @@ main {
 
   &__lctrl,
   &__rctrl,
+  &__tilda,
   &__mute,
   &__speak {
     @include key-special($width: 7.2rem, $color: $color);
