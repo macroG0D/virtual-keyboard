@@ -714,7 +714,7 @@ keyboard.arrows.forEach(arrow => {
       // console.log(arrow.getAttribute('data'))
       return;
     } else if (arrow.getAttribute('data') === 'bottom') {
-      keyboard.screen.setSelectionRange(keyboard.screen.value.length-1,keyboard.screen.value.length-1);
+      keyboard.screen.setSelectionRange(keyboard.screen.value.length,keyboard.screen.value.length);
       keyboard.screen.focus();
       keyboard.keyupSound();
       return;
