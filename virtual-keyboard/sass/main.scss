@@ -283,13 +283,16 @@ main {
   &__backspace {
     @include key-special($width: 14.5rem, $color: $color);
 
+  }
+
+  &__backspace-free {
+
     &:after {
       content: url(../assets/svg/backspace.svg);
       position: absolute;
     }
 
     @media (max-width: 1140px) {
-      // width: 100%;
       &:after {
         content: url(../assets/svg/backspace-small.svg);
         position: absolute;
@@ -299,6 +302,27 @@ main {
       min-width: 100%;
       &:after {
         content: url(../assets/svg/backspace-xs.svg);
+        position: absolute;
+      }
+    }
+  }
+
+  &__backspace-pressed {
+    &:after {
+      content: url(../assets/svg/backspace_active.svg);
+      position: absolute;
+    }
+
+    @media (max-width: 1140px) {
+      &:after {
+        content: url(../assets/svg/backspace-small_active.svg);
+        position: absolute;
+      }
+    }
+    @media (max-width: 599px) {
+      min-width: 100%;
+      &:after {
+        content: url(../assets/svg/backspace-xs_active.svg);
         position: absolute;
       }
     }
@@ -321,6 +345,10 @@ main {
     @include key-special($width: 16.9rem, $color: $color);
     // background: radial-gradient(50% 50% at 50% 50%, #F4E282 40.62%, rgba(255, 214, 0, 0.6) 100%), #FFEF9C !important; // yellow-key
     background: radial-gradient(50% 50% at 50% 50%, #82f49b 40.62%, rgba(0, 255, 85, 0.541) 100%), #79e490 !important; //green-key
+  }
+
+  &__enter-pressed {
+    color: #913dfd;
   }
 
   &__lshift {
@@ -361,6 +389,16 @@ main {
   &__space {
     @include key-special($width: 40.9rem, $color: $color);
 
+    &:hover {
+      transform: rotateZ(.15deg) !important;
+    }
+
+    @media (max-width: 1140px) {
+      width: 25rem;
+    }
+  }
+
+  &__space-free {
     &:after {
       content: "";
       position: absolute;
@@ -368,13 +406,15 @@ main {
       height: 0.2rem;
       background: $color;
     }
+  }
 
-    &:hover {
-      transform: rotateZ(.15deg) !important;
-    }
-
-    @media (max-width: 1140px) {
-      width: 25rem;
+  &__space-pressed {
+    &:after {
+      content: "";
+      position: absolute;
+      width: 8.4rem;
+      height: 0.2rem;
+      background: #6F00FF;
     }
   }
 
@@ -616,6 +656,7 @@ main {
 
 .highlighted {
   color: #00ff77cc;
+  color: #6f00ff;
 }
 
 .key-tilda-wrapper {

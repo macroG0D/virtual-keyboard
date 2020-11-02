@@ -41,6 +41,7 @@ class virtualKeyboard {
     this.ctrlKeys = document.querySelectorAll('.ctrlKeys');
     this.capsKey = document.querySelector('.key__caps');
     this.arrows = document.querySelectorAll('.key-arrow');
+    this.spacekey = document.querySelector('.key__space');
     this.init(this.lang);
   }
 
@@ -540,6 +541,21 @@ class virtualKeyboard {
 // create keyboard object
 const keyboard = new virtualKeyboard();
 
+keyboard.spacekey.addEventListener('mousedown', () => {
+  keyboard.spacekey.classList.remove('key__space-free');
+  keyboard.spacekey.classList.add('key__space-pressed');
+})
+
+keyboard.spacekey.addEventListener('mouseup', () => {
+  keyboard.spacekey.classList.remove('key__space-pressed');
+  keyboard.spacekey.classList.add('key__space-free');
+})
+keyboard.spacekey.addEventListener('mouseleave', () => {
+  keyboard.spacekey.classList.remove('key__space-pressed');
+  keyboard.spacekey.classList.add('key__space-free');
+})
+
+
 // hide & show methods calls
 keyboard.esc.addEventListener('click', () => {
   keyboard.escape();
@@ -594,6 +610,7 @@ keyboard.inputKeys.forEach(key => {
     } else {
       key.classList.remove('highlighted');
     }
+    keyboard.screen.focus();
   });
 });
 
@@ -604,6 +621,8 @@ let timeout = 1; // set default timeout
 keyboard.backspace.addEventListener('mousedown', function () {
   keyboard.keydownSound(keyboard.backspace);
   keyboard.delete(); // delete first char
+  keyboard.backspace.classList.remove('key__backspace-free');
+  keyboard.backspace.classList.add('key__backspace-pressed');
   timeout = setTimeout(function () { // add .5s delay before starting repeatable removing
     if (mousedownID === 1) { // if backspace is pressed repeat delete method while mouseup 
       mousedownID = setInterval(() => keyboard.delete(), 80);
@@ -619,6 +638,9 @@ function leaveDelete(e) {
   if (e.type !== 'mouseleave') {
     keyboard.keyupSound(keyboard.backspace);
   }
+  keyboard.backspace.classList.remove('key__backspace-pressed');
+  keyboard.backspace.classList.add('key__backspace-free');
+  keyboard.screen.focus();
 }
 keyboard.backspace.addEventListener('mouseup', leaveDelete);
 keyboard.backspace.addEventListener('mouseleave', e => {
@@ -653,6 +675,7 @@ keyboard.ctrlKeys.forEach(ctrl => {
       ctrl.children[0].classList.remove('highlighted');
       ctrl.classList.remove('hoverEffect');
     });
+    keyboard.screen.focus();
   });
 });
 
@@ -737,6 +760,12 @@ keyboard.speakKey.onclick = keyboard.speak;
 let keyActive;
 document.addEventListener('keydown', e => {
 
+
+if (e.code === 'Space') {
+  keyboard.spacekey.classList.remove('key__space-free');
+  keyboard.spacekey.classList.add('key__space-pressed');
+}
+
   // SWITCH LANG COMBO
   if (e.shiftKey && e.altKey) {
     keyboard.langSwitch();
@@ -809,6 +838,8 @@ document.addEventListener('keydown', e => {
 
   if (e.code === 'Backspace') {
     keyboard.keydownSound(keyboard.backspace);
+    keyboard.backspace.classList.remove('key__backspace-free');
+    keyboard.backspace.classList.add('key__backspace-pressed');
     keyboard.delete();
     return;
   }
@@ -844,6 +875,11 @@ document.addEventListener('keydown', e => {
 // Real keyboard keyup listener
 document.addEventListener('keyup', e => {
 
+  if (e.code === 'Space') {
+    keyboard.spacekey.classList.remove('key__space-pressed');
+    keyboard.spacekey.classList.add('key__space-free');
+  }
+
   if (e.code === 'Delete') {
     keyboard.keyupSound();
   }
@@ -870,6 +906,8 @@ document.addEventListener('keyup', e => {
   // BACKSPACE KEYUP
   if (e.code === 'Backspace') {
     document.querySelector('.backspace-wrapper').classList.remove('hoverEffect');
+    keyboard.backspace.classList.remove('key__backspace-pressed');
+    keyboard.backspace.classList.add('key__backspace-free');
     keyboard.keyupSound();
     return;
   }
