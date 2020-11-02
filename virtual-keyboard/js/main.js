@@ -51,12 +51,10 @@ class virtualKeyboard {
       langObj = this.langKeysEn;
       // ё = tilda
       this.tildaKeyWrapper.innerHTML = `<div class="key-double key-extra key-switchable" data="\`" key="Backquote"><span class="symbols"><span class="first">~</span><span class="second">\`</span></span></div>`;
-      // this.inputKeys = document.querySelectorAll('.key-input');
     } else if (lang === 'Ru') {
       langObj = this.langKeysRu;
       // tilda = ё 
       this.tildaKeyWrapper.innerHTML = `<div class="key-letter key-switchable key-tilda" data="ё" key="Backquote">ё</div>`;
-      // this.inputKeys = document.querySelectorAll('.key-input');
     }
 
     if (this.shiftOn) { // if shift is on when change lang — turn off shift to prevent unwanted symbols turn
@@ -65,7 +63,7 @@ class virtualKeyboard {
     let i = 0;
     if (this.capsOn) { // if caps is on turn letters to upper case
       if (lang === 'Ru') { // ё toUpperCase when capslock on on lang switch
-        this.tildaKeyWrapper.innerHTML = `<div class="key-letter key-switchable key-tilda" data="Ё" key="Backquote">Ё</div>`; 
+        this.tildaKeyWrapper.innerHTML = `<div class="key-letter key-switchable key-tilda" data="Ё" key="Backquote">Ё</div>`;
       }
       while (i < 3) {
         langObj[i].forEach((item, index) => {
@@ -88,7 +86,6 @@ class virtualKeyboard {
 
     let count = 0;
     // change digits-symbols
-
     this.numbers.forEach(elem => {
       if (this.shiftOn) { // if on lang change shift is on, switch the new numbers  
         elem.querySelector('.first').innerText = langObj.numbers[count][1];
@@ -102,8 +99,6 @@ class virtualKeyboard {
       }
       count++;
     });
-
-
 
     let row = 0;
     for (let i = 1; i < 4; i++) {
@@ -505,7 +500,7 @@ class virtualKeyboard {
   arrowsAction(dir) {
     let currentPositionStart = this.screen.selectionStart;
     let currentPositionEnd = this.screen.selectionEnd;
-    let screenVal = this.screen.value;
+    // let screenVal = this.screen.value;
 
     if (this.shiftOn) { // shift on arrows movement creates selection
       if (dir === 'right') {
@@ -534,11 +529,7 @@ class virtualKeyboard {
           keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
         }
       }
-      // else if (dir === 'bottom') {
-      //   keyboard.screen.setSelectionRange(screenVal.length, screenVal.length);
-      // } else if (dir === 'top') {
-      //   keyboard.screen.setSelectionRange(screenVal[0], screenVal[0]);
-      // }
+
     }
     this.screen.focus();
   }
@@ -558,7 +549,6 @@ keyboard.screen.addEventListener('click', () => {
   keyboard.show();
 });
 
-
 keyboard.tildaKeyWrapper.addEventListener('mousedown', () => {
   keyboard.keydownSound();
   keyboard.input(keyboard.tildaKeyWrapper.children[0].getAttribute('data'), keyboard.tildaKeyWrapper.children[0]);
@@ -568,7 +558,6 @@ keyboard.tildaKeyWrapper.addEventListener('mousedown', () => {
     keyboard.tildaKeyWrapper.classList.add('highlighted');
   }
 });
-
 
 keyboard.tildaKeyWrapper.addEventListener('mouseup', () => {
   keyboard.keyupSound();
@@ -581,8 +570,6 @@ keyboard.tildaKeyWrapper.addEventListener('mouseup', () => {
 
 // all input keys event listener
 keyboard.inputKeys.forEach(key => {
-  // keyboard.extras = document.querySelectorAll('.key-extra');
-  // keyboard.inputKeys = document.querySelectorAll('.key-input');
   key.addEventListener('mousedown', function () {
     keyboard.keydownSound(key);
     keyboard.input(key.getAttribute('data'), key);
@@ -611,7 +598,6 @@ keyboard.inputKeys.forEach(key => {
 });
 
 
-
 // backspace delete button method
 let mousedownID = 1; // set default mousedownID for repeatable delete method
 let timeout = 1; // set default timeout
@@ -633,7 +619,6 @@ function leaveDelete(e) {
   if (e.type !== 'mouseleave') {
     keyboard.keyupSound(keyboard.backspace);
   }
-
 }
 keyboard.backspace.addEventListener('mouseup', leaveDelete);
 keyboard.backspace.addEventListener('mouseleave', e => {
@@ -707,14 +692,14 @@ keyboard.arrows.forEach(arrow => {
     keyboard.keydownSound();
   });
   arrow.addEventListener('click', () => {
-    if (arrow.getAttribute('data') === 'top' ) {
-      keyboard.screen.setSelectionRange(0,0);
+    if (arrow.getAttribute('data') === 'top') {
+      keyboard.screen.setSelectionRange(0, 0);
       keyboard.screen.focus();
       keyboard.keyupSound();
       // console.log(arrow.getAttribute('data'))
       return;
     } else if (arrow.getAttribute('data') === 'bottom') {
-      keyboard.screen.setSelectionRange(keyboard.screen.value.length,keyboard.screen.value.length);
+      keyboard.screen.setSelectionRange(keyboard.screen.value.length, keyboard.screen.value.length);
       keyboard.screen.focus();
       keyboard.keyupSound();
       return;
@@ -739,16 +724,11 @@ function freeKey(selector) {
   document.querySelector(`.${selector}`).classList.remove('highlighted');
 }
 
-
 keyboard.speakKey.onclick = keyboard.speak;
 
-
-
-
-// Real keyboard keydown listener
+// Physical keyboard keydown listener
 let keyActive;
 document.addEventListener('keydown', e => {
-
 
   // SWITCH LANG COMBO
   if (e.shiftKey && e.altKey) {
@@ -815,7 +795,6 @@ document.addEventListener('keydown', e => {
     return;
   }
 
-
   // CAPS LOCK
   if (e.code === 'CapsLock') {
     keyboard.caps();
@@ -859,7 +838,6 @@ document.addEventListener('keydown', e => {
 document.addEventListener('keyup', e => {
 
   if (e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
-
     document.querySelectorAll('.arrow-wrapper').forEach(arrow => {
       arrow.classList.remove('hoverEffect');
       arrow.classList.remove('key__active-grad');
