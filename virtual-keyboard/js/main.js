@@ -916,5 +916,18 @@ function setPerspectiveKeys() {
   }
 }
 
+keyboard.screen.addEventListener('focus', () => {
+  if (keyboard.ctrlPressed) { // prevent ctrl keys stuck
+    freeKey('key__lctrl');
+    freeKey('key__rctrl');
+    keyboard.keyupSound();
+    keyboard.ctrlPressed = false;
+    keyboard.ctrlKeys.forEach(ctrl => {
+      ctrl.classList.remove('hoverEffect');
+    });
+  }
+
+});
+
 window.onload = setPerspectiveKeys;
 window.onresize = setPerspectiveKeys;
