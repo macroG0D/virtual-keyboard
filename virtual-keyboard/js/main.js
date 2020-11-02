@@ -32,6 +32,8 @@ class virtualKeyboard {
     this.letters = document.querySelectorAll('.key-letter');
     this.numbers = document.querySelectorAll('.key-number');
     this.extras = document.querySelectorAll('.key-extra');
+    this.tildaKeyWrapper = document.querySelector('.key-tilda-wrapper');
+    this.tildaKey = document.querySelector('.key-tilda');
     this.backspace = document.querySelector('.key__backspace');
     this.mutekey = document.querySelector('.key__mute');
     this.speakKey = document.querySelector('.key__speak');
@@ -47,8 +49,12 @@ class virtualKeyboard {
     let langObj;
     if (lang === 'En') {
       langObj = this.langKeysEn;
+      // ё = tilda
+      this.tildaKeyWrapper.innerHTML = `<div class="key-input key-double key-extra key-switchable" data="\`" key="Backquote"><span class="symbols"><span class="first">~</span><span class="second">\`</span></span></div>`;
     } else if (lang === 'Ru') {
       langObj = this.langKeysRu;
+      // tilda = ё 
+      this.tildaKeyWrapper.innerHTML = `<div class="key-input key-letter key-switchable key-tilda" data="ё" key="Backquote">ё</div>`;
     }
 
     if (this.shiftOn) { // if shift is on when change lang — turn off shift to prevent unwanted symbols turn
@@ -94,6 +100,7 @@ class virtualKeyboard {
     });
 
 
+
     let row = 0;
     for (let i = 1; i < 4; i++) {
       count = 1;
@@ -113,8 +120,8 @@ class virtualKeyboard {
       row++;
     }
     this.letters = document.querySelectorAll('.key-letter');
-
-
+    this.inputKeys = document.querySelectorAll('.key-input');
+    this.extras = document.querySelectorAll('.key-extra');
 
   }
 
@@ -479,109 +486,6 @@ class virtualKeyboard {
   }
 
 
-
-
-
-  // speak() {
-  //   let currentText = keyboard.screen.value;
-  //   this.parentElement.classList.add('hoverEffect');
-  //   this.parentElement.classList.add('key__active-grad');
-  //   this.classList.add('key__pressed');
-
-  //   function playsound(status) {
-  //     if (status === 'start') {
-  //       let speakstart = new Audio('./assets/sound/speakstart.mp3');
-  //       speakstart.volume = 0.5;
-  //       speakstart.play();
-  //     } else {
-  //       let speakstop = new Audio('./assets/sound/speakstop.mp3');
-  //       speakstop.volume = 0.5;
-  //       speakstop.play();
-  //     }
-  //   }
-
-
-
-  //   // console.log(recognition)
-  //   if (keyboard.speakActive === true) {
-  //     keyboard.speakKey.classList.remove('key__pressed');
-  //     keyboard.speakKey.parentElement.classList.remove('hoverEffect');
-  //     keyboard.speakKey.parentElement.classList.remove('key__active-grad');
-  //     keyboard.speakActive = false;
-
-  //     try {
-  //       recognition.onerror = (e) => {
-  //         console.log('test')
-  //       }
-  //       recognition.abort();
-  //       recognition.stop();
-  //       recognition = '';
-  //     } catch(e){}
-
-  //     playsound('stop');
-  //     return false;
-  //   } else {
-  //     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  //     let recognition = new SpeechRecognition();
-
-  //     if (keyboard.lang === 'En') {
-  //       recognition.lang = 'en-US';
-  //     } else {
-  //       recognition.lang = 'ru-Ru';
-  //     }
-  //     playsound('start');
-  //     recognition.interimResults = true;
-  //     keyboard.speakActive = true;
-  //     recognition.start();
-  //     recognition.onerror = (e) => {
-  //       if (e.error === 'not-allowed') {
-  //         keyboard.screen.value += '\r\n' + 'Для работы данной функции необходимо предоставить странице разрешение на использование микрофона 🎤';
-  //       } else {
-  //         console.log(e);
-  //         recognition.abort();
-  //         recognition.stop();
-  //       }
-  //       keyboard.speakKey.classList.remove('key__pressed');
-  //       keyboard.speakKey.parentElement.classList.remove('hoverEffect');
-  //       keyboard.speakKey.parentElement.classList.remove('key__active-grad');
-  //       keyboard.speakActive = false;
-  //       playsound('stop');
-  //       return false;
-  //     };
-
-  //     recognition.addEventListener('result', (e) => {
-  //       let input = e.results[0][0].transcript;
-  //       keyboard.screen.value = `${currentText} ${input}`;
-
-  //       recognition.onend = (e) => {
-
-  //         if (keyboard.speakActive) {
-  //           recognition.start();
-  //           currentText = keyboard.screen.value;
-  //         } else {
-  //           recognition.abort();
-  //           recognition.stop();
-  //           keyboard.screen.value = currentText;
-  //           keyboard.speakKey.classList.remove('key__pressed');
-  //           keyboard.speakKey.parentElement.classList.remove('hoverEffect');
-  //           keyboard.speakKey.parentElement.classList.remove('key__active-grad');
-  //         }
-  //         playsound('stop');
-  //         keyboard.screen.focus();
-  //       };
-  //     });
-  //   }
-
-  // }
-
-
-
-
-
-
-
-
-
   langSwitch() {
     this.keydownSound();
     if (this.lang === 'En') {
@@ -612,7 +516,7 @@ class virtualKeyboard {
           currentPositionStart--;
           keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
         }
-      } 
+      }
       else if (dir === 'bottom') {
         // keyboard.screen.setSelectionRange(currentPositionStart, screenVal.length);
       } else if (dir === 'top') {
@@ -628,7 +532,7 @@ class virtualKeyboard {
           currentPositionStart--;
           keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
         }
-      } 
+      }
       // else if (dir === 'bottom') {
       //   keyboard.screen.setSelectionRange(screenVal.length, screenVal.length);
       // } else if (dir === 'top') {

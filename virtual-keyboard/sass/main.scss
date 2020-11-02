@@ -289,10 +289,16 @@ main {
     }
 
     @media (max-width: 1140px) {
-      width: 10rem;
-
+      // width: 100%;
       &:after {
         content: url(../assets/svg/backspace-small.svg);
+        position: absolute;
+      }
+    }
+    @media (max-width: 599px) {
+      min-width: 100%;
+      &:after {
+        content: url(../assets/svg/backspace-xs.svg);
         position: absolute;
       }
     }
@@ -536,7 +542,7 @@ main {
     width: 7%;
   }
 
-  @media (max-width: 650px) {
+  @media (max-width: 695px) {
     width: 6%;
   }
 }
@@ -550,13 +556,22 @@ main {
 .tab-wrapper,
 .caps-wrapper,
 .lshift-wrapper,
-.lctrl-wrapper,
-.backspace-wrapper {
+.lctrl-wrapper {
   @media (max-width: 906px) {
     max-width: 6rem;
   }
 
 }
+.backspace-wrapper {
+  @media (max-width: 989px) {
+    max-width: 6rem;
+  }
+  @media (max-width: 570px) {
+    max-width: 4rem;
+  }
+}
+
+
 
 .arrow-wrapper {
   @media (max-width: 620px) {
@@ -601,4 +616,8 @@ main {
 
 .highlighted {
   color: #00ff77cc;
+}
+
+.key-tilda-wrapper {
+  max-width: 4.5rem;
 }
