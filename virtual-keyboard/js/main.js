@@ -50,11 +50,13 @@ class virtualKeyboard {
     if (lang === 'En') {
       langObj = this.langKeysEn;
       // ё = tilda
-      this.tildaKeyWrapper.innerHTML = `<div class="key-input key-double key-extra key-switchable" data="\`" key="Backquote"><span class="symbols"><span class="first">~</span><span class="second">\`</span></span></div>`;
+      this.tildaKeyWrapper.innerHTML = `<div class="key-double key-extra key-switchable" data="\`" key="Backquote"><span class="symbols"><span class="first">~</span><span class="second">\`</span></span></div>`;
+      // this.inputKeys = document.querySelectorAll('.key-input');
     } else if (lang === 'Ru') {
       langObj = this.langKeysRu;
       // tilda = ё 
-      this.tildaKeyWrapper.innerHTML = `<div class="key-input key-letter key-switchable key-tilda" data="ё" key="Backquote">ё</div>`;
+      this.tildaKeyWrapper.innerHTML = `<div class="key-letter key-switchable key-tilda" data="ё" key="Backquote">ё</div>`;
+      // this.inputKeys = document.querySelectorAll('.key-input');
     }
 
     if (this.shiftOn) { // if shift is on when change lang — turn off shift to prevent unwanted symbols turn
@@ -62,7 +64,9 @@ class virtualKeyboard {
     }
     let i = 0;
     if (this.capsOn) { // if caps is on turn letters to upper case
-
+      if (lang === 'Ru') { // ё toUpperCase when capslock on on lang switch
+        this.tildaKeyWrapper.innerHTML = `<div class="key-letter key-switchable key-tilda" data="Ё" key="Backquote">Ё</div>`; 
+      }
       while (i < 3) {
         langObj[i].forEach((item, index) => {
           if (item.length === 1) {
@@ -120,9 +124,7 @@ class virtualKeyboard {
       row++;
     }
     this.letters = document.querySelectorAll('.key-letter');
-    this.inputKeys = document.querySelectorAll('.key-input');
     this.extras = document.querySelectorAll('.key-extra');
-
   }
 
   escape() { // hide keyboard
@@ -308,7 +310,6 @@ class virtualKeyboard {
     });
     let shiftbutton = document.querySelector('.key__lshift');
     if (!this.shiftOn) {
-      // console.log(shiftbutton)
       this.keydownSound(shiftbutton);
       this.shiftOn = true;
       if (this.capsOn) {
@@ -557,8 +558,31 @@ keyboard.screen.addEventListener('click', () => {
   keyboard.show();
 });
 
+
+keyboard.tildaKeyWrapper.addEventListener('mousedown', () => {
+  keyboard.keydownSound();
+  keyboard.input(keyboard.tildaKeyWrapper.children[0].getAttribute('data'), keyboard.tildaKeyWrapper.children[0]);
+  if (keyboard.tildaKeyWrapper.children.length > 0) {
+    keyboard.tildaKeyWrapper.firstChild.classList.add('highlighted');
+  } else {
+    keyboard.tildaKeyWrapper.classList.add('highlighted');
+  }
+});
+
+
+keyboard.tildaKeyWrapper.addEventListener('mouseup', () => {
+  keyboard.keyupSound();
+  if (keyboard.tildaKeyWrapper.children.length > 0) {
+    keyboard.tildaKeyWrapper.firstChild.classList.remove('highlighted');
+  } else {
+    keyboard.tildaKeyWrapper.classList.remove('highlighted');
+  }
+});
+
 // all input keys event listener
 keyboard.inputKeys.forEach(key => {
+  // keyboard.extras = document.querySelectorAll('.key-extra');
+  // keyboard.inputKeys = document.querySelectorAll('.key-input');
   key.addEventListener('mousedown', function () {
     keyboard.keydownSound(key);
     keyboard.input(key.getAttribute('data'), key);
@@ -794,6 +818,16 @@ document.addEventListener('keydown', e => {
     keyboard.shift();
   }
 
+  if (e.code === 'Backquote') {
+    keyboard.keydownSound();
+    keyboard.input(keyboard.tildaKeyWrapper.children[0].getAttribute('data'), keyboard.tildaKeyWrapper.children[0]);
+    if (keyboard.tildaKeyWrapper.children.length > 0) {
+      keyboard.tildaKeyWrapper.firstChild.classList.add('highlighted');
+    } else {
+      keyboard.tildaKeyWrapper.classList.add('highlighted');
+    }
+  }
+
   keyboard.inputKeys.forEach(key => {
     if (e.code === key.getAttribute('key')) {
       keyActive = key;
@@ -837,6 +871,15 @@ document.addEventListener('keyup', e => {
     document.querySelector('.backspace-wrapper').classList.remove('hoverEffect');
     keyboard.keyupSound();
     return;
+  }
+
+  if (e.code === 'Backquote') {
+    keyboard.keyupSound();
+    if (keyboard.tildaKeyWrapper.children.length > 0) {
+      keyboard.tildaKeyWrapper.firstChild.classList.remove('highlighted');
+    } else {
+      keyboard.tildaKeyWrapper.classList.remove('highlighted');
+    }
   }
 
   keyboard.inputKeys.forEach(key => {
