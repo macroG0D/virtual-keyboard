@@ -710,11 +710,18 @@ keyboard.arrows.forEach(arrow => {
 });
 
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey) || e.code === 'F5' || e.code === 'ArrowUp' || e.code === 'ArrowDown') { // don't prevent ctrl+c or ctrl+v or ctrl+X or f5 (refresh)
+  if ((e.ctrlKey) || e.code === 'F5' || e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'Delete') { // don't prevent ctrl+c or ctrl+v or ctrl+X or f5 (refresh)
+  
   } else {
     e.preventDefault();
   }
+  if (e.code === 'Delete') {
+    keyboard.keydownSound();
+  }
 });
+
+
+
 
 function pressKey(selector) {
   document.querySelector(`.${selector}`).classList.add('highlighted');
@@ -836,6 +843,10 @@ document.addEventListener('keydown', e => {
 
 // Real keyboard keyup listener
 document.addEventListener('keyup', e => {
+
+  if (e.code === 'Delete') {
+    keyboard.keyupSound();
+  }
 
   if (e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
     document.querySelectorAll('.arrow-wrapper').forEach(arrow => {
