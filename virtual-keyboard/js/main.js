@@ -707,6 +707,18 @@ keyboard.arrows.forEach(arrow => {
     keyboard.keydownSound();
   });
   arrow.addEventListener('click', () => {
+    if (arrow.getAttribute('data') === 'top' ) {
+      keyboard.screen.setSelectionRange(0,0);
+      keyboard.screen.focus();
+      keyboard.keyupSound();
+      // console.log(arrow.getAttribute('data'))
+      return;
+    } else if (arrow.getAttribute('data') === 'bottom') {
+      keyboard.screen.setSelectionRange(keyboard.screen.value.length-1,keyboard.screen.value.length-1);
+      keyboard.screen.focus();
+      keyboard.keyupSound();
+      return;
+    }
     keyboard.arrowsAction(arrow.getAttribute('data'));
     keyboard.keyupSound();
   });
@@ -931,3 +943,4 @@ keyboard.screen.addEventListener('focus', () => {
 
 window.onload = setPerspectiveKeys;
 window.onresize = setPerspectiveKeys;
+keyboard.screen.focus(); // auto focus on text input onload
