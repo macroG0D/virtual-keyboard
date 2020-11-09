@@ -855,6 +855,7 @@ if (e.code === 'Space') {
     } else {
       keyboard.tildaKeyWrapper.classList.add('highlighted');
     }
+    keyboard.tildaKeyWrapper.classList.add('hoverEffect');
   }
 
   keyboard.inputKeys.forEach(key => {
@@ -919,6 +920,7 @@ document.addEventListener('keyup', e => {
     } else {
       keyboard.tildaKeyWrapper.classList.remove('highlighted');
     }
+    keyboard.tildaKeyWrapper.classList.remove('hoverEffect');
   }
 
   keyboard.inputKeys.forEach(key => {
