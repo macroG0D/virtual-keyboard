@@ -46,7 +46,6 @@ class virtualKeyboard {
   }
 
   init(lang) {
-
     let langObj;
     if (lang === 'En') {
       langObj = this.langKeysEn;
@@ -54,16 +53,19 @@ class virtualKeyboard {
       this.tildaKeyWrapper.innerHTML = `<div class="key-double key-extra key-switchable" data="\`" key="Backquote"><span class="symbols"><span class="first">~</span><span class="second">\`</span></span></div>`;
     } else if (lang === 'Ru') {
       langObj = this.langKeysRu;
-      // tilda = ё 
+      // tilda = ё
       this.tildaKeyWrapper.innerHTML = `<div class="key-letter key-switchable key-tilda" data="ё" key="Backquote">ё</div>`;
     }
 
-    if (this.shiftOn) { // if shift is on when change lang — turn off shift to prevent unwanted symbols turn
+    if (this.shiftOn) {
+      // if shift is on when change lang — turn off shift to prevent unwanted symbols turn
       this.shift();
     }
     let i = 0;
-    if (this.capsOn) { // if caps is on turn letters to upper case
-      if (lang === 'Ru') { // ё toUpperCase when capslock on on lang switch
+    if (this.capsOn) {
+      // if caps is on turn letters to upper case
+      if (lang === 'Ru') {
+        // ё toUpperCase when capslock on on lang switch
         this.tildaKeyWrapper.innerHTML = `<div class="key-letter key-switchable key-tilda" data="Ё" key="Backquote">Ё</div>`;
       }
       while (i < 3) {
@@ -87,16 +89,16 @@ class virtualKeyboard {
 
     let count = 0;
     // change digits-symbols
-    this.numbers.forEach(elem => {
-      if (this.shiftOn) { // if on lang change shift is on, switch the new numbers  
+    this.numbers.forEach((elem) => {
+      if (this.shiftOn) {
+        // if on lang change shift is on, switch the new numbers
         elem.querySelector('.first').innerText = langObj.numbers[count][1];
         elem.querySelector('.second').innerText = langObj.numbers[count][0];
         elem.setAttribute('data', elem.querySelector('.first').innerText);
-
       } else {
         elem.querySelector('.first').innerText = langObj.numbers[count][0];
         elem.querySelector('.second').innerText = langObj.numbers[count][1];
-        elem.setAttribute('data', elem.querySelector('.second').innerText); // change num symbols 
+        elem.setAttribute('data', elem.querySelector('.second').innerText); // change num symbols
       }
       count++;
     });
@@ -107,12 +109,21 @@ class virtualKeyboard {
       for (let key of this.keyRows[i].children) {
         if (key.children[0].classList.contains('key-switchable')) {
           if (langObj[row][count - 1].length === 1) {
-            key.children[0].innerHTML = `<div class="key-input key-letter key-switchable" data="${langObj[row][count - 1]}">${langObj[row][count - 1]}</div>`;
+            key.children[0].innerHTML = `<div class="key-input key-letter key-switchable" data="${
+              langObj[row][count - 1]
+            }">${langObj[row][count - 1]}</div>`;
             key.children[0].setAttribute('data', key.children[0].innerText);
-          }
-          else { // if dobule
-            key.children[0].innerHTML = `<span class="symbols"><span class="first">${langObj[row][count - 1][0]}</span><span class="second">${langObj[row][count - 1][1]}</span></span>`;
-            key.children[0].setAttribute('data', key.children[0].querySelector('.second').innerText);
+          } else {
+            // if dobule
+            key.children[0].innerHTML = `<span class="symbols"><span class="first">${
+              langObj[row][count - 1][0]
+            }</span><span class="second">${
+              langObj[row][count - 1][1]
+            }</span></span>`;
+            key.children[0].setAttribute(
+              'data',
+              key.children[0].querySelector('.second').innerText
+            );
           }
           count++;
         }
@@ -123,14 +134,16 @@ class virtualKeyboard {
     this.extras = document.querySelectorAll('.key-extra');
   }
 
-  escape() { // hide keyboard
+  escape() {
+    // hide keyboard
     this.escaped = true;
     this.keyboard.classList.add('keyboard__hidden');
     this.screen.style.maxHeight = '80vh';
     this.screen.style.height = '80vh';
     document.querySelector('body').style.overflow = 'hidden';
   }
-  show() { // show keyboard
+  show() {
+    // show keyboard
     this.escaped = false;
     let screenHeight;
     if (window.innerHeight > 901) {
@@ -150,7 +163,6 @@ class virtualKeyboard {
   }
 
   input(char) {
-
     if (this.ctrlPressed) {
       return;
     }
@@ -167,8 +179,7 @@ class virtualKeyboard {
       this.screen.setSelectionRange(valBefore.length, valBefore.length);
     } else {
       this.screen.value += char;
-      addEventListener('mouseup', function () {
-      });
+      addEventListener('mouseup', function () {});
     }
     this.screen.blur();
     this.screen.focus();
@@ -201,7 +212,8 @@ class virtualKeyboard {
       } else {
         audio = new Audio('./assets/sound/tap-set-normal-down.wav');
       }
-    } else { // if russian
+    } else {
+      // if russian
       if (key === undefined) {
         audio = new Audio('./assets/sound/ru-key-down.wav');
       } else if (key.innerText === 'ENTER') {
@@ -218,7 +230,6 @@ class virtualKeyboard {
         audio = new Audio('./assets/sound/ru-key-down.wav');
       }
     }
-
 
     audio.volume = 0.5;
     audio.play();
@@ -245,7 +256,8 @@ class virtualKeyboard {
       } else {
         audio = new Audio('./assets/sound/tap-set-normal-up.wav');
       }
-    } else { // if russian
+    } else {
+      // if russian
       if (key === undefined) {
         audio = new Audio('./assets/sound/ru-key-up.wav');
       } else if (key.innerText === 'ENTER') {
@@ -262,7 +274,6 @@ class virtualKeyboard {
         audio = new Audio('./assets/sound/ru-key-up.wav');
       }
     }
-
 
     audio.volume = 0.5;
     audio.play();
@@ -285,36 +296,43 @@ class virtualKeyboard {
       this.screen.value = result;
       keyboard.screen.setSelectionRange(valBefore.length, valBefore.length);
     } else {
-      this.screen.value = this.screen.value.slice(0, this.screen.value.length - 1);
+      this.screen.value = this.screen.value.slice(
+        0,
+        this.screen.value.length - 1
+      );
     }
   }
 
   shift() {
-    this.numbers.forEach(elem => {
+    this.numbers.forEach((elem) => {
       let temp = elem.querySelector('.first').innerText;
-      elem.querySelector('.first').innerText = elem.querySelector('.second').innerText;
+      elem.querySelector('.first').innerText = elem.querySelector(
+        '.second'
+      ).innerText;
       elem.querySelector('.second').innerText = temp;
       elem.setAttribute('data', elem.querySelector('.second').innerText); // change num symbols
     });
-    this.extras.forEach(extra => {
+    this.extras.forEach((extra) => {
       try {
         let temp = extra.querySelector('.first').innerText;
-        extra.querySelector('.first').innerText = extra.querySelector('.second').innerText;
+        extra.querySelector('.first').innerText = extra.querySelector(
+          '.second'
+        ).innerText;
         extra.querySelector('.second').innerText = temp;
         extra.setAttribute('data', extra.querySelector('.second').innerText); // change num symbols
-      } catch (e) { }
+      } catch (e) {}
     });
     let shiftbutton = document.querySelector('.key__lshift');
     if (!this.shiftOn) {
       this.keydownSound(shiftbutton);
       this.shiftOn = true;
       if (this.capsOn) {
-        this.letters.forEach(elem => {
+        this.letters.forEach((elem) => {
           elem.innerText = elem.innerText.toLowerCase();
           elem.setAttribute('data', elem.innerText.toLowerCase());
         });
       } else {
-        this.letters.forEach(elem => {
+        this.letters.forEach((elem) => {
           elem.innerText = elem.innerText.toUpperCase();
           elem.setAttribute('data', elem.innerText.toUpperCase());
         });
@@ -323,18 +341,17 @@ class virtualKeyboard {
         shift.classList.add('key__pressed');
         shift.parentElement.classList.add('key__active-grad');
       });
-
     } else {
       this.keyupSound(shiftbutton);
       this.shiftOn = false;
 
       if (this.capsOn) {
-        this.letters.forEach(elem => {
+        this.letters.forEach((elem) => {
           elem.innerText = elem.innerText.toUpperCase();
           elem.setAttribute('data', elem.innerText.toUpperCase());
         });
       } else {
-        this.letters.forEach(elem => {
+        this.letters.forEach((elem) => {
           elem.innerText = elem.innerText.toLowerCase();
           elem.setAttribute('data', elem.innerText.toLowerCase());
         });
@@ -344,7 +361,6 @@ class virtualKeyboard {
         shift.classList.remove('key__pressed');
         shift.parentElement.classList.remove('key__active-grad');
       });
-
     }
   }
 
@@ -356,35 +372,33 @@ class virtualKeyboard {
       this.capsOn = true;
 
       if (!this.shiftOn) {
-        this.letters.forEach(elem => {
+        this.letters.forEach((elem) => {
           elem.innerText = elem.innerText.toUpperCase();
           elem.setAttribute('data', elem.innerText.toUpperCase());
         });
       } else {
-        this.letters.forEach(elem => {
+        this.letters.forEach((elem) => {
           elem.innerText = elem.innerText.toLowerCase();
           elem.setAttribute('data', elem.innerText.toLowerCase());
         });
       }
-
     } else {
       this.keyupSound(this.capsKey);
       this.capsOn = false;
       this.capsKey.classList.remove('key__pressed');
       this.capsKey.parentElement.classList.remove('key__active-grad');
       if (!this.shiftOn) {
-        this.letters.forEach(elem => {
+        this.letters.forEach((elem) => {
           elem.innerText = elem.innerText.toLowerCase();
           elem.setAttribute('data', elem.innerText.toLowerCase());
         });
       } else {
-        this.letters.forEach(elem => {
+        this.letters.forEach((elem) => {
           elem.innerText = elem.innerText.toUpperCase();
           elem.setAttribute('data', elem.innerText.toUpperCase());
         });
       }
     }
-
   }
 
   mutesound() {
@@ -414,7 +428,8 @@ class virtualKeyboard {
       }
     }
 
-    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    window.SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = new SpeechRecognition();
     recognition.interimResults = true;
     if (keyboard.lang === 'En') {
@@ -422,7 +437,6 @@ class virtualKeyboard {
     } else {
       recognition.lang = 'ru-Ru';
     }
-
 
     if (!keyboard.speakActive) {
       keyboard.speakActive = true;
@@ -456,7 +470,9 @@ class virtualKeyboard {
       };
       recognition.onerror = (e) => {
         if (e.error === 'not-allowed') {
-          keyboard.screen.value += '\r\n' + 'Для работы данной функции необходимо предоставить странице разрешение на использование микрофона 🎤';
+          keyboard.screen.value +=
+            '\r\n' +
+            'Для работы данной функции необходимо предоставить странице разрешение на использование микрофона 🎤';
           keyboard.speakActive = false;
           this.parentElement.classList.remove('hoverEffect');
           this.parentElement.classList.remove('key__active-grad');
@@ -466,8 +482,6 @@ class virtualKeyboard {
           recognition.stop();
         }
       };
-
-
     } else {
       keyboard.speakActive = false;
       playsound('stop');
@@ -479,9 +493,7 @@ class virtualKeyboard {
       keyboard.screen.blur();
       keyboard.screen.focus();
     }
-
   }
-
 
   langSwitch() {
     this.keydownSound();
@@ -501,42 +513,46 @@ class virtualKeyboard {
   arrowsAction(dir) {
     let currentPositionStart = this.screen.selectionStart;
     let currentPositionEnd = this.screen.selectionEnd;
-    // let screenVal = this.screen.value;
 
-    if (this.shiftOn) { // shift on arrows movement creates selection
+    if (this.shiftOn) {
+      // shift on arrows movement creates selection
       if (dir === 'right') {
         currentPositionStart = this.screen.selectionStart;
         currentPositionEnd++;
-        keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
+        keyboard.screen.setSelectionRange(
+          currentPositionStart,
+          currentPositionEnd
+        );
       } else if (dir === 'left') {
         if (currentPositionStart > 0) {
           currentPositionStart--;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionEnd);
+          keyboard.screen.setSelectionRange(
+            currentPositionStart,
+            currentPositionEnd
+          );
         }
       }
-      else if (dir === 'bottom') {
-        // keyboard.screen.setSelectionRange(currentPositionStart, screenVal.length);
-      } else if (dir === 'top') {
-        // keyboard.screen.setSelectionRange(screenVal[0], currentPositionEnd);
-      }
-    } else { // if no shift on when using arrows
-
+    } else {
+      // if no shift on when using arrows
       if (dir === 'right') {
         currentPositionStart++;
-        keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
+        keyboard.screen.setSelectionRange(
+          currentPositionStart,
+          currentPositionStart
+        );
       } else if (dir === 'left') {
         if (currentPositionStart > 0) {
           currentPositionStart--;
-          keyboard.screen.setSelectionRange(currentPositionStart, currentPositionStart);
+          keyboard.screen.setSelectionRange(
+            currentPositionStart,
+            currentPositionStart
+          );
         }
       }
-
     }
     this.screen.focus();
   }
-
 }
-
 
 // create keyboard object
 const keyboard = new virtualKeyboard();
@@ -544,17 +560,16 @@ const keyboard = new virtualKeyboard();
 keyboard.spacekey.addEventListener('mousedown', () => {
   keyboard.spacekey.classList.remove('key__space-free');
   keyboard.spacekey.classList.add('key__space-pressed');
-})
+});
 
 keyboard.spacekey.addEventListener('mouseup', () => {
   keyboard.spacekey.classList.remove('key__space-pressed');
   keyboard.spacekey.classList.add('key__space-free');
-})
+});
 keyboard.spacekey.addEventListener('mouseleave', () => {
   keyboard.spacekey.classList.remove('key__space-pressed');
   keyboard.spacekey.classList.add('key__space-free');
-})
-
+});
 
 // hide & show methods calls
 keyboard.esc.addEventListener('click', () => {
@@ -567,7 +582,10 @@ keyboard.screen.addEventListener('click', () => {
 
 keyboard.tildaKeyWrapper.addEventListener('mousedown', () => {
   keyboard.keydownSound();
-  keyboard.input(keyboard.tildaKeyWrapper.children[0].getAttribute('data'), keyboard.tildaKeyWrapper.children[0]);
+  keyboard.input(
+    keyboard.tildaKeyWrapper.children[0].getAttribute('data'),
+    keyboard.tildaKeyWrapper.children[0]
+  );
   if (keyboard.tildaKeyWrapper.children.length > 0) {
     keyboard.tildaKeyWrapper.firstChild.classList.add('highlighted');
   } else {
@@ -585,7 +603,7 @@ keyboard.tildaKeyWrapper.addEventListener('mouseup', () => {
 });
 
 // all input keys event listener
-keyboard.inputKeys.forEach(key => {
+keyboard.inputKeys.forEach((key) => {
   key.addEventListener('mousedown', function () {
     keyboard.keydownSound(key);
     keyboard.input(key.getAttribute('data'), key);
@@ -614,7 +632,6 @@ keyboard.inputKeys.forEach(key => {
   });
 });
 
-
 // backspace delete button method
 let mousedownID = 1; // set default mousedownID for repeatable delete method
 let timeout = 1; // set default timeout
@@ -623,8 +640,10 @@ keyboard.backspace.addEventListener('mousedown', function () {
   keyboard.delete(); // delete first char
   keyboard.backspace.classList.remove('key__backspace-free');
   keyboard.backspace.classList.add('key__backspace-pressed');
-  timeout = setTimeout(function () { // add .5s delay before starting repeatable removing
-    if (mousedownID === 1) { // if backspace is pressed repeat delete method while mouseup 
+  timeout = setTimeout(function () {
+    // add .5s delay before starting repeatable removing
+    if (mousedownID === 1) {
+      // if backspace is pressed repeat delete method while mouseup
       mousedownID = setInterval(() => keyboard.delete(), 80);
     }
   }, 500);
@@ -643,7 +662,7 @@ function leaveDelete(e) {
   keyboard.screen.focus();
 }
 keyboard.backspace.addEventListener('mouseup', leaveDelete);
-keyboard.backspace.addEventListener('mouseleave', e => {
+keyboard.backspace.addEventListener('mouseleave', (e) => {
   leaveDelete(e);
 });
 
@@ -652,26 +671,26 @@ keyboard.mutekey.addEventListener('click', function () {
   keyboard.mutesound();
 });
 
-//ctrl click
-keyboard.ctrlKeys.forEach(ctrl => {
+// ctrl click
+keyboard.ctrlKeys.forEach((ctrl) => {
   ctrl.addEventListener('mousedown', () => {
     keyboard.keydownSound(ctrl);
-    keyboard.ctrlKeys.forEach(ctrl => {
+    keyboard.ctrlKeys.forEach((ctrl) => {
       ctrl.children[0].classList.add('highlighted');
       ctrl.classList.add('hoverEffect');
     });
   });
 });
-keyboard.ctrlKeys.forEach(ctrl => {
+keyboard.ctrlKeys.forEach((ctrl) => {
   ctrl.addEventListener('mouseup', () => {
     keyboard.keyupSound(ctrl);
-    keyboard.ctrlKeys.forEach(ctrl => {
+    keyboard.ctrlKeys.forEach((ctrl) => {
       ctrl.children[0].classList.remove('highlighted');
       ctrl.classList.remove('hoverEffect');
     });
   });
   ctrl.addEventListener('mouseleave', () => {
-    keyboard.ctrlKeys.forEach(ctrl => {
+    keyboard.ctrlKeys.forEach((ctrl) => {
       ctrl.children[0].classList.remove('highlighted');
       ctrl.classList.remove('hoverEffect');
     });
@@ -679,20 +698,20 @@ keyboard.ctrlKeys.forEach(ctrl => {
   });
 });
 
-//shift 
-keyboard.shiftkey.forEach(shift => {
+// shift
+keyboard.shiftkey.forEach((shift) => {
   shift.addEventListener('mousedown', function () {
     keyboard.shift();
   });
 });
 
-keyboard.shiftkey.forEach(shift => {
+keyboard.shiftkey.forEach((shift) => {
   shift.addEventListener('mouseup', function () {
     keyboard.screen.focus();
   });
 });
 
-//caps
+// caps
 keyboard.capsKey.addEventListener('mousedown', function () {
   keyboard.caps();
 });
@@ -700,7 +719,7 @@ keyboard.capsKey.addEventListener('mouseup', function () {
   keyboard.screen.focus();
 });
 
-//change lang
+// change lang
 keyboard.langKey.addEventListener('mousedown', () => {
   keyboard.langSwitch();
 });
@@ -708,9 +727,11 @@ keyboard.langKey.addEventListener('mouseup', () => {
   keyboard.keyupSound();
 });
 
-//arrows mouse interation
-keyboard.arrows.forEach(arrow => {
-  arrow.onmosedown = () => { keyboard.keyupSound(); };
+// arrows mouse interaction
+keyboard.arrows.forEach((arrow) => {
+  arrow.onmosedown = () => {
+    keyboard.keyupSound();
+  };
   arrow.addEventListener('mousedown', () => {
     keyboard.keydownSound();
   });
@@ -719,10 +740,12 @@ keyboard.arrows.forEach(arrow => {
       keyboard.screen.setSelectionRange(0, 0);
       keyboard.screen.focus();
       keyboard.keyupSound();
-      // console.log(arrow.getAttribute('data'))
       return;
     } else if (arrow.getAttribute('data') === 'bottom') {
-      keyboard.screen.setSelectionRange(keyboard.screen.value.length, keyboard.screen.value.length);
+      keyboard.screen.setSelectionRange(
+        keyboard.screen.value.length,
+        keyboard.screen.value.length
+      );
       keyboard.screen.focus();
       keyboard.keyupSound();
       return;
@@ -732,9 +755,15 @@ keyboard.arrows.forEach(arrow => {
   });
 });
 
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey) || e.code === 'F5' || e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'Delete') { // don't prevent ctrl+c or ctrl+v or ctrl+X or f5 (refresh)
-  
+document.addEventListener('keydown', (e) => {
+  if (
+    e.ctrlKey ||
+    e.code === 'F5' ||
+    e.code === 'ArrowUp' ||
+    e.code === 'ArrowDown' ||
+    e.code === 'Delete'
+  ) {
+    // don't preventDefault if ctrl+c or ctrl+v or ctrl+X or f5 (refresh) or arrows or delete buttons ware pressed
   } else {
     e.preventDefault();
   }
@@ -742,9 +771,6 @@ document.addEventListener('keydown', e => {
     keyboard.keydownSound();
   }
 });
-
-
-
 
 function pressKey(selector) {
   document.querySelector(`.${selector}`).classList.add('highlighted');
@@ -756,23 +782,21 @@ function freeKey(selector) {
 
 keyboard.speakKey.onclick = keyboard.speak;
 
-// Physical keyboard keydown listener
+// physical keyboard keydown listener
 let keyActive;
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space') {
+    keyboard.spacekey.classList.remove('key__space-free');
+    keyboard.spacekey.classList.add('key__space-pressed');
+  }
 
-
-if (e.code === 'Space') {
-  keyboard.spacekey.classList.remove('key__space-free');
-  keyboard.spacekey.classList.add('key__space-pressed');
-}
-
-  // SWITCH LANG COMBO
+  // switch lang combo
   if (e.shiftKey && e.altKey) {
     keyboard.langSwitch();
     return;
   }
 
-  // ESCAPE
+  // escape
   if (e.code === 'Escape') {
     if (!keyboard.escaped) {
       keyboard.escape();
@@ -783,8 +807,13 @@ if (e.code === 'Space') {
     }
   }
 
-  // ARROWS
-  if (e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+  // arrows
+  if (
+    e.code === 'ArrowLeft' ||
+    e.code === 'ArrowRight' ||
+    e.code === 'ArrowUp' ||
+    e.code === 'ArrowDown'
+  ) {
     keyboard.keydownSound();
     if (e.code === 'ArrowLeft') {
       keyboard.arrowsAction('left');
@@ -809,29 +838,29 @@ if (e.code === 'Space') {
     return;
   }
 
-  // BACKSPACE
+  // backspace
   if (e.code === 'Backspace') {
     document.querySelector('.backspace-wrapper').classList.add('hoverEffect');
   }
 
-  // CTRL
+  // ctrl
   if (e.ctrlKey || e.code === 'ControlLeft' || e.code === 'ControlRight') {
     pressKey('key__rctrl');
     pressKey('key__lctrl');
     keyboard.keydownSound();
     keyboard.ctrlPressed = true;
-    keyboard.ctrlKeys.forEach(ctrl => {
+    keyboard.ctrlKeys.forEach((ctrl) => {
       ctrl.classList.add('hoverEffect');
     });
   }
 
-  // SELECT ALL
+  // select all
   if (e.ctrlKey && e.code === 'KeyA') {
     keyboard.selectAll();
     return;
   }
 
-  // CAPS LOCK
+  // caps lock
   if (e.code === 'CapsLock') {
     keyboard.caps();
   }
@@ -849,7 +878,10 @@ if (e.code === 'Space') {
 
   if (e.code === 'Backquote') {
     keyboard.keydownSound();
-    keyboard.input(keyboard.tildaKeyWrapper.children[0].getAttribute('data'), keyboard.tildaKeyWrapper.children[0]);
+    keyboard.input(
+      keyboard.tildaKeyWrapper.children[0].getAttribute('data'),
+      keyboard.tildaKeyWrapper.children[0]
+    );
     if (keyboard.tildaKeyWrapper.children.length > 0) {
       keyboard.tildaKeyWrapper.firstChild.classList.add('highlighted');
     } else {
@@ -858,7 +890,7 @@ if (e.code === 'Space') {
     keyboard.tildaKeyWrapper.classList.add('hoverEffect');
   }
 
-  keyboard.inputKeys.forEach(key => {
+  keyboard.inputKeys.forEach((key) => {
     if (e.code === key.getAttribute('key')) {
       keyActive = key;
       keyboard.keydownSound(keyActive);
@@ -873,9 +905,8 @@ if (e.code === 'Space') {
   });
 });
 
-// Real keyboard keyup listener
-document.addEventListener('keyup', e => {
-
+// real keyboard keyup listener
+document.addEventListener('keyup', (e) => {
   if (e.code === 'Space') {
     keyboard.spacekey.classList.remove('key__space-pressed');
     keyboard.spacekey.classList.add('key__space-free');
@@ -885,8 +916,13 @@ document.addEventListener('keyup', e => {
     keyboard.keyupSound();
   }
 
-  if (e.code === 'ArrowLeft' || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
-    document.querySelectorAll('.arrow-wrapper').forEach(arrow => {
+  if (
+    e.code === 'ArrowLeft' ||
+    e.code === 'ArrowRight' ||
+    e.code === 'ArrowUp' ||
+    e.code === 'ArrowDown'
+  ) {
+    document.querySelectorAll('.arrow-wrapper').forEach((arrow) => {
       arrow.classList.remove('hoverEffect');
       arrow.classList.remove('key__active-grad');
     });
@@ -899,14 +935,16 @@ document.addEventListener('keyup', e => {
     freeKey('key__rctrl');
     keyboard.keyupSound();
     keyboard.ctrlPressed = false;
-    keyboard.ctrlKeys.forEach(ctrl => {
+    keyboard.ctrlKeys.forEach((ctrl) => {
       ctrl.classList.remove('hoverEffect');
     });
   }
 
-  // BACKSPACE KEYUP
+  // backspace keyup
   if (e.code === 'Backspace') {
-    document.querySelector('.backspace-wrapper').classList.remove('hoverEffect');
+    document
+      .querySelector('.backspace-wrapper')
+      .classList.remove('hoverEffect');
     keyboard.backspace.classList.remove('key__backspace-pressed');
     keyboard.backspace.classList.add('key__backspace-free');
     keyboard.keyupSound();
@@ -923,7 +961,7 @@ document.addEventListener('keyup', e => {
     keyboard.tildaKeyWrapper.classList.remove('hoverEffect');
   }
 
-  keyboard.inputKeys.forEach(key => {
+  keyboard.inputKeys.forEach((key) => {
     if (e.code === key.getAttribute('key')) {
       key.parentElement.classList.remove('hoverEffect');
       keyboard.keyupSound(keyActive);
@@ -936,20 +974,20 @@ document.addEventListener('keyup', e => {
   });
 });
 
-// transform rotateX is working only on chrome 
+// transform rotateX is working only on chrome
 function setPerspectiveKeys() {
   if (window.innerWidth > 1140) {
-    if (navigator.appVersion.indexOf("Chrome/") != -1) {
-      document.querySelectorAll('.key-row').forEach(e => {
-        e.style.transform = "rotateX(5deg)";
+    if (navigator.appVersion.indexOf('Chrome/') != -1) {
+      document.querySelectorAll('.key-row').forEach((e) => {
+        e.style.transform = 'rotateX(5deg)';
       });
     } else {
-      document.querySelector('#arrow-top').style.margin = "0 1.5rem";
+      document.querySelector('#arrow-top').style.margin = '0 1.5rem';
     }
   } else {
-    if (navigator.appVersion.indexOf("Chrome/") != -1) {
-      document.querySelectorAll('.key-row').forEach(e => {
-        e.style.transform = "none";
+    if (navigator.appVersion.indexOf('Chrome/') != -1) {
+      document.querySelectorAll('.key-row').forEach((e) => {
+        e.style.transform = 'none';
       });
     } else {
       document.querySelector('#arrow-top').style.removeProperty('margin');
@@ -958,16 +996,16 @@ function setPerspectiveKeys() {
 }
 
 keyboard.screen.addEventListener('focus', () => {
-  if (keyboard.ctrlPressed) { // prevent ctrl keys stuck
+  if (keyboard.ctrlPressed) {
+    // prevent ctrl keys stuck
     freeKey('key__lctrl');
     freeKey('key__rctrl');
     keyboard.keyupSound();
     keyboard.ctrlPressed = false;
-    keyboard.ctrlKeys.forEach(ctrl => {
+    keyboard.ctrlKeys.forEach((ctrl) => {
       ctrl.classList.remove('hoverEffect');
     });
   }
-
 });
 
 window.onload = setPerspectiveKeys;
